@@ -6,7 +6,7 @@ Juego táctico de tanques estilo Clash Royale en pixel art. Se juega contra la I
 
 - **20 cartas**: 11 iniciales y 9 que se desbloquean al ascender (Francotirador, Jeep, Paracaidistas, Reparación, Cazacarros, Drones Suicidas, Cuartel, Misil Balístico y Bombardero).
 - **Copas y rangos**: ganar da 25-31 copas, perder resta 14. Hay 11 rangos, de Recluta a Mariscal, y el mínimo de tu rango está protegido. La IA de las batallas se endurece según tu rango.
-- **Modos**: Clásica, Relámpago, Mazo al azar, Muerte súbita y Triple combustible. Los modos también se desbloquean por rango.
+- **Modos**: Clásica, Relámpago, Mazo al azar, Muerte súbita, Triple combustible y Dominio (mapa el triple de grande, 4 min, con cámara y minimapa). Los modos también se desbloquean por rango.
 - **4 mazos guardables**: tu mazo arriba y la colección debajo, con botones «Al azar» y «Vaciar». Con el mazo lleno, toca una carta de la colección y luego la del mazo que quieres cambiar.
 - **Entrenamiento** sin copas con dificultad a elegir. Las partidas online con amigos también dan copas.
 - El progreso (copas, estadísticas, mazo y modo) se guarda en el navegador (`localStorage`).

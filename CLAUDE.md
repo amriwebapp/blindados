@@ -30,6 +30,8 @@ Juego táctico de tanques con cartas (estilo Clash Royale, pixel art), en españ
 - **Admin:** el nombre `fuffo` (sin distinguir mayúsculas) desbloquea todas las cartas y modos mediante `unlockRank()`. Es solo del lado del cliente, sin seguridad real (no hay cuentas); el usuario lo sabe.
 - **El mazo debe tener 8 cartas para jugar.** Los botones no se desactivan: `deckReady()` lleva a la pestaña Mazo con un aviso. `fillDeck()` rellena el mazo si se quitaron cartas bloqueadas.
 - **Táctil:** `.card` lleva `touch-action:none` para poder arrastrarlas en la batalla. En el menú se anula con `pan-y`, que es necesario para poder desplazar la pantalla. Hay un script que bloquea el zoom.
+- **Geometría del campo:** `W`, `H`, `RY` (centro del río), `BR` (puentes) y `TPOS` (torres) son variables que fija `setField()` al empezar la partida. No uses coordenadas fijas: todo va relativo a ellas. El modo Dominio (`big:true`) usa 28×62 (el triple de superficie que 18×32). El mapa pixel se cachea por tamaño en `MAPS`.
+- **Cámara:** `VW`/`VH` (casillas visibles) y `camX`/`camY` (en coordenadas de vista, ya girada). En los mapas normales se ve el campo entero y la cámara queda en 0. En Dominio se mueve arrastrando el campo (tocar sin arrastrar despliega), con la rueda, tocando el minimapa (`drawMini`) o llevando una carta al borde (`edgeScroll`).
 - La interfaz está pensada para móvil en vertical: pruébala a 390×844.
 
 ## Probar
