@@ -1,0 +1,19 @@
+{
+  "name": "Blindados · Guerra de mazos",
+  "short_name": "Blindados",
+  "description": "Juego táctico de tanques con cartas. Asciende de Recluta a Mariscal y juega online con amigos.",
+  "lang": "es",
+  "id": "/",
+  "start_url": "/?app=1",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1b2116",
+  "theme_color": "#2a3322",
+  "categories": ["games"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

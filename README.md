@@ -10,6 +10,13 @@ Juego táctico de tanques estilo Clash Royale en pixel art. Se juega contra la I
 - **Entrenamiento** sin copas con dificultad a elegir. Las partidas online con amigos también dan copas.
 - El progreso (copas, estadísticas, mazo y modo) se guarda en el navegador (`localStorage`).
 
+## Instalar como app
+
+Es una PWA: tiene `manifest.webmanifest`, un service worker (`sw.js`) e iconos en `public/icons/`.
+- **Android (Chrome):** en la pantalla principal del juego aparece el botón «Instalar». También puedes usar el menú ⋮ → «Instalar aplicación».
+- **iPhone (Safari):** Compartir → «Añadir a pantalla de inicio».
+- Se abre a pantalla completa y funciona sin conexión, excepto el modo online. Si cambias `index.html` u otros archivos base, sube `VERSION` en `sw.js`.
+
 ## Estructura
 
 ```
