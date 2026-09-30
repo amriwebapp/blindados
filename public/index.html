@@ -269,7 +269,37 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
 #promo .unl{display:flex;justify-content:center;gap:8px;margin-top:8px}
 #promo .unl .card{width:56px;cursor:default}
 #promo.show{animation:enter .4s steps(4)}
-@media (prefers-reduced-motion:reduce){.card.r-leg::after{animation:none}.card.enter{animation:none}#promo.show{animation:none}}
+/* ---------- MAZO: ficha fija abajo, deshacer y cambio rápido ---------- */
+#sheet,#undo{position:fixed;left:0;right:0;z-index:6;display:flex;justify-content:center;padding:0 10px 8px;pointer-events:none}
+#sheet.hide,#undo.hide{display:none}
+#sheet .sbox{pointer-events:auto;position:relative;width:100%;max-width:520px;max-height:58vh;overflow-y:auto;background:var(--panel);
+  border:4px solid var(--line);box-shadow:0 -4px 0 #0005,4px 4px 0 #0008;padding:12px 12px 10px;animation:sheetIn .16s steps(3)}
+@keyframes sheetIn{from{transform:translateY(24px);opacity:0}}
+#sheetX{position:absolute;right:6px;top:6px;width:30px;height:30px;font-family:inherit;font-size:10px;line-height:1;background:var(--panel2);
+  color:var(--ink);border:3px solid var(--line);cursor:pointer}
+#sheetX:focus-visible,#undo button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#sheet #info{margin:0;padding:0 36px 0 0;background:none;border:0;box-shadow:none;min-height:0}
+#sheet #info p{margin:6px 0}
+#sheetHint{font-size:7px;line-height:1.8;color:var(--fuel2);margin:8px 0 0}
+#sheetHint:empty{display:none}
+#sheetDeck{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:10px 0 2px}
+#sheetDeck:empty{display:none}
+#sheetDeck .card{cursor:pointer;touch-action:pan-y;border-width:2px;box-shadow:inset 0 0 0 2px var(--rar),inset 0 0 0 3px var(--line),0 3px 0 var(--line)}
+#sheetDeck .card .cname,#sheetDeck .card .gem{display:none}
+#sheetDeck .card .cost{width:16px;height:16px;font-size:7px;left:-5px;top:-6px;border-width:2px;box-shadow:none}
+#sheetDeck .card:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#sheetActs{display:flex;gap:8px;margin-top:10px}
+#sheetActs:empty{display:none}
+#sheetActs .btn{font-size:9px;padding:10px 12px}
+.btn.red{background:#a8322d;box-shadow:inset -4px -4px 0 #6f1d1a,inset 4px 4px 0 #e8807a,0 4px 0 var(--line)}
+#undo .ubox{pointer-events:auto;display:flex;align-items:center;gap:10px;width:100%;max-width:520px;background:var(--line);border:3px solid var(--khaki);
+  padding:8px 8px 8px 12px;font-size:8px;line-height:1.6;color:var(--ink);animation:sheetIn .16s steps(3)}
+#undo .ubox span{flex:1;min-width:0}
+#undo button{font-family:inherit;font-size:8px;padding:8px 10px;background:var(--khaki);color:#1b1b12;border:3px solid #000;cursor:pointer;flex:none}
+.card.just{animation:just .6s steps(3)}
+@keyframes just{0%,70%{outline:3px solid #fff;outline-offset:2px}}
+@media (prefers-reduced-motion:reduce){.card.r-leg::after{animation:none}.card.enter{animation:none}#promo.show{animation:none}
+  #sheet .sbox,#undo .ubox,.card.just,#deckGrid.swapping .card{animation:none}}
 </style>
 </head>
 <body>
@@ -330,7 +360,6 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
       <div class="bar"><span id="deckCount">8/8</span><span id="avg"></span>
         <span class="dbtns"><button id="deckRand">Al azar</button><button id="deckClear">Vaciar</button></span></div>
       <div id="deckGrid" class="grid4"></div>
-      <div id="info" class="hide"></div>
       <h2 class="sub">Colección</h2>
       <div id="pool" class="grid4"></div>
     </section>
@@ -343,6 +372,11 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
       <p class="help">Arrastra una carta a tu mitad del campo (o tócala y toca el mapa). Cada búnker vale una corona; el Cuartel General, la victoria.</p>
     </section>
   </div>
+  <div id="sheet" class="hide"><div class="sbox" role="dialog" aria-label="Detalles de la carta">
+    <button id="sheetX" aria-label="Cerrar">X</button>
+    <div id="info"></div><div id="sheetHint"></div><div id="sheetDeck"></div><div id="sheetActs"></div>
+  </div></div>
+  <div id="undo" class="hide"><div class="ubox" role="status"><span id="undoTxt"></span><button id="undoBtn">Deshacer</button></div></div>
   <nav id="tabs">
     <button data-s="scrDeck"><img alt="">Mazo</button>
     <button data-s="scrHome" class="on"><img alt="">Batalla</button>
@@ -1389,47 +1423,104 @@ fillDeck();
 function deckReady(){
   if(deckSel.size===8)return true;
   showTab('scrDeck');
-  const n=8-deckSel.size,inf=$('#info');inf.classList.remove('hide');
-  inf.innerHTML=`<h3>Mazo incompleto</h3><p style="color:var(--fuel2)">Añade ${n===1?'1 carta':n+' cartas'} para jugar.</p>`;
+  const n=8-deckSel.size;
+  openSheet(`<h3>Mazo incompleto</h3><p style="color:var(--fuel2)">Añade ${n===1?'1 carta':n+' cartas'} para jugar: toca cartas de la colección.</p>`);
   return false;
 }
 if(MODES[SAVE.mode]&&modeOpen(SAVE.mode,unlockRank()))modeSel=SAVE.mode;
 const CUP=url(svgOf([SP.trophy],PAL)),LOCK=url(svgOf([SP.lock],PAL));
 
 /* ---------- menú ---------- */
-let swapK=null; // carta de la colección elegida para cambiarla por una del mazo
+/* Mazo: tocar una carta la selecciona y abre su ficha fija abajo (la página no se mueve).
+   - Colección con hueco en el mazo: se añade al momento.
+   - Colección con el mazo lleno: elige en la ficha (o en el mazo) qué carta sale.
+   - Carta del mazo: «Quitar», o toca una de la colección para cambiarla en el mismo hueco.
+   Las cartas son siempre los mismos elementos (MEL): al moverse entre mazo y colección se deslizan (FLIP). */
+let pick=null; // {k, from:'deck'|'pool'}
+const MEL={};let melRi=-1;
 function bindAct(el,act){el.addEventListener('click',act);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act();}});}
-function selectSlot(i){store();SAVE.di=i;deckSel=new Set(SAVE.decks[i]);swapK=null;fillDeck();store();$('#info').classList.add('hide');renderMenu();}
+function selectSlot(i){if(i===SAVE.di)return;store();SAVE.di=i;deckSel=new Set(SAVE.decks[i]);pick=null;fillDeck();store();closeSheet();renderMenu();}
 function renderMenu(){
-  const ri=unlockRank(),arr=[...deckSel],dg=$('#deckGrid'),g=$('#pool'),sl=$('#slots');
-  sl.innerHTML='';
+  const sl=$('#slots');sl.innerHTML='';
   for(let i=0;i<NSLOTS;i++){const b=document.createElement('button');b.textContent='Mazo '+(i+1);
     b.className=i===SAVE.di?'on':'';b.setAttribute('aria-pressed',i===SAVE.di);b.addEventListener('click',()=>selectSlot(i));sl.appendChild(b);}
-  dg.innerHTML='';dg.classList.toggle('swapping',!!swapK);
-  for(let i=0;i<8;i++){const k=arr[i];
-    if(!k){const e=document.createElement('div');e.className='slot-empty';dg.appendChild(e);continue;}
-    const el=cardEl(k);el.tabIndex=0;el.setAttribute('aria-label',CARDS[k].name+(swapK?' (cambiar)':' (quitar)'));
-    bindAct(el,()=>{
-      if(swapK){deckSel=new Set(arr.map(x=>x===k?swapK:x));showInfo(swapK);swapK=null;}
-      else{deckSel.delete(k);showInfo(k);}
-      store();renderMenu();});
-    dg.appendChild(el);}
-  g.innerHTML='';
-  for(const k of ALL){if(deckSel.has(k))continue;
-    const el=cardEl(k),open=unlocked(k,ri);el.tabIndex=0;
-    if(!open){el.classList.add('lock');el.querySelector('.cname').remove();
-      el.insertAdjacentHTML('beforeend',`<img class="lockic" src="${LOCK}" alt=""><div class="lockrk">${RANKS[UNLOCK[k]].n.toUpperCase()}</div>`);}
-    if(k===swapK)el.classList.add('pick');
-    bindAct(el,()=>{
-      if(open){if(deckSel.size<8){deckSel.add(k);swapK=null;store();}else swapK=swapK===k?null:k;}
-      showInfo(k,swapK===k);renderMenu();});
-    g.appendChild(el);}
+  renderDeck();renderProfile();renderModes();renderRanks();
+}
+function menuCard(k,ri){
+  if(melRi!==ri){for(const x in MEL)delete MEL[x];melRi=ri;}
+  if(MEL[k])return MEL[k];
+  const el=MEL[k]=cardEl(k);el.tabIndex=0;
+  if(!unlocked(k,ri)){el.classList.add('lock');el.querySelector('.cname').remove();
+    el.insertAdjacentHTML('beforeend',`<img class="lockic" src="${LOCK}" alt=""><div class="lockrk">${RANKS[UNLOCK[k]].n.toUpperCase()}</div>`);}
+  bindAct(el,()=>tapCard(k));
+  return el;
+}
+// colección: primero las disponibles por coste, luego las bloqueadas por rango
+const poolOrder=ri=>ALL.slice().sort((a,b)=>{const la=unlocked(a,ri)?0:1,lb=unlocked(b,ri)?0:1;
+  return la-lb||(la?UNLOCK[a]-UNLOCK[b]:0)||CARDS[a].cost-CARDS[b].cost||CARDS[a].name.localeCompare(CARDS[b].name,'es');});
+const calm=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+function renderDeck(){
+  const ri=unlockRank(),arr=[...deckSel],dg=$('#deckGrid'),g=$('#pool'),anim=!calm(),before=new Map(),foc=document.activeElement;
+  if(anim)for(const k in MEL){const r=MEL[k].getBoundingClientRect();if(r.width)before.set(k,r);}
+  const dn=[];
+  for(let i=0;i<8;i++){const k=arr[i];if(k)dn.push(menuCard(k,ri));else{const e=document.createElement('div');e.className='slot-empty';dn.push(e);}}
+  dg.replaceChildren(...dn);
+  g.replaceChildren(...poolOrder(ri).filter(k=>!deckSel.has(k)).map(k=>menuCard(k,ri)));
+  dg.classList.toggle('swapping',!!pick&&pick.from==='pool');
+  for(const k in MEL){const on=!!pick&&pick.k===k;MEL[k].classList.toggle('pick',on);
+    MEL[k].setAttribute('aria-label',CARDS[k].name+(deckSel.has(k)?' (en el mazo)':'')+(on?', seleccionada':''));}
+  if(foc&&foc!==document.activeElement&&foc.isConnected)foc.focus({preventScroll:true});
+  for(const [k,r] of before){const el=MEL[k];if(!el)continue;const n=el.getBoundingClientRect(),dx=r.left-n.left,dy=r.top-n.top;
+    if(n.width&&Math.abs(dx)+Math.abs(dy)>2)el.animate([{transform:`translate(${dx}px,${dy}px)`}],{duration:260,easing:'cubic-bezier(.2,.8,.2,1)'});}
   const avg=arr.reduce((s,k)=>s+CARDS[k].cost,0)/(arr.length||1);
   $('#deckCount').textContent=deckSel.size+'/8';$('#deckCount').style.color=deckSel.size===8?'':'var(--red)';
   $('#avg').textContent='Coste medio '+avg.toFixed(1);
   $('#playSub').textContent=deckSel.size===8||MODES[modeSel].random?'':'Mazo incompleto ('+deckSel.size+'/8)';
-  renderProfile();renderModes();renderRanks();
 }
+function flash(k){const el=MEL[k];if(!el)return;el.classList.remove('just');void el.offsetWidth;el.classList.add('just');}
+function tapCard(k){
+  const inD=deckSel.has(k);
+  if(pick&&pick.k===k){pick=null;closeSheet();renderDeck();return;}
+  if(!unlocked(k,unlockRank())){pick=null;renderDeck();openCard(k);return;}
+  if(pick&&pick.from!==(inD?'deck':'pool')){swapCards(inD?k:pick.k,inD?pick.k:k);return;}
+  if(!inD&&deckSel.size<8){hideUndo();deckSel.add(k);pick=null;store();closeSheet();renderDeck();flash(k);return;}
+  pick={k,from:inD?'deck':'pool'};renderDeck();openCard(k);
+}
+function swapCards(out,inn){hideUndo();deckSel=new Set([...deckSel].map(x=>x===out?inn:x));pick=null;store();closeSheet();renderDeck();flash(inn);}
+function removeCard(k){const prev=[...deckSel];deckSel.delete(k);pick=null;store();closeSheet();renderDeck();undoable(prev,CARDS[k].name+' fuera del mazo');}
+function openCard(k){
+  const inD=deckSel.has(k),open=unlocked(k,unlockRank());
+  openSheet(cardInfo(k));
+  const sd=$('#sheetDeck'),acts=$('#sheetActs');
+  if(open&&inD){
+    $('#sheetHint').textContent='Toca una carta de la colección para ponerla en su lugar.';
+    const b=document.createElement('button');b.className='btn red';b.textContent='Quitar del mazo';b.addEventListener('click',()=>removeCard(k));acts.append(b);
+  }else if(open){
+    $('#sheetHint').textContent='Tu mazo está lleno. Toca la carta que sale:';
+    for(const d of deckSel){const el=cardEl(d);el.tabIndex=0;el.setAttribute('aria-label','Cambiar '+CARDS[d].name+' por '+CARDS[k].name);
+      bindAct(el,()=>swapCards(d,k));sd.append(el);}
+  }
+  fitSheet();
+  // si la ficha tapa la carta tocada, desplaza lo justo para verla encima
+  const el=MEL[k],top=$('#sheet').getBoundingClientRect().top;
+  if(el){const r=el.getBoundingClientRect();if(r.bottom>top-10)$('#menu').scrollBy({top:r.bottom-top+22,behavior:calm()?'auto':'smooth'});}
+}
+function openSheet(html){
+  $('#info').innerHTML=html;$('#sheetHint').textContent='';$('#sheetDeck').replaceChildren();$('#sheetActs').replaceChildren();
+  hideUndo();$('#sheet').classList.remove('hide');fitSheet();
+}
+// la ficha va justo encima de las pestañas; el menú deja sitio debajo para poder ver todas las cartas
+function fitSheet(){const t=$('#tabs').offsetHeight,sh=$('#sheet');sh.style.bottom=t+'px';$('#undo').style.bottom=t+'px';
+  $('#menu').style.paddingBottom=sh.classList.contains('hide')?'':(t+sh.offsetHeight+16)+'px';}
+function closeSheet(){$('#sheet').classList.add('hide');fitSheet();}
+let undoPrev=null,undoT=0;
+function undoable(prev,msg){undoPrev=prev;$('#undoTxt').textContent=msg;$('#undo').classList.remove('hide');fitSheet();
+  clearTimeout(undoT);undoT=setTimeout(hideUndo,5000);}
+function hideUndo(){clearTimeout(undoT);undoPrev=null;$('#undo').classList.add('hide');}
+$('#undoBtn').addEventListener('click',()=>{if(!undoPrev)return;deckSel=new Set(undoPrev);pick=null;store();hideUndo();closeSheet();renderDeck();});
+$('#sheetX').addEventListener('click',()=>{pick=null;closeSheet();renderDeck();});
+window.addEventListener('keydown',e=>{if(e.key==='Escape'&&state==='menu'&&!$('#sheet').classList.contains('hide')){pick=null;closeSheet();renderDeck();}});
+window.addEventListener('resize',()=>{if(!$('#sheet').classList.contains('hide'))fitSheet();});
 function renderProfile(){
   const ri=rankIdx(SAVE.cups),r=RANKS[ri],nx=RANKS[ri+1];
   $('#topIns').src=INS[ri];$('#rankIns').src=INS[ri];
@@ -1461,6 +1552,7 @@ function renderRanks(){
     box.appendChild(d);});
 }
 function showTab(id){
+  if(pick){pick=null;renderDeck();}closeSheet();hideUndo();
   document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('hide',s.id!==id));
   document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
   $('#menu').scrollTop=0;
@@ -1474,7 +1566,7 @@ $('#rankCard').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e
   t[2].src=INS[4];}
 document.querySelectorAll('.cupic').forEach(i=>i.src=CUP);
 const spd=v=>v>=2.2?'Muy rápida':v>=1.6?'Rápida':v>=1.1?'Media':'Lenta';
-function showInfo(k,full){
+function cardInfo(k){
   const c=CARDS[k];let st='';
   if(c.unit){const u=c.unit;
     if(u.spawnKey)st=`<span>Vida <b>${u.hp}</b></span><span>Duración <b>${u.life} s</b></span><span>Recluta <b>${u.spawnN} fusileros</b></span><span>Cada <b>${u.spawnEvery} s</b></span>`;
@@ -1484,8 +1576,7 @@ function showInfo(k,full){
   else{const s=c.spell;st=s.heal?`<span>Radio <b>${s.radius}</b></span><span>Repara <b>${s.heal}</b></span><span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`
     :`<span>Radio <b>${s.radius}</b></span><span>Daño <b>${s.dmg}</b></span>${s.stun?`<span>Inmoviliza <b>${s.stun} s</b></span>`:''}<span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`;}
   const lk=unlocked(k,unlockRank())?'':`<p style="color:var(--fuel2)">Se desbloquea en ${RANKS[UNLOCK[k]].n} (${RANKS[UNLOCK[k]].c} copas).</p>`;
-  $('#info').innerHTML=`<h3>${c.name}</h3><div class="meta">${c.type} · ${c.rar} · ${c.cost} de combustible</div><p>${c.desc}</p><div class="stats">${st}</div>${lk}${full?'<p style="color:var(--fuel2)">Toca una carta de tu mazo para cambiarla por esta.</p>':''}`;
-  $('#info').classList.remove('hide');
+  return `<h3>${c.name}</h3><div class="meta">${c.type} · ${c.rar} · ${c.cost} de combustible</div><p>${c.desc}</p><div class="stats">${st}</div>${lk}`;
 }
 document.querySelectorAll('.diffs button').forEach(b=>b.addEventListener('click',()=>{diff=b.dataset.d;document.querySelectorAll('.diffs button').forEach(x=>x.classList.toggle('on',x===b));}));
 
@@ -1732,8 +1823,10 @@ $('#joinRoom').addEventListener('click',()=>{
   menuMsg('');if(openRoom(code,'guest'))lobbyShow(code,'Buscando la sala…');
 });
 $('#codeIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#joinRoom').click();});
-$('#deckRand').addEventListener('click',()=>{const ur=unlockRank();deckSel=new Set(shuffle(ALL.filter(k=>unlocked(k,ur))).slice(0,8));swapK=null;store();renderMenu();});
-$('#deckClear').addEventListener('click',()=>{deckSel=new Set();swapK=null;store();$('#info').classList.add('hide');renderMenu();});
+$('#deckRand').addEventListener('click',()=>{const prev=[...deckSel],ur=unlockRank();deckSel=new Set(shuffle(ALL.filter(k=>unlocked(k,ur))).slice(0,8));
+  pick=null;store();closeSheet();renderDeck();undoable(prev,'Mazo al azar');});
+$('#deckClear').addEventListener('click',()=>{if(!deckSel.size)return;const prev=[...deckSel];deckSel=new Set();
+  pick=null;store();closeSheet();renderDeck();undoable(prev,'Mazo vaciado');});
 $('#lobbyCancel').addEventListener('click',()=>leaveRoom());
 $('#copyLink').addEventListener('click',async()=>{
   const link=location.origin+location.pathname+'?sala='+NET.code;
