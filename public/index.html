@@ -1286,6 +1286,20 @@ try{$('#nick').value=localStorage.getItem('blindados-nick')||'';}catch(e){}
 const isAdmin=()=>ADMINS.includes($('#nick').value.trim().toLowerCase());
 const unlockRank=()=>isAdmin()?RANKS.length-1:rankIdx(SAVE.cups);
 if(Array.isArray(SAVE.deck)){const d=SAVE.deck.filter(k=>CARDS[k]&&unlocked(k,unlockRank()));if(d.length)deckSel=new Set(d.slice(0,8));}
+/* Si se quitan cartas bloqueadas (o se guardó un mazo incompleto), rellena hasta 8 con cartas disponibles. */
+const DEFAULT_DECK=['ligero','pesado','infanteria','artilleria','heli','aa','ingenieros','bombardeo'];
+function fillDeck(){
+  const ur=unlockRank();for(const k of [...deckSel])if(!CARDS[k]||!unlocked(k,ur))deckSel.delete(k);
+  for(const k of [...DEFAULT_DECK,...ALL]){if(deckSel.size>=8)break;if(unlocked(k,ur))deckSel.add(k);}
+}
+fillDeck();
+/* Antes de jugar: con menos de 8 cartas, lleva a la pestaña Mazo con un aviso en vez de dejar botones grises. */
+function deckReady(){
+  if(deckSel.size===8)return true;
+  showTab('scrDeck');
+  $('#info').innerHTML=`<h3>Mazo incompleto</h3><p style="color:var(--fuel2)">Tu mazo tiene ${deckSel.size}/8 cartas. Toca ${8-deckSel.size===1?'1 carta':(8-deckSel.size)+' cartas'} para añadirlas y vuelve a Batalla.</p>`;
+  return false;
+}
 if(MODES[SAVE.mode]&&modeOpen(SAVE.mode,unlockRank()))modeSel=SAVE.mode;
 const CUP=url(svgOf([SP.trophy],PAL)),LOCK=url(svgOf([SP.lock],PAL));
 
@@ -1306,8 +1320,8 @@ function renderMenu(){
   const avg=[...deckSel].reduce((s,k)=>s+CARDS[k].cost,0)/(deckSel.size||1);
   $('#avg').textContent='Coste medio '+avg.toFixed(1);
   const ok=deckSel.size===8||MODES[modeSel].random;
-  $('#play').disabled=!ok;$('#practice').disabled=!ok;$('#createRoom').disabled=!ok;$('#joinRoom').disabled=deckSel.size!==8;
   $('#playSub').textContent=ok?'Contra la IA · gana copas para ascender':'Completa tu mazo ('+deckSel.size+'/8) en la pestaña Mazo';
+  $('#deckCount').style.color=deckSel.size===8?'':'var(--red)';
   renderProfile();renderModes();renderRanks();
 }
 function renderProfile(){
@@ -1595,15 +1609,17 @@ function loop(ts){
 }
 
 /* ---------- botones ---------- */
-$('#play').addEventListener('click',()=>{leaveRoom();ranked=true;startGame('off');});
-$('#practice').addEventListener('click',()=>{leaveRoom();ranked=false;startGame('off');});
+$('#play').addEventListener('click',()=>{if(!MODES[modeSel].random&&!deckReady())return;leaveRoom();ranked=true;startGame('off');});
+$('#practice').addEventListener('click',()=>{if(!MODES[modeSel].random&&!deckReady())return;leaveRoom();ranked=false;startGame('off');});
 $('#createRoom').addEventListener('click',()=>{
+  if(!MODES[modeSel].random&&!deckReady())return;
   menuMsg('');const code=roomCode();
   if(openRoom(code,'host'))lobbyShow(code,'Comparte el código o el enlace con tu amigo. Esperando rival…');
 });
 $('#joinRoom').addEventListener('click',()=>{
   const code=$('#codeIn').value.trim().toUpperCase();
   if(!/^[A-Z0-9]{5}$/.test(code)){menuMsg('El código tiene 5 caracteres.');return;}
+  if(!deckReady())return;
   menuMsg('');if(openRoom(code,'guest'))lobbyShow(code,'Buscando la sala…');
 });
 $('#codeIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#joinRoom').click();});
@@ -1622,8 +1638,7 @@ $('#toMenu').addEventListener('click',()=>{
   ['#hud','#stage','#bottom'].forEach(s=>$(s).classList.add('hide'));$('#menu').classList.remove('hide');renderMenu();showTab('scrHome');
 });
 $('#nick').addEventListener('change',()=>{try{localStorage.setItem('blindados-nick',$('#nick').value);}catch(e){}
-  const ur=unlockRank();for(const k of [...deckSel])if(!unlocked(k,ur))deckSel.delete(k);
-  if(!modeOpen(modeSel,ur))modeSel='clasica';store();renderMenu();});
+  fillDeck();if(!modeOpen(modeSel,unlockRank()))modeSel='clasica';store();renderMenu();});
 try{$('#nick').value=localStorage.getItem('blindados-nick')||'';}catch(e){}
 const qs=new URLSearchParams(location.search).get('sala');
 if(qs){$('#codeIn').value=qs.toUpperCase().slice(0,5);menuMsg('Te han invitado a la sala '+qs.toUpperCase()+'. Elige tu mazo y pulsa Unirse.');}
