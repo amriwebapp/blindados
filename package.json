@@ -1,0 +1,13 @@
+{
+  "name": "blindados",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Juego táctico de tanques con cartas, multijugador online por código de sala",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
