@@ -119,7 +119,6 @@ body{height:100%;margin:0;background:var(--bg);color:var(--ink);
 .bar span:last-child{color:var(--muted);font-size:8px}
 #pool{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 10px}
 #pool .card{cursor:pointer}
-#pool .card:not(.in){opacity:.45}
 #pool .card.in::before{content:'';position:absolute;right:-6px;bottom:-6px;width:16px;height:16px;z-index:3;
   background:#22c55e;border:3px solid var(--line);box-shadow:inset -2px -2px 0 #15803d}
 #pool .card:focus-visible{outline:3px solid #fff;outline-offset:3px}
@@ -172,6 +171,32 @@ h2.sub{color:var(--khaki)}
 .install b{display:block;font-size:9px;color:#9cc7ff;font-weight:normal;margin-bottom:4px}
 .install .btn{width:auto;font-size:9px;padding:10px 12px;flex:none}
 /* ---------- PANTALLA PRINCIPAL ---------- */
+.nickin{font-family:inherit;font-size:10px;padding:2px 0;width:100%;max-width:170px;background:none;border:0;border-bottom:2px dashed #ffffff30;color:var(--ink)}
+.nickin:focus-visible{border-bottom-color:var(--khaki)}
+.mdesc{font-size:7px;color:var(--muted);text-align:center;margin:0 0 14px;min-height:1em;line-height:1.7}
+.mdesc.warn{color:var(--fuel2);margin:10px 0 0}
+.mdesc.warn:empty{display:none}
+.train{display:flex;gap:8px;align-items:stretch;margin:0 0 18px}
+.train .diffs{margin:0;flex:1;display:flex;gap:6px}
+.train .diffs button{flex:1;padding:9px 2px;font-size:7px}
+.train .btn{width:auto;font-size:9px;padding:10px 12px}
+.online .btn.blue{font-size:10px}
+.online .joinrow{margin-top:8px}
+.online #mmsg:empty{display:none}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 14px}
+.slots button{font-family:inherit;font-size:7px;padding:9px 2px;background:var(--panel2);color:var(--muted);border:3px solid var(--line);cursor:pointer}
+.slots button.on{background:var(--khaki);color:#1b1b12;box-shadow:0 3px 0 var(--line)}
+.dbtns{display:flex;gap:6px;margin-left:auto}
+.dbtns button{font-family:inherit;font-size:7px;padding:6px 7px;background:var(--panel2);color:var(--ink);border:3px solid var(--line);cursor:pointer}
+.bar{align-items:center;gap:10px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 10px}
+#deckGrid{background:#0e120b55;border:3px solid var(--line);padding:12px 10px;margin:0 0 14px}
+.slot-empty{aspect-ratio:3/4;border:3px dashed #ffffff26;background:#ffffff08}
+#deckGrid .card,#pool .card,#promo .card{touch-action:pan-y;cursor:pointer}
+#deckGrid.swapping .card{animation:wig .4s steps(2) infinite}
+@keyframes wig{50%{transform:rotate(-3deg)}}
+.card.pick{transform:translateY(-8px);box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px var(--line),0 4px 0 var(--line)}
+#info{margin:0 0 14px;min-height:0}
 #menu{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 88px)}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 14px;
   background:var(--panel);border:4px solid var(--line);box-shadow:4px 4px 0 #0006;padding:8px 10px}
@@ -267,12 +292,11 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
 <div id="menu">
   <div class="mwrap">
     <header class="topbar">
-      <div class="prof"><img id="topIns" class="ins" alt=""><div><div id="topName">Comandante</div><div class="rk" id="topRank">Recluta</div></div></div>
+      <div class="prof"><img id="topIns" class="ins" alt=""><div><input id="nick" class="nickin" maxlength="12" placeholder="Comandante" autocomplete="nickname" aria-label="Tu nombre"><div class="rk" id="topRank">Recluta</div></div></div>
       <div class="cups" title="Copas"><img class="cupic" alt=""><span id="cupNum">0</span></div>
     </header>
 
     <section id="scrHome" class="scr">
-      <div class="logo small"><img id="logoImg" alt=""><div><h1>BLINDADOS</h1><p>Guerra de mazos · asciende hasta Mariscal</p></div></div>
       <div class="rankcard" id="rankCard" role="button" tabindex="0" aria-label="Ver rangos">
         <img id="rankIns" class="ins big" alt="">
         <div class="rkinfo">
@@ -281,43 +305,42 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
           <div class="next" id="rankNext"></div>
         </div>
       </div>
-      <h2 class="sub">Modo de juego</h2>
       <div class="modes" id="modes"></div>
-      <p class="help" id="modeDesc"></p>
+      <p class="mdesc" id="modeDesc"></p>
       <button class="btn big" id="play">¡BATALLA!</button>
-      <p class="help c" id="playSub">Contra la IA · gana copas para ascender</p>
-      <div class="install hide" id="installBox">
-        <img src="/icons/icon-192.png" alt="">
-        <div><b>Instala Blindados</b><span id="installTxt">Juega a pantalla completa desde tu pantalla de inicio.</span></div>
-        <button class="btn" id="installBtn">Instalar</button>
-      </div>
-      <label class="field">Tu nombre<input id="nick" maxlength="12" placeholder="Comandante" autocomplete="nickname"></label>
+      <p class="mdesc warn" id="playSub"></p>
       <div class="online">
-        <h2>Online con amigos</h2>
-        <button class="btn blue" id="createRoom">Crear sala</button>
+        <button class="btn blue" id="createRoom">Crear sala online</button>
         <div class="joinrow"><input id="codeIn" maxlength="5" placeholder="CÓDIGO" autocapitalize="characters" autocomplete="off" aria-label="Código de sala"><button class="btn" id="joinRoom">Unirse</button></div>
         <div id="mmsg" role="status"></div>
       </div>
-      <h2 class="sub">Entrenamiento</h2>
-      <div class="diffs">Rival IA:
-        <button data-d="facil">Recluta</button><button data-d="normal" class="on">Sargento</button><button data-d="dificil">General</button>
+      <div class="train">
+        <div class="diffs"><button data-d="facil">Fácil</button><button data-d="normal" class="on">Normal</button><button data-d="dificil">Difícil</button></div>
+        <button class="btn alt" id="practice">Práctica</button>
       </div>
-      <button class="btn alt" id="practice">Practicar (sin copas)</button>
-      <p class="help">Arrastra una carta al campo, o tócala y luego toca el mapa. Solo puedes desplegar en tu mitad; si destruyes un búnker enemigo, ganas terreno en ese carril. Cada búnker vale una corona y el Cuartel General, la victoria. Teclas 1-4 para elegir carta.</p>
+      <div class="install hide" id="installBox">
+        <img src="/icons/icon-192.png" alt="">
+        <div><b>Instalar app</b><span id="installTxt"></span></div>
+        <button class="btn" id="installBtn">Instalar</button>
+      </div>
     </section>
 
     <section id="scrDeck" class="scr hide">
-      <div class="bar"><span>Tu mazo <span id="deckCount">8/8</span></span><span id="avg"></span></div>
-      <div id="pool"></div>
-      <div id="info"></div>
-      <p class="help">Toca una carta para añadirla o quitarla del mazo. Las cartas con candado se desbloquean al ascender de rango.</p>
+      <div class="slots" id="slots"></div>
+      <div class="bar"><span id="deckCount">8/8</span><span id="avg"></span>
+        <span class="dbtns"><button id="deckRand">Al azar</button><button id="deckClear">Vaciar</button></span></div>
+      <div id="deckGrid" class="grid4"></div>
+      <div id="info" class="hide"></div>
+      <h2 class="sub">Colección</h2>
+      <div id="pool" class="grid4"></div>
     </section>
 
     <section id="scrRanks" class="scr hide">
-      <div class="stats3"><div><b id="stW">0</b>Victorias</div><div><b id="stL">0</b>Derrotas</div><div><b id="stB">0</b>Récord de copas</div></div>
-      <h2 class="sub">Escalafón</h2>
+      <div class="stats3"><div><b id="stW">0</b>Victorias</div><div><b id="stL">0</b>Derrotas</div><div><b id="stB">0</b>Récord</div></div>
       <div id="rankList"></div>
-      <p class="help">Ganar da entre 25 y 31 copas según las coronas; perder resta 14. Nunca bajas de rango: el mínimo de copas de tu rango está protegido. La IA de las batallas se vuelve más dura a medida que asciendes.</p>
+      <p class="help">Victoria +25 a +31 · Derrota −14 · Tu rango nunca baja.</p>
+      <h2 class="sub">Cómo jugar</h2>
+      <p class="help">Arrastra una carta a tu mitad del campo (o tócala y toca el mapa). Cada búnker vale una corona; el Cuartel General, la victoria.</p>
     </section>
   </div>
   <nav id="tabs">
@@ -659,11 +682,11 @@ const RANKS=[
 const UNLOCK={},MODE_UNLOCK={};
 RANKS.forEach((r,i)=>{(r.cards||[]).forEach(k=>UNLOCK[k]=i);(r.modes||[]).forEach(m=>MODE_UNLOCK[m]=i);});
 const MODES={
- clasica:{name:'Clásica',icon:['crown'],time:180,desc:'3 minutos. Combustible x2 en el último minuto y prórroga si hay empate.'},
- relampago:{name:'Relámpago',icon:['emp'],time:90,x2:true,desc:'Solo 90 segundos, pero con combustible x2 desde el principio.'},
- azar:{name:'Mazo al azar',icon:['dice'],time:180,random:true,desc:'Ambos bandos reciben 8 cartas aleatorias entre las desbloqueadas. ¡A improvisar!'},
- subita:{name:'Muerte súbita',icon:['bomb'],time:180,sudden:true,fuel0:10,desc:'Empiezas con el depósito lleno y el primer búnker que caiga decide la batalla.'},
- triple:{name:'Triple',icon:['fuel'],time:180,mult:3,desc:'El combustible se recarga al triple de velocidad. Caos total de blindados.'},
+ clasica:{name:'Clásica',icon:['crown'],time:180,desc:'3 min · combustible x2 en el último minuto'},
+ relampago:{name:'Relámpago',icon:['emp'],time:90,x2:true,desc:'90 s · combustible x2 todo el rato'},
+ azar:{name:'Mazo al azar',icon:['dice'],time:180,random:true,desc:'8 cartas al azar para ambos bandos'},
+ subita:{name:'Muerte súbita',icon:['bomb'],time:180,sudden:true,fuel0:10,desc:'Depósito lleno · el primer búnker gana'},
+ triple:{name:'Triple',icon:['fuel'],time:180,mult:3,desc:'Combustible x3 toda la partida'},
 };
 function rankIdx(c){let i=0;RANKS.forEach((r,j)=>{if(c>=r.c)i=j;});return i;}
 const unlocked=(k,ri)=>(UNLOCK[k]||0)<=ri;
@@ -1209,7 +1232,6 @@ function render(){
    ===================================================================== */
 const handEl=$('#hand'),nextEl=$('#next'),fuelFill=$('#fuelFill'),fuelNum=$('#fuelNum'),floatEl=$('#floatCard');
 $('#fuelIco').src=url(svgOf([SP.fuel],PAL));
-$('#logoImg').src=url(artSvg([['heavyBody'],['heavyTur']],palFor(0)));
 let drag=null,selected=-1,hover=null,toastT=0;
 function renderHand(newIdx){
   handEl.innerHTML='';
@@ -1273,65 +1295,87 @@ function resize(){
 }
 window.addEventListener('resize',resize);
 
-/* ---------- guardado local (copas, estadísticas y mazo) ---------- */
+/* ---------- guardado local (copas, estadísticas y mazos) ---------- */
 const ALL=Object.keys(CARDS);
-const SAVE={cups:0,best:0,w:0,l:0,deck:null,mode:'clasica'};
+const DEFAULT_DECK=['ligero','pesado','infanteria','artilleria','heli','aa','ingenieros','bombardeo'];
+const NSLOTS=4;
+const SAVE={cups:0,best:0,w:0,l:0,decks:null,di:0,mode:'clasica'};
 try{Object.assign(SAVE,JSON.parse(localStorage.getItem('blindados-save')||'{}'));}catch(e){}
 SAVE.cups=Math.max(0,+SAVE.cups||0);
-function store(){SAVE.deck=[...deckSel];SAVE.mode=modeSel;try{localStorage.setItem('blindados-save',JSON.stringify(SAVE));}catch(e){}}
+// 4 ranuras de mazo; las partidas guardadas con un solo mazo pasan a la ranura 1
+if(!Array.isArray(SAVE.decks))SAVE.decks=[Array.isArray(SAVE.deck)?SAVE.deck:DEFAULT_DECK];
+while(SAVE.decks.length<NSLOTS)SAVE.decks.push(DEFAULT_DECK.slice());
+SAVE.decks=SAVE.decks.slice(0,NSLOTS).map(d=>(Array.isArray(d)?d:[]).filter(k=>CARDS[k]).slice(0,8));
+SAVE.di=clamp(SAVE.di|0,0,NSLOTS-1);
+deckSel=new Set(SAVE.decks[SAVE.di]);
+function store(){SAVE.decks[SAVE.di]=[...deckSel];SAVE.deck=[...deckSel];SAVE.mode=modeSel;
+  try{localStorage.setItem('blindados-save',JSON.stringify(SAVE));}catch(e){}}
 /* Admin: el nombre «fuffo» desbloquea todas las cartas y modos (no cambia las copas ni el rango).
    OJO: no hay cuentas, así que cualquiera que escriba ese nombre también lo obtiene. */
 const ADMINS=['fuffo'];
 try{$('#nick').value=localStorage.getItem('blindados-nick')||'';}catch(e){}
 const isAdmin=()=>ADMINS.includes($('#nick').value.trim().toLowerCase());
 const unlockRank=()=>isAdmin()?RANKS.length-1:rankIdx(SAVE.cups);
-if(Array.isArray(SAVE.deck)){const d=SAVE.deck.filter(k=>CARDS[k]&&unlocked(k,unlockRank()));if(d.length)deckSel=new Set(d.slice(0,8));}
-/* Si se quitan cartas bloqueadas (o se guardó un mazo incompleto), rellena hasta 8 con cartas disponibles. */
-const DEFAULT_DECK=['ligero','pesado','infanteria','artilleria','heli','aa','ingenieros','bombardeo'];
+/* Quita las cartas bloqueadas del mazo actual y, si faltaban por eso, lo rellena hasta 8. */
 function fillDeck(){
-  const ur=unlockRank();for(const k of [...deckSel])if(!CARDS[k]||!unlocked(k,ur))deckSel.delete(k);
-  for(const k of [...DEFAULT_DECK,...ALL]){if(deckSel.size>=8)break;if(unlocked(k,ur))deckSel.add(k);}
+  const ur=unlockRank();let removed=false;
+  for(const k of [...deckSel])if(!unlocked(k,ur)){deckSel.delete(k);removed=true;}
+  if(removed)for(const k of [...DEFAULT_DECK,...ALL]){if(deckSel.size>=8)break;if(unlocked(k,ur))deckSel.add(k);}
 }
 fillDeck();
-/* Antes de jugar: con menos de 8 cartas, lleva a la pestaña Mazo con un aviso en vez de dejar botones grises. */
+/* Antes de jugar: con menos de 8 cartas, lleva a la pestaña Mazo con un aviso. */
 function deckReady(){
   if(deckSel.size===8)return true;
   showTab('scrDeck');
-  $('#info').innerHTML=`<h3>Mazo incompleto</h3><p style="color:var(--fuel2)">Tu mazo tiene ${deckSel.size}/8 cartas. Toca ${8-deckSel.size===1?'1 carta':(8-deckSel.size)+' cartas'} para añadirlas y vuelve a Batalla.</p>`;
+  const n=8-deckSel.size,inf=$('#info');inf.classList.remove('hide');
+  inf.innerHTML=`<h3>Mazo incompleto</h3><p style="color:var(--fuel2)">Añade ${n===1?'1 carta':n+' cartas'} para jugar.</p>`;
   return false;
 }
 if(MODES[SAVE.mode]&&modeOpen(SAVE.mode,unlockRank()))modeSel=SAVE.mode;
 const CUP=url(svgOf([SP.trophy],PAL)),LOCK=url(svgOf([SP.lock],PAL));
 
 /* ---------- menú ---------- */
+let swapK=null; // carta de la colección elegida para cambiarla por una del mazo
+function bindAct(el,act){el.addEventListener('click',act);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act();}});}
+function selectSlot(i){store();SAVE.di=i;deckSel=new Set(SAVE.decks[i]);swapK=null;fillDeck();store();$('#info').classList.add('hide');renderMenu();}
 function renderMenu(){
-  const g=$('#pool'),ri=unlockRank();g.innerHTML='';
-  ALL.forEach(k=>{const el=cardEl(k);el.tabIndex=0;
-    const open=unlocked(k,ri);
+  const ri=unlockRank(),arr=[...deckSel],dg=$('#deckGrid'),g=$('#pool'),sl=$('#slots');
+  sl.innerHTML='';
+  for(let i=0;i<NSLOTS;i++){const b=document.createElement('button');b.textContent='Mazo '+(i+1);
+    b.className=i===SAVE.di?'on':'';b.setAttribute('aria-pressed',i===SAVE.di);b.addEventListener('click',()=>selectSlot(i));sl.appendChild(b);}
+  dg.innerHTML='';dg.classList.toggle('swapping',!!swapK);
+  for(let i=0;i<8;i++){const k=arr[i];
+    if(!k){const e=document.createElement('div');e.className='slot-empty';dg.appendChild(e);continue;}
+    const el=cardEl(k);el.tabIndex=0;el.setAttribute('aria-label',CARDS[k].name+(swapK?' (cambiar)':' (quitar)'));
+    bindAct(el,()=>{
+      if(swapK){deckSel=new Set(arr.map(x=>x===k?swapK:x));showInfo(swapK);swapK=null;}
+      else{deckSel.delete(k);showInfo(k);}
+      store();renderMenu();});
+    dg.appendChild(el);}
+  g.innerHTML='';
+  for(const k of ALL){if(deckSel.has(k))continue;
+    const el=cardEl(k),open=unlocked(k,ri);el.tabIndex=0;
     if(!open){el.classList.add('lock');el.querySelector('.cname').remove();
       el.insertAdjacentHTML('beforeend',`<img class="lockic" src="${LOCK}" alt=""><div class="lockrk">${RANKS[UNLOCK[k]].n.toUpperCase()}</div>`);}
-    else if(deckSel.has(k))el.classList.add('in');
-    const act=()=>{
-      if(open){if(deckSel.has(k))deckSel.delete(k);else if(deckSel.size<8)deckSel.add(k);store();}
-      showInfo(k,open&&deckSel.size>=8&&!deckSel.has(k));renderMenu();g.children[ALL.indexOf(k)].focus({preventScroll:true});};
-    el.addEventListener('click',act);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act();}});
-    g.appendChild(el);});
-  $('#deckCount').textContent=deckSel.size+'/8';
-  const avg=[...deckSel].reduce((s,k)=>s+CARDS[k].cost,0)/(deckSel.size||1);
+    if(k===swapK)el.classList.add('pick');
+    bindAct(el,()=>{
+      if(open){if(deckSel.size<8){deckSel.add(k);swapK=null;store();}else swapK=swapK===k?null:k;}
+      showInfo(k,swapK===k);renderMenu();});
+    g.appendChild(el);}
+  const avg=arr.reduce((s,k)=>s+CARDS[k].cost,0)/(arr.length||1);
+  $('#deckCount').textContent=deckSel.size+'/8';$('#deckCount').style.color=deckSel.size===8?'':'var(--red)';
   $('#avg').textContent='Coste medio '+avg.toFixed(1);
-  const ok=deckSel.size===8||MODES[modeSel].random;
-  $('#playSub').textContent=ok?'Contra la IA · gana copas para ascender':'Completa tu mazo ('+deckSel.size+'/8) en la pestaña Mazo';
-  $('#deckCount').style.color=deckSel.size===8?'':'var(--red)';
+  $('#playSub').textContent=deckSel.size===8||MODES[modeSel].random?'':'Mazo incompleto ('+deckSel.size+'/8)';
   renderProfile();renderModes();renderRanks();
 }
 function renderProfile(){
   const ri=rankIdx(SAVE.cups),r=RANKS[ri],nx=RANKS[ri+1];
   $('#topIns').src=INS[ri];$('#rankIns').src=INS[ri];
-  $('#topName').textContent=myName();$('#topRank').textContent=r.n+(isAdmin()?' · ADMIN':'');$('#rankName').textContent=r.n;$('#cupNum').textContent=SAVE.cups;
+  $('#topRank').textContent=r.n+(isAdmin()?' · ADMIN':'');$('#rankName').textContent=r.n;$('#cupNum').textContent=SAVE.cups;
   if(nx){const f=(SAVE.cups-r.c)/(nx.c-r.c);$('#rankFill').style.width=(f*100)+'%';$('#rankTxt').textContent=SAVE.cups+' / '+nx.c;
     const rw=[...(nx.cards||[]).map(k=>CARDS[k].name),...(nx.modes||[]).map(m=>'modo '+MODES[m].name)];
-    $('#rankNext').innerHTML=`Siguiente: <b>${nx.n}</b>${rw.length?' · desbloquea '+rw.join(' y '):''}`;}
-  else{$('#rankFill').style.width='100%';$('#rankTxt').textContent=SAVE.cups+' copas';$('#rankNext').innerHTML='<b>Rango máximo.</b> Eres leyenda de los blindados.';}
+    $('#rankNext').innerHTML=`<b>${nx.n}</b>${rw.length?': '+rw.join(', '):''}`;}
+  else{$('#rankFill').style.width='100%';$('#rankTxt').textContent=SAVE.cups+' copas';$('#rankNext').innerHTML='<b>Rango máximo</b>';}
   $('#stW').textContent=SAVE.w;$('#stL').textContent=SAVE.l;$('#stB').textContent=SAVE.best;
 }
 function renderModes(){
@@ -1341,7 +1385,7 @@ function renderModes(){
     b.innerHTML=`<img src="${url(svgOf([SP[M.icon[0]]],PAL))}" alt="">${M.name}${open?'':`<img class="lk" src="${LOCK}" alt="">`}`;
     b.setAttribute('aria-pressed',m===modeSel);
     b.addEventListener('click',()=>{
-      if(!open){$('#modeDesc').textContent=`${M.name}: se desbloquea al llegar a ${RANKS[MODE_UNLOCK[m]].n} (${RANKS[MODE_UNLOCK[m]].c} copas).`;return;}
+      if(!open){$('#modeDesc').textContent=`Se desbloquea en ${RANKS[MODE_UNLOCK[m]].n} (${RANKS[MODE_UNLOCK[m]].c} copas)`;return;}
       modeSel=m;store();renderMenu();});
     box.appendChild(b);}
   $('#modeDesc').textContent=MODES[modeSel].desc;
@@ -1377,8 +1421,9 @@ function showInfo(k,full){
       <span>Alcance <b>${u.range}</b></span><span>${u.building?'Duración <b>'+u.life+' s</b>':'Velocidad <b>'+spd(u.speed)+'</b>'}</span><span>Objetivo <b>${obj}</b></span><span>Cadencia <b>${u.rate} s</b></span>${c.anywhere?'<span>Despliegue <b>Cualquier zona</b></span>':''}`;}}
   else{const s=c.spell;st=s.heal?`<span>Radio <b>${s.radius}</b></span><span>Repara <b>${s.heal}</b></span><span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`
     :`<span>Radio <b>${s.radius}</b></span><span>Daño <b>${s.dmg}</b></span>${s.stun?`<span>Inmoviliza <b>${s.stun} s</b></span>`:''}<span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`;}
-  const lk=unlocked(k,unlockRank())?'':`<p style="color:var(--fuel2)">Bloqueada: se desbloquea al llegar a ${RANKS[UNLOCK[k]].n} (${RANKS[UNLOCK[k]].c} copas).</p>`;
-  $('#info').innerHTML=`<h3>${c.name}</h3><div class="meta">${c.type} · ${c.rar} · ${c.cost} de combustible</div><p>${c.desc}</p><div class="stats">${st}</div>${lk}${full?'<p style="color:var(--fuel2)">Tu mazo ya tiene 8 cartas. Quita una para añadir esta.</p>':''}`;
+  const lk=unlocked(k,unlockRank())?'':`<p style="color:var(--fuel2)">Se desbloquea en ${RANKS[UNLOCK[k]].n} (${RANKS[UNLOCK[k]].c} copas).</p>`;
+  $('#info').innerHTML=`<h3>${c.name}</h3><div class="meta">${c.type} · ${c.rar} · ${c.cost} de combustible</div><p>${c.desc}</p><div class="stats">${st}</div>${lk}${full?'<p style="color:var(--fuel2)">Toca una carta de tu mazo para cambiarla por esta.</p>':''}`;
+  $('#info').classList.remove('hide');
 }
 document.querySelectorAll('.diffs button').forEach(b=>b.addEventListener('click',()=>{diff=b.dataset.d;document.querySelectorAll('.diffs button').forEach(x=>x.classList.toggle('on',x===b));}));
 
@@ -1623,6 +1668,8 @@ $('#joinRoom').addEventListener('click',()=>{
   menuMsg('');if(openRoom(code,'guest'))lobbyShow(code,'Buscando la sala…');
 });
 $('#codeIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#joinRoom').click();});
+$('#deckRand').addEventListener('click',()=>{const ur=unlockRank();deckSel=new Set(shuffle(ALL.filter(k=>unlocked(k,ur))).slice(0,8));swapK=null;store();renderMenu();});
+$('#deckClear').addEventListener('click',()=>{deckSel=new Set();swapK=null;store();$('#info').classList.add('hide');renderMenu();});
 $('#lobbyCancel').addEventListener('click',()=>leaveRoom());
 $('#copyLink').addEventListener('click',async()=>{
   const link=location.origin+location.pathname+'?sala='+NET.code;
@@ -1642,7 +1689,7 @@ $('#nick').addEventListener('change',()=>{try{localStorage.setItem('blindados-ni
 try{$('#nick').value=localStorage.getItem('blindados-nick')||'';}catch(e){}
 const qs=new URLSearchParams(location.search).get('sala');
 if(qs){$('#codeIn').value=qs.toUpperCase().slice(0,5);menuMsg('Te han invitado a la sala '+qs.toUpperCase()+'. Elige tu mazo y pulsa Unirse.');}
-renderMenu();showInfo('pesado');
+renderMenu();
 requestAnimationFrame(loop);
 
 /* ---------- app instalable (PWA) ---------- */
@@ -1654,7 +1701,7 @@ if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.ser
   const box=$('#installBox'),btn=$('#installBtn'),txt=$('#installTxt');
   if(!standalone&&ios){
     box.classList.remove('hide');btn.classList.add('hide');
-    txt.textContent='En Safari, pulsa el botón Compartir y elige «Añadir a pantalla de inicio».';
+    txt.textContent='Compartir → Añadir a inicio';
   }
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;if(!standalone)box.classList.remove('hide');});
   btn.addEventListener('click',async()=>{
