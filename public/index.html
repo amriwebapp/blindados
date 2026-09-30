@@ -1279,13 +1279,19 @@ const SAVE={cups:0,best:0,w:0,l:0,deck:null,mode:'clasica'};
 try{Object.assign(SAVE,JSON.parse(localStorage.getItem('blindados-save')||'{}'));}catch(e){}
 SAVE.cups=Math.max(0,+SAVE.cups||0);
 function store(){SAVE.deck=[...deckSel];SAVE.mode=modeSel;try{localStorage.setItem('blindados-save',JSON.stringify(SAVE));}catch(e){}}
-if(Array.isArray(SAVE.deck)){const d=SAVE.deck.filter(k=>CARDS[k]&&unlocked(k,rankIdx(SAVE.cups)));if(d.length)deckSel=new Set(d.slice(0,8));}
-if(MODES[SAVE.mode]&&modeOpen(SAVE.mode,rankIdx(SAVE.cups)))modeSel=SAVE.mode;
+/* Admin: el nombre «fuffo» desbloquea todas las cartas y modos (no cambia las copas ni el rango).
+   OJO: no hay cuentas, así que cualquiera que escriba ese nombre también lo obtiene. */
+const ADMINS=['fuffo'];
+try{$('#nick').value=localStorage.getItem('blindados-nick')||'';}catch(e){}
+const isAdmin=()=>ADMINS.includes($('#nick').value.trim().toLowerCase());
+const unlockRank=()=>isAdmin()?RANKS.length-1:rankIdx(SAVE.cups);
+if(Array.isArray(SAVE.deck)){const d=SAVE.deck.filter(k=>CARDS[k]&&unlocked(k,unlockRank()));if(d.length)deckSel=new Set(d.slice(0,8));}
+if(MODES[SAVE.mode]&&modeOpen(SAVE.mode,unlockRank()))modeSel=SAVE.mode;
 const CUP=url(svgOf([SP.trophy],PAL)),LOCK=url(svgOf([SP.lock],PAL));
 
 /* ---------- menú ---------- */
 function renderMenu(){
-  const g=$('#pool'),ri=rankIdx(SAVE.cups);g.innerHTML='';
+  const g=$('#pool'),ri=unlockRank();g.innerHTML='';
   ALL.forEach(k=>{const el=cardEl(k);el.tabIndex=0;
     const open=unlocked(k,ri);
     if(!open){el.classList.add('lock');el.querySelector('.cname').remove();
@@ -1307,7 +1313,7 @@ function renderMenu(){
 function renderProfile(){
   const ri=rankIdx(SAVE.cups),r=RANKS[ri],nx=RANKS[ri+1];
   $('#topIns').src=INS[ri];$('#rankIns').src=INS[ri];
-  $('#topName').textContent=myName();$('#topRank').textContent=r.n;$('#rankName').textContent=r.n;$('#cupNum').textContent=SAVE.cups;
+  $('#topName').textContent=myName();$('#topRank').textContent=r.n+(isAdmin()?' · ADMIN':'');$('#rankName').textContent=r.n;$('#cupNum').textContent=SAVE.cups;
   if(nx){const f=(SAVE.cups-r.c)/(nx.c-r.c);$('#rankFill').style.width=(f*100)+'%';$('#rankTxt').textContent=SAVE.cups+' / '+nx.c;
     const rw=[...(nx.cards||[]).map(k=>CARDS[k].name),...(nx.modes||[]).map(m=>'modo '+MODES[m].name)];
     $('#rankNext').innerHTML=`Siguiente: <b>${nx.n}</b>${rw.length?' · desbloquea '+rw.join(' y '):''}`;}
@@ -1315,7 +1321,7 @@ function renderProfile(){
   $('#stW').textContent=SAVE.w;$('#stL').textContent=SAVE.l;$('#stB').textContent=SAVE.best;
 }
 function renderModes(){
-  const ri=rankIdx(SAVE.cups),box=$('#modes');box.innerHTML='';
+  const ri=unlockRank(),box=$('#modes');box.innerHTML='';
   for(const m in MODES){const M=MODES[m],open=modeOpen(m,ri),b=document.createElement('button');
     b.className=(m===modeSel?'on ':'')+(open?'':'locked');
     b.innerHTML=`<img src="${url(svgOf([SP[M.icon[0]]],PAL))}" alt="">${M.name}${open?'':`<img class="lk" src="${LOCK}" alt="">`}`;
@@ -1357,7 +1363,7 @@ function showInfo(k,full){
       <span>Alcance <b>${u.range}</b></span><span>${u.building?'Duración <b>'+u.life+' s</b>':'Velocidad <b>'+spd(u.speed)+'</b>'}</span><span>Objetivo <b>${obj}</b></span><span>Cadencia <b>${u.rate} s</b></span>${c.anywhere?'<span>Despliegue <b>Cualquier zona</b></span>':''}`;}}
   else{const s=c.spell;st=s.heal?`<span>Radio <b>${s.radius}</b></span><span>Repara <b>${s.heal}</b></span><span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`
     :`<span>Radio <b>${s.radius}</b></span><span>Daño <b>${s.dmg}</b></span>${s.stun?`<span>Inmoviliza <b>${s.stun} s</b></span>`:''}<span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`;}
-  const lk=unlocked(k,rankIdx(SAVE.cups))?'':`<p style="color:var(--fuel2)">Bloqueada: se desbloquea al llegar a ${RANKS[UNLOCK[k]].n} (${RANKS[UNLOCK[k]].c} copas).</p>`;
+  const lk=unlocked(k,unlockRank())?'':`<p style="color:var(--fuel2)">Bloqueada: se desbloquea al llegar a ${RANKS[UNLOCK[k]].n} (${RANKS[UNLOCK[k]].c} copas).</p>`;
   $('#info').innerHTML=`<h3>${c.name}</h3><div class="meta">${c.type} · ${c.rar} · ${c.cost} de combustible</div><p>${c.desc}</p><div class="stats">${st}</div>${lk}${full?'<p style="color:var(--fuel2)">Tu mazo ya tiene 8 cartas. Quita una para añadir esta.</p>':''}`;
 }
 document.querySelectorAll('.diffs button').forEach(b=>b.addEventListener('click',()=>{diff=b.dataset.d;document.querySelectorAll('.diffs button').forEach(x=>x.classList.toggle('on',x===b));}));
@@ -1508,7 +1514,7 @@ function startGame(mode,mkey){
   for(const p of TPOS){const d=TDEF[p.tw],a=p.team?Math.PI/2:-Math.PI/2;
     ents.push({id:++uid,team:p.team,x:p.x,y:p.y,kind:'tower',tw:p.tw,lane:p.lane,def:d,hp:d.hp,maxHp:d.hp,r:d.r,alive:true,
       active:p.tw==='bunker',ang:a,tang:a,cd:0,target:null,retarget:0,spawn:0,stun:0,flash:0,recoil:0,air:false});}
-  const mine=ALL.filter(k=>unlocked(k,ri));
+  const mine=ALL.filter(k=>unlocked(k,unlockRank()));
   queue=MODE.random?shuffle(mine.slice()).slice(0,8):shuffle([...deckSel]);hand=queue.splice(0,4);
   const aiPool=ALL.filter(k=>k!=='reparacion'&&(!ranked||unlocked(k,ri)));
   const ad=shuffle(aiPool).slice(0,8);if(!ad.some(k=>CARDS[k].unit&&CARDS[k].unit.tAir))ad[7]='aa';
@@ -1615,7 +1621,9 @@ $('#toMenu').addEventListener('click',()=>{
   leaveRoom();state='menu';$('#endScr').classList.add('hide');
   ['#hud','#stage','#bottom'].forEach(s=>$(s).classList.add('hide'));$('#menu').classList.remove('hide');renderMenu();showTab('scrHome');
 });
-$('#nick').addEventListener('change',()=>{try{localStorage.setItem('blindados-nick',$('#nick').value);}catch(e){}renderProfile();});
+$('#nick').addEventListener('change',()=>{try{localStorage.setItem('blindados-nick',$('#nick').value);}catch(e){}
+  const ur=unlockRank();for(const k of [...deckSel])if(!unlocked(k,ur))deckSel.delete(k);
+  if(!modeOpen(modeSel,ur))modeSel='clasica';store();renderMenu();});
 try{$('#nick').value=localStorage.getItem('blindados-nick')||'';}catch(e){}
 const qs=new URLSearchParams(location.search).get('sala');
 if(qs){$('#codeIn').value=qs.toUpperCase().slice(0,5);menuMsg('Te han invitado a la sala '+qs.toUpperCase()+'. Elige tu mazo y pulsa Unirse.');}
