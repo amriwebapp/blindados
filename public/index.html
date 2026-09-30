@@ -31,6 +31,8 @@ body{height:100%;margin:0;background:var(--bg);color:var(--ink);
   background:var(--panel);border-bottom:4px solid var(--line);font-size:8px}
 #hud .side{display:flex;align-items:center;gap:6px;flex:1}
 #hud .side.you{justify-content:flex-end}
+#hud .who{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.hudins{width:18px;height:18px;image-rendering:pixelated}
 #hud .who.e{color:var(--red)} #hud .who.p{color:var(--blue)}
 .crowns{display:flex;gap:2px}
 .crowns img{width:18px;height:14px;image-rendering:pixelated}
@@ -153,7 +155,81 @@ h2.sub{color:var(--khaki)}
 #lobbyCode{font-size:32px;letter-spacing:8px;color:var(--khaki);margin:14px 0;text-shadow:4px 4px 0 #000}
 #lobbyMsg{font-size:8px;line-height:1.9;color:var(--ink);min-height:3em}
 #endSub{font-size:8px;color:var(--muted);margin:-6px 0 14px;line-height:1.8}
-@media (prefers-reduced-motion:reduce){.card.r-leg::after{animation:none}.card.enter{animation:none}}
+
+/* ---------- PANTALLA PRINCIPAL ---------- */
+#menu{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 88px)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 14px;
+  background:var(--panel);border:4px solid var(--line);box-shadow:4px 4px 0 #0006;padding:8px 10px}
+.prof{display:flex;align-items:center;gap:10px;min-width:0}
+.prof>div{min-width:0}
+#topName{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk{font-size:7px;color:var(--khaki);margin-top:6px}
+img.ins{width:36px;height:36px;image-rendering:pixelated;flex:none;filter:drop-shadow(2px 2px 0 #000)}
+img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
+.cups{display:flex;align-items:center;gap:6px;background:var(--line);padding:7px 9px;font-size:12px;color:var(--fuel2);flex:none}
+.cups img{width:18px;height:18px;image-rendering:pixelated}
+.logo.small{margin:4px 0 14px}.logo.small img{width:56px;height:56px}.logo.small h1{font-size:20px}
+.rankcard{display:flex;gap:12px;align-items:center;background:linear-gradient(#2e3a24,#222b1b);border:4px solid var(--line);
+  box-shadow:inset 0 0 0 3px #4d5c3a,4px 4px 0 #0006;padding:12px;margin:0 0 18px;cursor:pointer}
+.rkinfo{flex:1;min-width:0}
+.rkname{font-size:13px;color:var(--khaki);text-shadow:2px 2px 0 #000}
+.prog{position:relative;height:18px;background:#120d06;border:3px solid var(--line);margin:10px 0 8px}
+#rankFill{height:100%;width:0;background:linear-gradient(#fde68a 0 25%,#f2c14e 25% 72%,#b8860b 72%)}
+.prog span{position:absolute;inset:0;display:grid;place-items:center;font-size:7px;color:#fff;text-shadow:1px 1px 0 #000,-1px -1px 0 #000}
+.rkinfo .next{font-size:6px;line-height:1.8;color:var(--muted)}
+.rkinfo .next b{color:var(--ink);font-weight:normal}
+.modes{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin:0 0 10px}
+.modes button{font-family:inherit;font-size:7px;line-height:1.5;padding:9px 4px 8px;background:var(--panel2);color:var(--ink);border:3px solid var(--line);
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;position:relative;box-shadow:0 3px 0 var(--line)}
+.modes button img{width:30px;height:30px;image-rendering:pixelated;object-fit:contain}
+.modes button.on{background:var(--khaki);color:#1b1b12}
+.modes button.locked{opacity:.55;cursor:not-allowed}
+.modes button.locked img{filter:grayscale(1) brightness(.6)}
+.modes button .lk{position:absolute;right:4px;top:4px;width:12px!important;height:14px!important}
+.modes button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#modeDesc{margin:0 0 14px;min-height:3em}
+.btn.big{font-size:18px;padding:18px;background:#d98a1a;box-shadow:inset -5px -5px 0 #9a5c0c,inset 5px 5px 0 #fcd34d,0 5px 0 var(--line);letter-spacing:2px}
+.btn.big:active{box-shadow:inset -5px -5px 0 #9a5c0c,inset 5px 5px 0 #fcd34d}
+.help.c{text-align:center;margin:10px 0 20px}
+.gap{height:8px}
+#tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-content:center;gap:6px;background:var(--panel);
+  border-top:4px solid var(--line);padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px)}
+#tabs button{font-family:inherit;font-size:7px;flex:1;max-width:170px;display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:8px 4px;background:var(--panel2);color:var(--muted);border:3px solid var(--line);cursor:pointer}
+#tabs button img{width:28px;height:28px;image-rendering:pixelated}
+#tabs button.on{background:var(--khaki);color:#1b1b12;transform:translateY(-4px);box-shadow:0 4px 0 var(--line)}
+#tabs button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+/* cartas bloqueadas */
+.card.lock{cursor:pointer}
+.card.lock .art img{filter:grayscale(1) brightness(.35)}
+.card.lock .cost{background:#5a5048;box-shadow:none}
+.card .lockic{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);width:26px;height:30px;image-rendering:pixelated;z-index:2}
+.card .lockrk{position:absolute;left:5px;right:5px;bottom:5px;padding:4px 1px;font-size:5px;text-align:center;background:#000d;color:var(--fuel2);white-space:nowrap;overflow:hidden}
+#pool .card.lock{opacity:1}
+.card.lock .fillov{height:100%;background:#0e120b8c}
+/* rangos */
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 18px}
+.stats3 div{background:var(--panel);border:4px solid var(--line);padding:10px 4px;text-align:center;font-size:6px;color:var(--muted);line-height:1.6}
+.stats3 b{display:block;font-size:13px;color:var(--ink);font-weight:normal;margin-bottom:6px}
+.rrow{display:flex;gap:10px;align-items:center;background:var(--panel);border:4px solid var(--line);padding:8px 10px;margin:0 0 8px;position:relative}
+.rrow.cur{background:#3d4a2c;box-shadow:inset 0 0 0 3px var(--khaki)}
+.rrow.fut{opacity:.6}
+.rrow .rn{font-size:9px;flex:1;min-width:0;line-height:1.7}
+.rrow .rn small{display:block;font-size:6px;color:var(--muted);line-height:1.8;margin-top:2px}
+.rrow .rc{font-size:8px;color:var(--fuel2);display:flex;align-items:center;gap:4px;flex:none}
+.rrow .rc img{width:12px;height:12px;image-rendering:pixelated}
+.rrow .tag{position:absolute;right:8px;top:-8px;font-size:6px;background:var(--khaki);color:#1b1b12;padding:3px 5px;border:2px solid var(--line)}
+/* fin de partida */
+#endCups{display:flex;justify-content:center;align-items:center;gap:8px;font-size:14px;margin:0 0 12px;min-height:22px}
+#endCups img{width:20px;height:20px;image-rendering:pixelated}
+#endCups.up{color:#86efac}#endCups.down{color:#ff8a8a}
+#promo{background:#3d4a2c;border:3px solid var(--khaki);padding:10px;margin:0 0 12px;font-size:8px;line-height:1.9}
+#promo .ins{display:block;margin:0 auto 6px}
+#promo b{color:var(--fuel2);font-weight:normal}
+#promo .unl{display:flex;justify-content:center;gap:8px;margin-top:8px}
+#promo .unl .card{width:56px;cursor:default}
+#promo.show{animation:enter .4s steps(4)}
+@media (prefers-reduced-motion:reduce){.card.r-leg::after{animation:none}.card.enter{animation:none}#promo.show{animation:none}}
 </style>
 </head>
 <body>
@@ -175,24 +251,60 @@ h2.sub{color:var(--khaki)}
 
 <div id="menu">
   <div class="mwrap">
-    <div class="logo"><img id="logoImg" alt=""><div><h1>BLINDADOS</h1><p>Guerra de mazos · batallas de 3 minutos</p></div></div>
-    <div class="bar"><span>Tu mazo <span id="deckCount">8/8</span></span><span id="avg"></span></div>
-    <div id="pool"></div>
-    <div id="info"></div>
-    <label class="field">Tu nombre<input id="nick" maxlength="12" placeholder="Comandante" autocomplete="nickname"></label>
-    <div class="online">
-      <h2>Online con amigos</h2>
-      <button class="btn blue" id="createRoom">Crear sala</button>
-      <div class="joinrow"><input id="codeIn" maxlength="5" placeholder="CÓDIGO" autocapitalize="characters" autocomplete="off" aria-label="Código de sala"><button class="btn" id="joinRoom">Unirse</button></div>
-      <div id="mmsg" role="status"></div>
-    </div>
-    <h2 class="sub">Práctica</h2>
-    <div class="diffs">Rival IA:
-      <button data-d="facil">Recluta</button><button data-d="normal" class="on">Sargento</button><button data-d="dificil">General</button>
-    </div>
-    <button class="btn alt" id="play">Jugar contra la IA</button>
-    <p class="help">Arrastra una carta al campo, o tócala y luego toca el mapa. Solo puedes desplegar en tu mitad; si destruyes un búnker enemigo, ganas terreno en ese carril. Cada búnker vale una corona y el Cuartel General, la victoria. Teclas 1-4 para elegir carta.</p>
+    <header class="topbar">
+      <div class="prof"><img id="topIns" class="ins" alt=""><div><div id="topName">Comandante</div><div class="rk" id="topRank">Recluta</div></div></div>
+      <div class="cups" title="Copas"><img class="cupic" alt=""><span id="cupNum">0</span></div>
+    </header>
+
+    <section id="scrHome" class="scr">
+      <div class="logo small"><img id="logoImg" alt=""><div><h1>BLINDADOS</h1><p>Guerra de mazos · asciende hasta Mariscal</p></div></div>
+      <div class="rankcard" id="rankCard" role="button" tabindex="0" aria-label="Ver rangos">
+        <img id="rankIns" class="ins big" alt="">
+        <div class="rkinfo">
+          <div class="rkname" id="rankName">Recluta</div>
+          <div class="prog"><div id="rankFill"></div><span id="rankTxt">0 / 60</span></div>
+          <div class="next" id="rankNext"></div>
+        </div>
+      </div>
+      <h2 class="sub">Modo de juego</h2>
+      <div class="modes" id="modes"></div>
+      <p class="help" id="modeDesc"></p>
+      <button class="btn big" id="play">¡BATALLA!</button>
+      <p class="help c" id="playSub">Contra la IA · gana copas para ascender</p>
+      <label class="field">Tu nombre<input id="nick" maxlength="12" placeholder="Comandante" autocomplete="nickname"></label>
+      <div class="online">
+        <h2>Online con amigos</h2>
+        <button class="btn blue" id="createRoom">Crear sala</button>
+        <div class="joinrow"><input id="codeIn" maxlength="5" placeholder="CÓDIGO" autocapitalize="characters" autocomplete="off" aria-label="Código de sala"><button class="btn" id="joinRoom">Unirse</button></div>
+        <div id="mmsg" role="status"></div>
+      </div>
+      <h2 class="sub">Entrenamiento</h2>
+      <div class="diffs">Rival IA:
+        <button data-d="facil">Recluta</button><button data-d="normal" class="on">Sargento</button><button data-d="dificil">General</button>
+      </div>
+      <button class="btn alt" id="practice">Practicar (sin copas)</button>
+      <p class="help">Arrastra una carta al campo, o tócala y luego toca el mapa. Solo puedes desplegar en tu mitad; si destruyes un búnker enemigo, ganas terreno en ese carril. Cada búnker vale una corona y el Cuartel General, la victoria. Teclas 1-4 para elegir carta.</p>
+    </section>
+
+    <section id="scrDeck" class="scr hide">
+      <div class="bar"><span>Tu mazo <span id="deckCount">8/8</span></span><span id="avg"></span></div>
+      <div id="pool"></div>
+      <div id="info"></div>
+      <p class="help">Toca una carta para añadirla o quitarla del mazo. Las cartas con candado se desbloquean al ascender de rango.</p>
+    </section>
+
+    <section id="scrRanks" class="scr hide">
+      <div class="stats3"><div><b id="stW">0</b>Victorias</div><div><b id="stL">0</b>Derrotas</div><div><b id="stB">0</b>Récord de copas</div></div>
+      <h2 class="sub">Escalafón</h2>
+      <div id="rankList"></div>
+      <p class="help">Ganar da entre 25 y 31 copas según las coronas; perder resta 14. Nunca bajas de rango: el mínimo de copas de tu rango está protegido. La IA de las batallas se vuelve más dura a medida que asciendes.</p>
+    </section>
   </div>
+  <nav id="tabs">
+    <button data-s="scrDeck"><img alt="">Mazo</button>
+    <button data-s="scrHome" class="on"><img alt="">Batalla</button>
+    <button data-s="scrRanks"><img alt="">Rangos</button>
+  </nav>
 </div>
 
 <div id="lobby" class="hide"><div class="endbox">
@@ -207,8 +319,10 @@ h2.sub{color:var(--khaki)}
   <h2 id="endTitle">¡Victoria!</h2>
   <p id="endSub"></p>
   <div class="score"><span style="color:var(--blue)">TÚ</span><span class="crowns" id="endP"></span><span>—</span><span class="crowns" id="endE"></span><span style="color:var(--red)" id="endName">RIVAL</span></div>
+  <div id="endCups"></div>
+  <div id="promo" class="hide"></div>
   <button class="btn" id="again">Revancha</button>
-  <button class="btn alt" id="toMenu">Cambiar mazo</button>
+  <button class="btn alt" id="toMenu">Volver al cuartel</button>
 </div></div>
 <div id="floatCard"></div>
 
@@ -314,6 +428,57 @@ plane:[
 '.......kk.......','......kTTk......','......kTTk......','......kTTk......','.kkkkkkTTkkkkkk.','kTTTTTTLLTTTTTTk',
 'kttttttTTttttttk','.kkkkkkTTkkkkkk.','......kTTk......','......kTTk......','.....kkTTkk.....','....kTTttTTk....',
 '....kkkkkkkk....','................','................','................'],
+sniper:[
+'................','......kkkk......','.....kTTTTk.....','.....kTLTTk.....','.....kssssk.....','.....kskskk.....',
+'......kssk......','kkkkkkkTTTkk....','mmmmmmkTTTkTk...','kkkkkgkTttkTk...','....kkkTTTkk....','.....ktkktk.....',
+'.....kbkkbk.....','......k..k......','................','................'],
+jeepBody:[
+'................','.....kkkkkk.....','....kTTTTTTk....','...kkTLLLLTkk...','..kGkTwwwwTkGk..','..kGkTTTTTTkGk..',
+'...kkTTTTTTkk...','....kTttttTk....','....kTTTTTTk....','...kkTTTTTTkk...','..kGkTTTTTTkGk..','..kGkTttttTkGk..',
+'...kkTTTTTTkk...','....kkkkkkkk....','................','................'],
+jeepTur:[
+'................','................','................','.......kk.......','.......gk.......','.......gk.......',
+'......kggk......','......kGGk......','......kkkk......','................','................','................',
+'................','................','................','................'],
+drone:[
+'................','..kkk......kkk..','.kgggk....kgggk.','.kgGgk....kgGgk.','.kgggkk..kkgggk.','..kkk.kkkk.kkk..',
+'......kTTk......','.....kTLLTk.....','.....kTrrTk.....','......kTTk......','..kkk.kkkk.kkk..','.kgggkk..kkgggk.',
+'.kgGgk....kgGgk.','.kgggk....kgggk.','..kkk......kkk..','................'],
+missile:[
+'.......yy.......','......kook......','.....kgkkgk.....','....kgkmmkgk....','....kgkmmkgk....','.....kkmmkk.....',
+'......kmmk......','......krrk......','......kmmk......','......kmmk......','......kmmk......','......krrk......',
+'......kwmk......','.......kk.......','................','................'],
+medkit:[
+'................','.....kkkkkk.....','.....kk..kk.....','.kkkkkkkkkkkkkk.','.kwwwwwwwwwwwwk.','.kwwwwwrrwwwwwk.',
+'.kwwwwwrrwwwwwk.','.kwwwrrrrrrwwwk.','.kwwwrrrrrrwwwk.','.kwwwwwrrwwwwwk.','.kwwwwwrrwwwwwk.','.kmmmmmmmmmmmmk.',
+'.kkkkkkkkkkkkkk.','................','................','................'],
+chute:[
+'....kkkkkkkk....','..kkwwTTwwTTkk..','.kwwTTwwTTwwTTk.','kkkkkkkkkkkkkkkk','.k....k..k....k.','..k...k..k...k..',
+'...k..k..k..k...','....k.k..k.k....','.....kk..kk.....','......k..k......','................','................',
+'................','................','................','................'],
+bomber:[
+'.......kk.......','......kTTk......','......kTTk......','......kLTk......','..kk..kTTk..kk..','kkGGkkkTTkkkGGkk',
+'kTTTTTTTTTTTTTTk','kTLLTTTTTTTTLLTk','kttttttTTttttttk','.kkkkkkTTkkkkkk.','......kTTk......','......kTTk......',
+'....kkkTTkkk....','...kTTTttTTTk...','...kkkkkkkkkk...','................'],
+tdBody:[
+'................','.kkkkkkkkkkkkkk.','.kGGkTTTTTTkGGk.','.kGgkTLLLLTkgGk.','.kGGkTLttLTkGGk.','.kGgkTLttLTkgGk.',
+'.kGGkTTTTTTkGGk.','.kGgkTTTTTTkgGk.','.kGGkTttttTkGGk.','.kGgkTTTTTTkgGk.','.kGGkTTTTTTkGGk.','.kGgkTbbbbTkgGk.',
+'.kkkkkkkkkkkkkk.','................','................','................'],
+tdTur:[
+'.......kk.......','.......mk.......','.......mk.......','.......mk.......','.......mk.......','.......mk.......',
+'......kmmk......','.....kTTTtk.....','.....kTLTtk.....','.....kttttk.....','......kkkk......','................',
+'................','................','................','................'],
+barracks:[
+'.......kk.......','.......kyyyk....','.......kyyk.....','.......k........','...kkkkkkkkkk...','..kTTTTTTTTTTk..',
+'.kTLLLLLLLLLLTk.','kTTTTTTTTTTTTTTk','kggggggggggggggk','kgmmgggkkgggmmgk','kgmmgggkkgggmmgk','kgggggkbbkgggggk',
+'kgggggkbbkgggggk','kkkkkkkkkkkkkkkk','................','................'],
+trophy:[
+'..kkkkkkkk..','kkkyyyyyokkk','kykyyyyyokyk','kykyyyyyokyk','.kkyyyyyokk.','..kyyyyyok..',
+'...kyyyok...','....kyok....','....kyok....','...kkyokk...','..kyyyyook..','..kkkkkkkk..'],
+lock:[
+'..kkkk..','.kgmmgk.','.kk..kk.','.kk..kk.','kkkkkkkk','kyyyyyyk','kyykkyyk','kyyyyyyk','kkkkkkkk'],
+dice:[
+'kkkkkkkkk','kwwwwwwwk','kwkwwwkwk','kwwwwwwwk','kwwwkwwwk','kwwwwwwwk','kwkwwwkwk','kwwwwwwwk','kkkkkkkkk'],
 fuel:[
 '....kk....','...kyyk...','...kyok...','..kyoook..','..kyoook..','.kyoooook.','kyoooooook','kyoooooook','kooooooook','.kooooook.','..kkkkkk..'],
 crown:[
@@ -408,7 +573,108 @@ const CARDS={
   art:[['emp']],
   bg:'repeating-linear-gradient(135deg,#2a1b5c 0 6px,#4632a0 6px 8px)',
   spell:{radius:3,dmg:90,tower:.5,stun:2.5,delay:.35}},
+ francotirador:{name:'Francotirador',short:'TIRADOR',cost:3,rar:'rara',kind:'unit',type:'Terrestre',
+  desc:'Tirador de élite con un alcance enorme y disparos devastadores. Muy frágil: protégelo bien.',
+  art:[['sniper']],
+  bg:'repeating-linear-gradient(90deg,#3d4f2a 0 6px,#56693a 6px 9px,#2c3a1e 9px 14px)',
+  unit:{hp:260,dmg:190,rate:2.2,range:8,speed:1.1,r:.35,size:1.3,upright:true,body:'sniper',shot:'bullet'}},
+ jeep:{name:'Jeep Ametrallador',short:'JEEP',cost:2,rar:'común',kind:'unit',type:'Terrestre',
+  desc:'Todoterreno rapidísimo con ametralladora pesada. Dispara a tierra y aire; perfecto para rematar.',
+  art:[['jeepBody'],['jeepTur']],
+  bg:'linear-gradient(135deg,#8a7a4a 0 25%,#6e6038 25% 50%,#8a7a4a 50% 75%,#6e6038 75%) 0 0/16px 16px',
+  unit:{hp:380,dmg:28,rate:.3,range:4,speed:2.3,r:.5,size:1.4,tAir:true,body:'jeepBody',tur:'jeepTur',shot:'bullet'}},
+ paracaidistas:{name:'Paracaidistas',short:'PARAS',cost:4,rar:'épica',kind:'unit',type:'Terrestre',count:3,anywhere:true,
+  desc:'Tres soldados que se lanzan en paracaídas en CUALQUIER punto del campo (menos el río). Tardan en tocar tierra.',
+  art:[['chute',0,-3,.9],['soldier',0,4,.7]],
+  bg:'linear-gradient(#6fb3e8,#b9e0fa 70%,#5b9b3d 70%)',
+  unit:{hp:200,dmg:45,rate:.8,range:4,speed:1.3,r:.3,size:1.2,tAir:true,upright:true,chute:true,body:'soldier',shot:'bullet'}},
+ reparacion:{name:'Reparación',short:'REPARAR',cost:3,rar:'rara',kind:'spell',type:'Táctica',
+  desc:'Equipo de mecánicos y sanitarios: restaura 450 de vida a tus tropas en la zona y repara un poco tus búnkeres.',
+  art:[['medkit']],
+  bg:'repeating-linear-gradient(45deg,#1d6b3a 0 7px,#23824a 7px 14px)',
+  spell:{radius:3,heal:450,tower:.3,delay:.4}},
+ cazacarros:{name:'Cazacarros',short:'CAZACARROS',cost:4,rar:'rara',kind:'unit',type:'Terrestre',
+  desc:'Cañón antitanque de alta velocidad: x2,5 de daño contra blindados pesados. No dispara al aire.',
+  art:[['tdBody'],['tdTur']],
+  bg:'repeating-linear-gradient(0deg,#4f5a3a 0 5px,#3d4630 5px 10px)',
+  unit:{hp:900,dmg:160,rate:1.6,range:5,speed:1,r:.65,size:1.6,heavyMult:2.5,body:'tdBody',tur:'tdTur',shot:'shell'}},
+ dron:{name:'Drones Suicidas',short:'DRONES',cost:3,rar:'épica',kind:'unit',type:'Aéreo',count:3,
+  desc:'Tres drones kamikaze que vuelan hacia el edificio más cercano y explotan. Solo el fuego antiaéreo los para.',
+  art:[['drone',-3,-3,.7],['drone',4,1,.7],['drone',-2,5,.6]],
+  bg:'radial-gradient(circle,#0000 0 40%,#0e120b55 41%) 0 0/10px 10px,linear-gradient(#384a66,#1f2a3a)',
+  unit:{hp:90,dmg:260,rate:1,range:.4,speed:2.6,r:.3,size:1.1,air:true,onlyB:true,body:'drone',shot:'boom'}},
+ cuartel:{name:'Cuartel',short:'CUARTEL',cost:5,rar:'épica',kind:'building',type:'Edificio',
+  desc:'Barracón de campaña que recluta 2 fusileros cada 8 segundos. Se desmantela a los 40 segundos.',
+  art:[['barracks']],
+  bg:'linear-gradient(#0000 80%,#6b4a2b 80%) 0 0/100% 14px,#8e7a55',
+  unit:{hp:800,dmg:0,rate:1,range:0,r:.9,size:2,life:40,building:true,upright:true,spawnKey:'infanteria',spawnN:2,spawnEvery:8,body:'barracks'}},
+ misil:{name:'Misil Balístico',short:'MISIL',cost:6,rar:'legendaria',kind:'spell',type:'Táctica',
+  desc:'Impacto devastador en un área pequeña tras 2 segundos de aviso. Daña tierra y aire.',
+  art:[['missile']],
+  bg:'repeating-linear-gradient(-45deg,#1a1423 0 8px,#f2c14e 8px 16px)',
+  spell:{radius:1.8,dmg:1000,tower:.45,delay:2}},
+ bombardero:{name:'Bombardero',short:'BOMBARDERO',cost:7,rar:'legendaria',kind:'unit',type:'Aéreo',
+  desc:'Fortaleza volante que sobrevuela todo y arrasa edificios con bombas en área. Vulnerable al antiaéreo.',
+  art:[['bomber']],
+  bg:'linear-gradient(#0000 55%,#ffffff30 55% 65%,#0000 65%) 0 0/100% 22px,linear-gradient(#2d4f7c,#6d9fd6)',
+  unit:{hp:1400,dmg:330,rate:2.5,range:1.2,speed:.9,r:.8,size:2.4,air:true,onlyB:true,splash:1.3,body:'bomber',shot:'drop'}},
 };
+
+/* =====================================================================
+   RANGOS · copas y desbloqueos
+   ===================================================================== */
+const RANKS=[
+ {n:'Recluta',c:0},
+ {n:'Soldado',c:60,cards:['francotirador'],modes:['relampago']},
+ {n:'Cabo',c:150,cards:['jeep'],modes:['azar']},
+ {n:'Sargento',c:300,cards:['paracaidistas'],modes:['subita']},
+ {n:'Brigada',c:480,cards:['reparacion']},
+ {n:'Teniente',c:700,cards:['cazacarros'],modes:['triple']},
+ {n:'Capitán',c:950,cards:['dron']},
+ {n:'Comandante',c:1250,cards:['cuartel']},
+ {n:'Coronel',c:1600,cards:['misil']},
+ {n:'General',c:2000,cards:['bombardero']},
+ {n:'Mariscal',c:2500},
+];
+const UNLOCK={},MODE_UNLOCK={};
+RANKS.forEach((r,i)=>{(r.cards||[]).forEach(k=>UNLOCK[k]=i);(r.modes||[]).forEach(m=>MODE_UNLOCK[m]=i);});
+const MODES={
+ clasica:{name:'Clásica',icon:['crown'],time:180,desc:'3 minutos. Combustible x2 en el último minuto y prórroga si hay empate.'},
+ relampago:{name:'Relámpago',icon:['emp'],time:90,x2:true,desc:'Solo 90 segundos, pero con combustible x2 desde el principio.'},
+ azar:{name:'Mazo al azar',icon:['dice'],time:180,random:true,desc:'Ambos bandos reciben 8 cartas aleatorias entre las desbloqueadas. ¡A improvisar!'},
+ subita:{name:'Muerte súbita',icon:['bomb'],time:180,sudden:true,fuel0:10,desc:'Empiezas con el depósito lleno y el primer búnker que caiga decide la batalla.'},
+ triple:{name:'Triple',icon:['fuel'],time:180,mult:3,desc:'El combustible se recarga al triple de velocidad. Caos total de blindados.'},
+};
+function rankIdx(c){let i=0;RANKS.forEach((r,j)=>{if(c>=r.c)i=j;});return i;}
+const unlocked=(k,ri)=>(UNLOCK[k]||0)<=ri;
+const modeOpen=(m,ri)=>(MODE_UNLOCK[m]||0)<=ri;
+
+/* insignias pixel generadas: galones, estrellas y corona */
+function insSvg(i){
+  const g=[...Array(16)].map(()=>Array(16).fill('.'));
+  const inS=(x,y)=>{if(y<1||y>14)return false;const c=y>=12?y-11:0;return x>=1+c&&x<=13-c;};
+  const tier=i===0?0:i<=4?1:i<=8?2:3;
+  const pal=Object.assign({},PAL,{p:['#6b4a2b','#3f5a2a','#1f3558','#8f1d1d'][tier],P:['#8a6440','#587a3c','#33507e','#bf3030'][tier],w:'#dfe6ee'});
+  for(let y=0;y<16;y++)for(let x=0;x<16;x++){if(!inS(x,y))continue;
+    const edge=!inS(x-1,y)||!inS(x+1,y)||!inS(x,y-1)||!inS(x,y+1);
+    g[y][x]=edge?(i===10?'y':'k'):(!inS(x-2,y)||!inS(x,y-2)?'P':'p');}
+  const put=(x,y,c)=>{if(inS(x,y))g[y][x]=c;};
+  const chev=(y,c)=>{for(let d=0;d<4;d++)for(const t of [0,1]){put(7-d,y+d+t,c);put(7+d,y+d+t,c);}};
+  const star=(cx,cy,c)=>{put(cx,cy,c);put(cx-1,cy,c);put(cx+1,cy,c);put(cx,cy-1,c);put(cx,cy+1,c);};
+  const bigStar=(cx,cy,c)=>['..y..','.yyy.','yyyyy','.yyy.','.y.y.'].forEach((r,dy)=>[...r].forEach((ch,dx)=>{if(ch==='y')put(cx-2+dx,cy-2+dy,c);}));
+  const bar=(y,c)=>{for(let x=3;x<=11;x++)put(x,y,c);};
+  if(i===0)bar(7,'P');
+  if(i>=1&&i<=3)for(let n=0;n<i;n++)chev(2+n*3+(3-i)*1,'y');
+  if(i===4){bar(2,'y');bar(3,'o');chev(5,'y');chev(8,'y');}
+  if(i===5){star(4,7,'w');star(10,7,'w');}
+  if(i===6){star(7,4,'w');star(4,8,'w');star(10,8,'w');}
+  if(i===7)bigStar(7,7,'y');
+  if(i===8){star(4,5,'y');star(7,5,'y');star(10,5,'y');bar(9,'y');bar(10,'o');}
+  if(i===9){bigStar(4,7,'y');bigStar(10,7,'y');}
+  if(i===10){SP.crown.forEach((r,dy)=>[...r].forEach((ch,dx)=>{if(ch!=='.')put(3+dx,2+dy,ch);}));bigStar(7,11,'y');}
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="64" height="64" shape-rendering="crispEdges">${rects(g.map(r=>r.join('')),pal)}</svg>`;
+}
+const INS=RANKS.map((r,i)=>url(insSvg(i)));
 const ART={};for(const k in CARDS)ART[k]=url(artSvg(CARDS[k].art,palFor(0)));
 const RARCLS={'común':'','rara':'r-rara','épica':'r-epica','legendaria':'r-leg'};
 function cardEl(k){
@@ -437,7 +703,7 @@ let fuel=[5,5],crowns=[0,0],time=T0,overtime=false,doubleOn=false,gt=0,shakeM=0,
 let deckSel=new Set(['ligero','pesado','infanteria','artilleria','heli','aa','ingenieros','bombardeo']);
 let hand=[],queue=[];
 const AI={hand:[],queue:[],think:2};
-const AI_DECK=['ligero','pesado','infanteria','artilleria','heli','aa','torreta','bombardeo','lanzallamas','emp','ingenieros'];
+let AIC=DIFF.normal,MODE=null,ranked=false,modeSel='clasica';
 
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rnd=Math.random;
@@ -502,6 +768,7 @@ function canDeploy(team,key,x,y){
   if(y>14.9&&y<17.1)return false;
   if(x<.3||x>W-.3)return false;
   for(const t of ents)if(t.kind==='tower'&&t.alive&&Math.hypot(t.x-x,t.y-y)<t.r+.35)return false;
+  if(c.anywhere)return true;
   const lane=x<9?0:1;
   if(team===0){if(y>=17)return true;const b=towerOf(1,'bunker',lane);return !!b&&!b.alive&&y>=11;}
   if(y<=15)return true;const b=towerOf(0,'bunker',lane);return !!b&&!b.alive&&y<=21;
@@ -509,7 +776,7 @@ function canDeploy(team,key,x,y){
 function mkUnit(team,key,u,x,y,sp){
   const a=team?Math.PI/2:-Math.PI/2;
   return {id:++uid,team,key,x,y,kind:u.building?'building':'unit',def:u,hp:u.hp,maxHp:u.hp,r:u.r,alive:true,air:!!u.air,
-    ang:a,tang:a,cd:.5,target:null,retarget:0,spawn:sp,spawnT:sp,stun:0,flash:0,recoil:0,moving:false};
+    ang:a,tang:a,cd:.5,target:null,retarget:0,spawn:sp,spawnT:sp,stun:0,flash:0,recoil:0,moving:false,spT:1.5};
 }
 function deploy(team,key,x,y){
   const c=CARDS[key];if(fuel[team]<c.cost)return false;
@@ -517,7 +784,7 @@ function deploy(team,key,x,y){
   if(c.kind==='spell'){spells.push({key,team,x,y,t:0,s:c.spell,done:false});return true;}
   const n=c.count||1;
   const offs=n===1?[[0,0]]:n===3?[[0,-.5],[-.5,.4],[.5,.4]]:[[-.45,-.45],[.45,-.45],[-.45,.45],[.45,.45]];
-  offs.forEach((o,i)=>ents.push(mkUnit(team,key,c.unit,clamp(x+o[0],.3,W-.3),y+o[1],.9+i*.08)));
+  offs.forEach((o,i)=>ents.push(mkUnit(team,key,c.unit,clamp(x+o[0],.3,W-.3),y+o[1],(c.unit.chute?2.2:.9)+i*.08)));
   return true;
 }
 function valid(e,t){
@@ -571,13 +838,14 @@ function kill(t){
   crowns[w]++;updCrowns();
   const hq=towerOf(t.team,'hq');if(hq)hq.active=true;
   EM('x',t.team);killBanner(t.team);
-  if(overtime)endGame();
+  if(overtime||MODE.sudden)endGame();
 }
 function fire(e,t){
   const d=e.def,a=Math.atan2(t.y-e.y,t.x-e.x),mr=(d.size||1)*.42;
   const mx=e.x+Math.cos(a)*mr,my=e.y+Math.sin(a)*mr;
   e.recoil=1;
-  const mult=t.air&&d.airMult?d.airMult:1;
+  let mult=t.air&&d.airMult?d.airMult:1;
+  if(d.heavyMult&&t.kind==='unit'&&t.maxHp>=900)mult=d.heavyMult;
   switch(d.shot){
     case 'shell':projs.push({k:'shell',x:mx,y:my,t,tx:t.x,ty:t.y,team:e.team,dmg:d.dmg*mult,sp:13,a});muzzle(mx,my,a,e.kind==='tower'?1.2:1);break;
     case 'bullet':hit(t,d.dmg*mult);
@@ -587,6 +855,7 @@ function fire(e,t){
     case 'flame':{const dd=Math.min(d.range,Math.hypot(t.x-e.x,t.y-e.y));
       splash(e.x+Math.cos(a)*dd,e.y+Math.sin(a)*dd,d.splash,d.dmg,e.team,{});flames(mx,my,a);}break;
     case 'boom':splash(t.x,t.y,1,d.dmg*.3,e.team,{onlyStruct:true});hit(t,d.dmg*.7);e.alive=false;boom(e.x,e.y,1.2);break;
+    case 'drop':splash(t.x,t.y,d.splash,d.dmg,e.team,{});boom(t.x+(rnd()-.5)*.6,t.y+(rnd()-.5)*.6,1.4);break;
   }
 }
 function updEnt(e,dt){
@@ -597,6 +866,13 @@ function updEnt(e,dt){
   if(e.kind==='tower'&&e.tw==='hq'&&!e.active)return;
   if(d.life){e.hp-=e.maxHp/d.life*dt;if(e.hp<=0){kill(e);return;}}
   if(e.stun>0){e.stun-=dt;e.moving=false;return;}
+  if(d.spawnKey){
+    e.spT-=dt;
+    if(e.spT<=0){e.spT=d.spawnEvery;const u=CARDS[d.spawnKey].unit,dy=e.team?1.4:-1.4;
+      for(let i=0;i<d.spawnN;i++)ents.push(mkUnit(e.team,d.spawnKey,u,clamp(e.x+(i-.5)*.9,.3,W-.3),e.y+dy,.45));
+      dust(e.x,e.y+dy,1);}
+    return;
+  }
   e.cd=Math.max(0,e.cd-dt);
   e.retarget-=dt;
   let t=e.target;
@@ -652,7 +928,15 @@ function updSpells(dt){
     sp.t+=dt;
     if(!sp.done&&sp.t>=sp.s.delay){
       sp.done=true;
-      if(sp.key==='bombardeo'){
+      if(sp.s.heal){
+        for(const t of ents){if(!t.alive||t.team!==sp.team||t.spawn>0)continue;
+          if(Math.hypot(t.x-sp.x,t.y-sp.y)<=sp.s.radius+t.r*.7)t.hp=Math.min(t.maxHp,t.hp+sp.s.heal*(t.kind==='tower'?sp.s.tower:1));}
+        healFx(sp.x,sp.y,sp.s.radius);
+      }else if(sp.key==='misil'){
+        splash(sp.x,sp.y,sp.s.radius,sp.s.dmg,sp.team,{air:true,tower:sp.s.tower});
+        boom(sp.x,sp.y,2.4);for(let i=0;i<4;i++){const a=rnd()*6.28;boom(sp.x+Math.cos(a)*.9,sp.y+Math.sin(a)*.9,1);}
+        shake(10);
+      }else if(sp.key==='bombardeo'){
         splash(sp.x,sp.y,sp.s.radius,sp.s.dmg,sp.team,{air:true,tower:sp.s.tower});
         for(let i=0;i<7;i++){const a=rnd()*6.28,r=rnd()*sp.s.radius*.8;boom(sp.x+Math.cos(a)*r,sp.y+Math.sin(a)*r,1);}
         shake(7);
@@ -667,6 +951,8 @@ function updSpells(dt){
 function tracer(x1,y1,x2,y2,c){EM('t',Math.round(x1),Math.round(y1),Math.round(x2),Math.round(y2),c);fx.push({k:'tr',x1,y1,x2,y2,t:0,T:.07,c});}
 function empFx(x,y,r){EM('e',r2(x),r2(y),r);fx.push({k:'ring',x:x*TILE,y:y*TILE,r:r*TILE,t:0,T:.5,c:'#9ff0ff'});
   for(let i=0;i<24;i++){const a=rnd()*6.28,v=80+rnd()*140;fx.push({k:'p',x:x*TILE,y:y*TILE,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:0,T:.5,c:rnd()<.5?'#9ff0ff':'#ffffff',s:4,g:0});}}
+function healFx(x,y,r){EM('h',r2(x),r2(y),r);fx.push({k:'ring',x:x*TILE,y:y*TILE,r:r*TILE,t:0,T:.6,c:'#86efac'});
+  for(let i=0;i<18;i++){const a=rnd()*6.28,d=rnd()*r*TILE;fx.push({k:'p',x:x*TILE+Math.cos(a)*d,y:y*TILE+Math.sin(a)*d,vx:0,vy:-40-rnd()*40,t:0,T:.7+rnd()*.3,c:rnd()<.6?'#86efac':'#ffffff',s:4,g:0});}}
 function killBanner(team){banner(1-team===ME?'¡Búnker enemigo destruido!':'¡Has perdido un búnker!');}
 function shake(m){shakeM=Math.max(shakeM,m);}
 function muzzle(x,y,a,s){EM('m',r2(x),r2(y),r2(a),s);fx.push({k:'flash',x:x*TILE,y:y*TILE,t:0,T:.07,r:7*s});
@@ -710,13 +996,14 @@ function pickLane(){
 }
 function aiUpdate(dt){
   AI.think-=dt;if(AI.think>0)return;
-  AI.think=(.5+rnd()*.7)*DIFF[diff].think;
+  AI.think=(.5+rnd()*.7)*AIC.think;
   const f=fuel[1];
   const afford=AI.hand.map((k,i)=>({k,i,c:CARDS[k]})).filter(o=>o.c.cost<=f);
   if(!afford.length)return;
   for(const o of afford.filter(o=>o.c.kind==='spell')){
     const {best,bv}=spellSpot(o.c.spell.radius);
-    if(best&&bv>=(o.k==='bombardeo'?3.2:2.6)&&aiPlay(o.i,best.x,best.y))return;
+    if(o.c.spell.heal)continue;
+    if(best&&bv>=(o.k==='emp'?2.6:o.k==='misil'?3.6:3.2)&&aiPlay(o.i,best.x,best.y))return;
   }
   const threats=ents.filter(e=>e.alive&&e.team===0&&e.kind==='unit'&&e.spawn<=0&&e.y<19.5).sort((a,b)=>a.y-b.y);
   if(threats.length){
@@ -734,10 +1021,11 @@ function aiUpdate(dt){
   const tank=ents.find(e=>e.alive&&e.team===1&&e.kind==='unit'&&e.def.onlyB&&e.maxHp>1000&&e.spawn<=0&&e.y<17);
   if(tank&&f>=3){const o=afford.find(o=>o.c.kind==='unit'&&!o.c.unit.onlyB);
     if(o&&aiPlay(o.i,clamp(tank.x,.6,W-.6),clamp(tank.y-1.6,1,14.5)))return;}
-  if(f>=Math.min(9.6,DIFF[diff].aggr+rnd()*2)){
+  if(f>=Math.min(9.6,AIC.aggr+rnd()*2)){
     const units=afford.filter(o=>o.c.kind==='unit');if(!units.length)return;
     const o=units[rnd()*units.length|0],lane=pickLane();
     const heavy=o.c.unit.onlyB&&o.c.unit.hp>1000;
+    if(o.c.anywhere){const b=towerOf(0,'bunker',lane===BR[0]?0:1);if(aiPlay(o.i,lane,b.alive?22.8:25.5))return;}
     aiPlay(o.i,clamp(lane+(rnd()-.5)*1.5,.6,W-.6),heavy?2:13.8-rnd()*3)||aiPlay(o.i,lane,12);
   }
 }
@@ -756,7 +1044,7 @@ const toWorld=p=>({x:VX(p.x),y:VY(p.y)});
 function drawImgC(img,x,y,s,rot){ctx.save();ctx.translate(x,y);if(rot)ctx.rotate(rot);ctx.drawImage(img,-s/2,-s/2,s,s);ctx.restore();}
 function drawUnit(e){
   const d=e.def,s=d.size*TILE;let px=PX(e.x),py=PY(e.y);
-  const drop=e.spawn>0?Math.pow(e.spawn/e.spawnT,2)*TILE*7:0,hover=e.air?10+Math.sin(gt*3+e.id)*2:0;
+  const drop=e.spawn>0?(d.chute?e.spawn/e.spawnT*TILE*9:Math.pow(e.spawn/e.spawnT,2)*TILE*7):0,hover=e.air?10+Math.sin(gt*3+e.id)*2:0;
   ctx.fillStyle='rgba(0,0,0,.3)';ctx.beginPath();
   const shr=e.spawn>0?1-e.spawn/e.spawnT*.6:1;
   ctx.ellipse(px+(e.air?10:0),py+(e.air?14:s*.22),s*.34*shr,s*.13*shr,0,0,Math.PI*2);ctx.fill();
@@ -781,6 +1069,8 @@ function drawUnit(e){
       ctx.drawImage(IMG[tc][d.tur],-s/2,-s/2,s,s);ctx.restore();}
   }
   ctx.globalAlpha=1;
+  if(d.chute&&e.spawn>0){const cs=s*1.5,sw=Math.sin(gt*4+e.id)*.12;ctx.save();ctx.translate(px,py+s*.15);ctx.rotate(sw);
+    ctx.drawImage(IMG[tc].chute,-cs/2,-cs,cs,cs);ctx.restore();}
   if(e.stun>0)stunFx(px,py-s*.45);
 }
 function stunFx(x,y){ctx.fillStyle=(Math.floor(gt*12)%2)?'#9ff0ff':'#ffffff';
@@ -821,9 +1111,16 @@ function drawSpells(){
   for(const sp of spells){
     const px=PX(sp.x),py=PY(sp.y),r=sp.s.radius*TILE,mine=CT(sp.team)===0;
     if(!sp.done){
-      ctx.strokeStyle=sp.key==='emp'?'rgba(159,240,255,.9)':'rgba(255,90,90,.9)';ctx.lineWidth=4;ctx.setLineDash([8,8]);
+      const col=sp.key==='emp'?'159,240,255':sp.s.heal?'134,239,172':'255,90,90';
+      ctx.strokeStyle=`rgba(${col},.9)`;ctx.lineWidth=4;ctx.setLineDash([8,8]);
       ctx.lineDashOffset=-gt*40;ctx.beginPath();ctx.arc(px,py,r*(.9+Math.sin(gt*12)*.05),0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
-      ctx.fillStyle=sp.key==='emp'?'rgba(159,240,255,.12)':'rgba(255,60,60,.12)';ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=`rgba(${col},.12)`;ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.fill();
+      if(sp.key==='misil'){
+        ctx.fillStyle=(Math.floor(gt*8)%2)?'#ff5d5d':'#ffffff';
+        ctx.fillRect(px-2,py-r-6,4,12);ctx.fillRect(px-2,py+r-6,4,12);ctx.fillRect(px-r-6,py-2,12,4);ctx.fillRect(px+r-6,py-2,12,4);
+        const fall=(sp.s.delay-sp.t)/.7;
+        if(fall<1)drawImgC(IMG[CT(sp.team)].missile,px,py-fall*260,TILE*1.6,0);
+      }
     }
     if(sp.key==='bombardeo'){
       const p=sp.t/(sp.s.delay+.9),sy=py+(mine?1-2*p:2*p-1)*7*TILE,s=TILE*2.6,rot=mine?0:Math.PI;
@@ -905,7 +1202,7 @@ function updHUD(){
   [...handEl.children].forEach((el,i)=>{const c=CARDS[hand[i]],ok=f>=c.cost;el.classList.toggle('off',!ok);
     el.querySelector('.fillov').style.height=ok?'0%':((1-f/c.cost)*100)+'%';});
   fuelFill.style.width=f*10+'%';fuelNum.textContent=Math.floor(f);
-  $('#x2').classList.toggle('on',doubleOn);
+  $('#x2').classList.toggle('on',fmult()>1);$('#x2').textContent='x'+fmult();
   const t=Math.max(0,Math.ceil(time)),tm=$('#timer');
   tm.innerHTML=`${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}${overtime?'<small>Prórroga</small>':''}`;
   tm.classList.toggle('ot',overtime);
@@ -956,29 +1253,92 @@ function resize(){
 }
 window.addEventListener('resize',resize);
 
-/* ---------- menú ---------- */
+/* ---------- guardado local (copas, estadísticas y mazo) ---------- */
 const ALL=Object.keys(CARDS);
+const SAVE={cups:0,best:0,w:0,l:0,deck:null,mode:'clasica'};
+try{Object.assign(SAVE,JSON.parse(localStorage.getItem('blindados-save')||'{}'));}catch(e){}
+SAVE.cups=Math.max(0,+SAVE.cups||0);
+function store(){SAVE.deck=[...deckSel];SAVE.mode=modeSel;try{localStorage.setItem('blindados-save',JSON.stringify(SAVE));}catch(e){}}
+if(Array.isArray(SAVE.deck)){const d=SAVE.deck.filter(k=>CARDS[k]&&unlocked(k,rankIdx(SAVE.cups)));if(d.length)deckSel=new Set(d.slice(0,8));}
+if(MODES[SAVE.mode]&&modeOpen(SAVE.mode,rankIdx(SAVE.cups)))modeSel=SAVE.mode;
+const CUP=url(svgOf([SP.trophy],PAL)),LOCK=url(svgOf([SP.lock],PAL));
+
+/* ---------- menú ---------- */
 function renderMenu(){
-  const g=$('#pool');g.innerHTML='';
-  ALL.forEach(k=>{const el=cardEl(k);el.tabIndex=0;if(deckSel.has(k))el.classList.add('in');
-    const act=()=>{if(deckSel.has(k))deckSel.delete(k);else if(deckSel.size<8)deckSel.add(k);showInfo(k,deckSel.size>=8&&!deckSel.has(k));renderMenu();g.children[ALL.indexOf(k)].focus({preventScroll:true});};
+  const g=$('#pool'),ri=rankIdx(SAVE.cups);g.innerHTML='';
+  ALL.forEach(k=>{const el=cardEl(k);el.tabIndex=0;
+    const open=unlocked(k,ri);
+    if(!open){el.classList.add('lock');el.querySelector('.cname').remove();
+      el.insertAdjacentHTML('beforeend',`<img class="lockic" src="${LOCK}" alt=""><div class="lockrk">${RANKS[UNLOCK[k]].n.toUpperCase()}</div>`);}
+    else if(deckSel.has(k))el.classList.add('in');
+    const act=()=>{
+      if(open){if(deckSel.has(k))deckSel.delete(k);else if(deckSel.size<8)deckSel.add(k);store();}
+      showInfo(k,open&&deckSel.size>=8&&!deckSel.has(k));renderMenu();g.children[ALL.indexOf(k)].focus({preventScroll:true});};
     el.addEventListener('click',act);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act();}});
     g.appendChild(el);});
   $('#deckCount').textContent=deckSel.size+'/8';
   const avg=[...deckSel].reduce((s,k)=>s+CARDS[k].cost,0)/(deckSel.size||1);
   $('#avg').textContent='Coste medio '+avg.toFixed(1);
-  const ok=deckSel.size===8;
-  $('#play').disabled=!ok;$('#createRoom').disabled=!ok;$('#joinRoom').disabled=!ok;
+  const ok=deckSel.size===8||MODES[modeSel].random;
+  $('#play').disabled=!ok;$('#practice').disabled=!ok;$('#createRoom').disabled=!ok;$('#joinRoom').disabled=deckSel.size!==8;
+  $('#playSub').textContent=ok?'Contra la IA · gana copas para ascender':'Completa tu mazo ('+deckSel.size+'/8) en la pestaña Mazo';
+  renderProfile();renderModes();renderRanks();
 }
+function renderProfile(){
+  const ri=rankIdx(SAVE.cups),r=RANKS[ri],nx=RANKS[ri+1];
+  $('#topIns').src=INS[ri];$('#rankIns').src=INS[ri];
+  $('#topName').textContent=myName();$('#topRank').textContent=r.n;$('#rankName').textContent=r.n;$('#cupNum').textContent=SAVE.cups;
+  if(nx){const f=(SAVE.cups-r.c)/(nx.c-r.c);$('#rankFill').style.width=(f*100)+'%';$('#rankTxt').textContent=SAVE.cups+' / '+nx.c;
+    const rw=[...(nx.cards||[]).map(k=>CARDS[k].name),...(nx.modes||[]).map(m=>'modo '+MODES[m].name)];
+    $('#rankNext').innerHTML=`Siguiente: <b>${nx.n}</b>${rw.length?' · desbloquea '+rw.join(' y '):''}`;}
+  else{$('#rankFill').style.width='100%';$('#rankTxt').textContent=SAVE.cups+' copas';$('#rankNext').innerHTML='<b>Rango máximo.</b> Eres leyenda de los blindados.';}
+  $('#stW').textContent=SAVE.w;$('#stL').textContent=SAVE.l;$('#stB').textContent=SAVE.best;
+}
+function renderModes(){
+  const ri=rankIdx(SAVE.cups),box=$('#modes');box.innerHTML='';
+  for(const m in MODES){const M=MODES[m],open=modeOpen(m,ri),b=document.createElement('button');
+    b.className=(m===modeSel?'on ':'')+(open?'':'locked');
+    b.innerHTML=`<img src="${url(svgOf([SP[M.icon[0]]],PAL))}" alt="">${M.name}${open?'':`<img class="lk" src="${LOCK}" alt="">`}`;
+    b.setAttribute('aria-pressed',m===modeSel);
+    b.addEventListener('click',()=>{
+      if(!open){$('#modeDesc').textContent=`${M.name}: se desbloquea al llegar a ${RANKS[MODE_UNLOCK[m]].n} (${RANKS[MODE_UNLOCK[m]].c} copas).`;return;}
+      modeSel=m;store();renderMenu();});
+    box.appendChild(b);}
+  $('#modeDesc').textContent=MODES[modeSel].desc;
+}
+function renderRanks(){
+  const ri=rankIdx(SAVE.cups),box=$('#rankList');box.innerHTML='';
+  RANKS.forEach((r,i)=>{const rw=[...(r.cards||[]).map(k=>CARDS[k].name),...(r.modes||[]).map(m=>'Modo '+MODES[m].name)];
+    const d=document.createElement('div');d.className='rrow'+(i===ri?' cur':i>ri?' fut':'');
+    d.innerHTML=`<img class="ins" src="${INS[i]}" alt=""><div class="rn">${r.n}<small>${rw.length?rw.join(' · '):i===0?'Mazo inicial: 11 cartas':'Insignia de Mariscal'}</small></div>
+      <div class="rc">${r.c}<img src="${CUP}" alt="copas"></div>${i===ri?'<span class="tag">TÚ</span>':''}`;
+    box.appendChild(d);});
+}
+function showTab(id){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('hide',s.id!==id));
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
+  $('#menu').scrollTop=0;
+}
+document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.s)));
+$('#rankCard').addEventListener('click',()=>showTab('scrRanks'));
+$('#rankCard').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showTab('scrRanks');}});
+{const t=document.querySelectorAll('#tabs button img');
+  t[0].src=url(artSvg([['lightBody',-3,-2,.7],['lightTur',-3,-2,.7],['soldier',4,3,.7]],palFor(0)));
+  t[1].src=url(artSvg([['heavyBody'],['heavyTur']],palFor(0)));
+  t[2].src=INS[4];}
+document.querySelectorAll('.cupic').forEach(i=>i.src=CUP);
 const spd=v=>v>=2.2?'Muy rápida':v>=1.6?'Rápida':v>=1.1?'Media':'Lenta';
 function showInfo(k,full){
   const c=CARDS[k];let st='';
   if(c.unit){const u=c.unit;
-    const obj=u.onlyB?'Solo edificios':u.tAir?(u.airMult?'Aire (x4) y tierra':'Tierra y aire'):'Solo tierra';
-    st=`<span>Vida <b>${u.hp}${c.count?' x'+c.count:''}</b></span><span>Daño <b>${u.dmg}${u.splash?' en área':''}</b></span>
-      <span>Alcance <b>${u.range}</b></span><span>${u.building?'Duración <b>'+u.life+' s</b>':'Velocidad <b>'+spd(u.speed)+'</b>'}</span><span>Objetivo <b>${obj}</b></span><span>Cadencia <b>${u.rate} s</b></span>`;}
-  else{const s=c.spell;st=`<span>Radio <b>${s.radius}</b></span><span>Daño <b>${s.dmg}</b></span>${s.stun?`<span>Inmoviliza <b>${s.stun} s</b></span>`:''}<span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`;}
-  $('#info').innerHTML=`<h3>${c.name}</h3><div class="meta">${c.type} · ${c.rar} · ${c.cost} de combustible</div><p>${c.desc}</p><div class="stats">${st}</div>${full?'<p style="color:var(--fuel2)">Tu mazo ya tiene 8 cartas. Quita una para añadir esta.</p>':''}`;
+    if(u.spawnKey)st=`<span>Vida <b>${u.hp}</b></span><span>Duración <b>${u.life} s</b></span><span>Recluta <b>${u.spawnN} fusileros</b></span><span>Cada <b>${u.spawnEvery} s</b></span>`;
+    else{const obj=u.onlyB?'Solo edificios':u.tAir?(u.airMult?'Aire (x4) y tierra':'Tierra y aire'):'Solo tierra';
+    st=`<span>Vida <b>${u.hp}${c.count?' x'+c.count:''}</b></span><span>Daño <b>${u.dmg}${u.splash?' en área':''}${u.heavyMult?' (x'+String(u.heavyMult).replace('.',',')+' a blindados)':''}</b></span>
+      <span>Alcance <b>${u.range}</b></span><span>${u.building?'Duración <b>'+u.life+' s</b>':'Velocidad <b>'+spd(u.speed)+'</b>'}</span><span>Objetivo <b>${obj}</b></span><span>Cadencia <b>${u.rate} s</b></span>${c.anywhere?'<span>Despliegue <b>Cualquier zona</b></span>':''}`;}}
+  else{const s=c.spell;st=s.heal?`<span>Radio <b>${s.radius}</b></span><span>Repara <b>${s.heal}</b></span><span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`
+    :`<span>Radio <b>${s.radius}</b></span><span>Daño <b>${s.dmg}</b></span>${s.stun?`<span>Inmoviliza <b>${s.stun} s</b></span>`:''}<span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`;}
+  const lk=unlocked(k,rankIdx(SAVE.cups))?'':`<p style="color:var(--fuel2)">Bloqueada: se desbloquea al llegar a ${RANKS[UNLOCK[k]].n} (${RANKS[UNLOCK[k]].c} copas).</p>`;
+  $('#info').innerHTML=`<h3>${c.name}</h3><div class="meta">${c.type} · ${c.rar} · ${c.cost} de combustible</div><p>${c.desc}</p><div class="stats">${st}</div>${lk}${full?'<p style="color:var(--fuel2)">Tu mazo ya tiene 8 cartas. Quita una para añadir esta.</p>':''}`;
 }
 document.querySelectorAll('.diffs button').forEach(b=>b.addEventListener('click',()=>{diff=b.dataset.d;document.querySelectorAll('.diffs button').forEach(x=>x.classList.toggle('on',x===b));}));
 
@@ -989,7 +1349,7 @@ const NET={role:'off',ch:null,code:'',id:Math.random().toString(36).slice(2,10),
   ready:{me:false,peer:false},seq:0,lastSeq:0,pending:[],hostSeen:false,left:false,joinedAt:0,sb:null};
 const SNAP_HZ=12;
 function EM(...a){if(NET.role==='host'&&state==='play'){NET.ev.push(a);if(NET.ev.length>400)NET.ev.shift();}}
-const EVF={b:boom,m:muzzle,s:spark,f:flames,d:dust,t:tracer,e:empFx,k:shake,x:killBanner};
+const EVF={b:boom,m:muzzle,s:spark,f:flames,d:dust,t:tracer,e:empFx,h:healFx,k:shake,x:killBanner};
 function myName(){return ($('#nick').value.trim()||'Comandante').slice(0,12);}
 function sbClient(){
   if(NET.sb)return NET.sb;
@@ -1029,7 +1389,7 @@ function onPresence(){
     if(!NET.peer){
       const g=others.filter(o=>o.role==='guest').sort((a,b)=>a.at-b.at)[0];
       if(g){NET.peer=g.k;NET.peerName=g.name||'Rival';lobbyStatus(NET.peerName+' se ha unido. ¡Empieza la batalla!');
-        setTimeout(()=>{if(NET.role!=='host')return;netSend('start',{name:myName()});startGame('host');},900);}
+        setTimeout(()=>{if(NET.role!=='host')return;netSend('start',{name:myName(),mode:modeSel});startGame('host');},900);}
     }else if(!others.some(o=>o.k===NET.peer))peerLeft();
   }else if(NET.role==='guest'){
     const h=others.find(o=>o.role==='host');
@@ -1047,7 +1407,7 @@ function peerLeft(){
   else lobbyStatus('Tu rival ha salido de la sala.');
 }
 function onNet(ev,p){
-  if(ev==='start'){if(NET.role==='guest'&&state!=='play'){NET.peerName=p.name||NET.peerName;startGame('guest');}}
+  if(ev==='start'){if(NET.role==='guest'&&state!=='play'){NET.peerName=p.name||NET.peerName;startGame('guest',p.mode);}}
   else if(ev==='snap'){if(NET.role==='guest')applySnap(p);}
   else if(ev==='deploy'){
     if(NET.role!=='host'||state!=='play')return;
@@ -1060,7 +1420,7 @@ function onNet(ev,p){
   else if(ev==='rematch'){NET.ready.peer=true;if(state==='end')toast('Tu rival quiere la revancha');tryRematch();}
 }
 function tryRematch(){
-  if(NET.role==='host'&&NET.ready.me&&NET.ready.peer){netSend('start',{name:myName()});startGame('host');}
+  if(NET.role==='host'&&NET.ready.me&&NET.ready.peer){netSend('start',{name:myName(),mode:modeSel});startGame('host');}
 }
 const r2=v=>Math.round(v*100)/100;
 function buildSnap(){
@@ -1094,7 +1454,7 @@ function applySnap(s){
 }
 function guestTick(dt){
   gt+=dt;time=Math.max(0,time-dt);
-  fuel[1]=Math.min(10,fuel[1]+dt/2.8*(doubleOn?2:1));
+  fuel[1]=Math.min(10,fuel[1]+dt/2.8*fmult());
   const k=Math.min(1,dt*14);
   for(const e of ents){
     if(e.nx!==undefined){e.x+=(e.nx-e.x)*k;e.y+=(e.ny-e.y)*k;}
@@ -1113,49 +1473,83 @@ function guestTick(dt){
 /* =====================================================================
    PARTIDA
    ===================================================================== */
-function startGame(mode){
+const fmult=()=>MODE.mult||(doubleOn?2:1);
+function rankAI(i){const f=i/(RANKS.length-1);return {regen:.72+f*.6,think:1.5-f*.85,aggr:8.8-f*2.8};}
+function startGame(mode,mkey){
   mode=mode||'off';
   ME=mode==='guest'?1:0;FL=ME===1;
-  ents=[];projs=[];fx=[];spells=[];uid=0;fuel=[5,5];crowns=[0,0];time=T0;overtime=false;doubleOn=false;gt=0;shakeM=0;
+  MODE=MODES[mkey]||MODES[modeSel]||MODES.clasica;
+  if(mode!=='off')ranked=false;
+  const ri=rankIdx(SAVE.cups);
+  if(mode==='off')AIC=ranked?rankAI(ri):DIFF[diff];
+  const f0=MODE.fuel0||5;
+  ents=[];projs=[];fx=[];spells=[];uid=0;fuel=[f0,f0];crowns=[0,0];time=MODE.time;overtime=false;doubleOn=!!MODE.x2;gt=0;shakeM=0;
   NET.pending=[];NET.lastSeq=0;NET.seq=0;NET.ev=[];NET.left=false;NET.ready={me:false,peer:false};NET.sendT=0;
   for(const p of TPOS){const d=TDEF[p.tw],a=p.team?Math.PI/2:-Math.PI/2;
     ents.push({id:++uid,team:p.team,x:p.x,y:p.y,kind:'tower',tw:p.tw,lane:p.lane,def:d,hp:d.hp,maxHp:d.hp,r:d.r,alive:true,
       active:p.tw==='bunker',ang:a,tang:a,cd:0,target:null,retarget:0,spawn:0,stun:0,flash:0,recoil:0,air:false});}
-  queue=shuffle([...deckSel]);hand=queue.splice(0,4);
-  const ad=shuffle(AI_DECK.slice()).slice(0,8);if(!ad.some(k=>CARDS[k].unit&&CARDS[k].unit.tAir))ad[7]='aa';
+  const mine=ALL.filter(k=>unlocked(k,ri));
+  queue=MODE.random?shuffle(mine.slice()).slice(0,8):shuffle([...deckSel]);hand=queue.splice(0,4);
+  const aiPool=ALL.filter(k=>k!=='reparacion'&&(!ranked||unlocked(k,ri)));
+  const ad=shuffle(aiPool).slice(0,8);if(!ad.some(k=>CARDS[k].unit&&CARDS[k].unit.tAir))ad[7]='aa';
   shuffle(ad);AI.hand=ad.splice(0,4);AI.queue=ad;AI.think=2.5;
   selected=-1;drag=null;hover=null;state='play';
   $('#menu').classList.add('hide');$('#endScr').classList.add('hide');$('#lobby').classList.add('hide');
   ['#hud','#stage','#bottom'].forEach(s=>$(s).classList.remove('hide'));
   $('.who.e').textContent=mode==='off'?'IA':NET.peerName.toUpperCase();
+  if(mode==='off'&&ranked)$('.who.e').insertAdjacentHTML('beforeend',` <img class="hudins" src="${INS[ri]}" alt="${RANKS[ri].n}" title="${RANKS[ri].n}">`);
   $('#again').disabled=false;$('#again').textContent='Revancha';
   if(!MAP)buildMap();
   requestAnimationFrame(resize);resize();
-  renderHand();updCrowns();updHUD();banner('¡A la batalla!');
+  renderHand();updCrowns();updHUD();banner(MODE===MODES.clasica?'¡A la batalla!':'¡'+MODE.name+'!');
+}
+/* copas: ganar 22 + 3 por corona, perder -14, empate +2. El mínimo del rango actual está protegido. */
+function award(r){
+  const before=SAVE.cups,ri0=rankIdx(before);
+  const delta=r==='win'?22+3*crowns[ME]:r==='lose'?-14:2;
+  SAVE.cups=Math.max(RANKS[ri0].c,before+delta);
+  SAVE.best=Math.max(SAVE.best,SAVE.cups);
+  if(r==='win')SAVE.w++;else if(r==='lose')SAVE.l++;
+  store();
+  return {delta:SAVE.cups-before,from:ri0,to:rankIdx(SAVE.cups)};
 }
 function endGame(win,why){
   if(state!=='play')return;state='end';
   const r=win!==undefined?(win===ME?'win':'lose'):crowns[ME]>crowns[1-ME]?'win':crowns[ME]<crowns[1-ME]?'lose':'draw';
   if(NET.role==='host')netSend('end',{c:crowns,w:win===undefined?null:win,why:why?'Tu rival abandonó la partida':''});
   NET.ready={me:false,peer:false};
+  const aw=ranked||NET.role!=='off'?award(r):null;
   setTimeout(()=>{
     const t=$('#endTitle');t.textContent=r==='win'?'¡Victoria!':r==='lose'?'Derrota':'Empate';
     t.style.color=r==='win'?'#fcd34d':r==='lose'?'#ff5d5d':'#c9b37a';
-    $('#endSub').textContent=why||'';
+    $('#endSub').textContent=why||(MODE!==MODES.clasica?'Modo '+MODE.name:'');
     $('#endP').innerHTML=crownHTML(crowns[ME]);$('#endE').innerHTML=crownHTML(crowns[1-ME]);
     $('#endName').textContent=NET.role==='off'?'IA':NET.peerName.toUpperCase();
+    const ec=$('#endCups');
+    if(aw){ec.className=aw.delta>0?'up':aw.delta<0?'down':'';
+      ec.innerHTML=`<span>${aw.delta>0?'+':''}${aw.delta}</span><img src="${CUP}" alt="copas"><span style="color:var(--muted);font-size:9px">${SAVE.cups}</span>`;}
+    else{ec.className='';ec.innerHTML='<span style="font-size:8px;color:var(--muted)">Entrenamiento · sin copas</span>';}
+    const pr=$('#promo');
+    if(aw&&aw.to>aw.from){
+      const cards=[],modes=[];for(let i=aw.from+1;i<=aw.to;i++){cards.push(...(RANKS[i].cards||[]));modes.push(...(RANKS[i].modes||[]));}
+      pr.innerHTML=`<img class="ins big" src="${INS[aw.to]}" alt=""><div>¡ASCENSO! Ahora eres <b>${RANKS[aw.to].n}</b></div>`+
+        (modes.length?`<div>Nuevo modo: <b>${modes.map(m=>MODES[m].name).join(', ')}</b></div>`:'')+
+        (cards.length?'<div>Cartas desbloqueadas:</div><div class="unl"></div>':'');
+      const u=pr.querySelector('.unl');if(u)cards.forEach(k=>u.appendChild(cardEl(k)));
+      pr.classList.remove('hide','show');void pr.offsetWidth;pr.classList.add('show');
+    }else pr.classList.add('hide');
     $('#endScr').classList.remove('hide');
   },1300);
 }
 function update(dt){
   gt+=dt;time-=dt;
-  if(!doubleOn&&(time<=60||overtime)){doubleOn=true;banner('¡Combustible x2!');}
+  if(!doubleOn&&!MODE.mult&&(time<=60||overtime)){doubleOn=true;banner('¡Combustible x2!');}
   if(time<=0){
     if(!overtime&&crowns[0]===crowns[1]){overtime=true;time=60;banner('¡Prórroga! El primer búnker gana');}
     else{time=0;endGame();return;}
   }
-  const rate=dt/2.8*(doubleOn?2:1);
-  fuel[0]=Math.min(10,fuel[0]+rate);fuel[1]=Math.min(10,fuel[1]+rate*(NET.role==='off'?DIFF[diff].regen:1));
+  const rate=dt/2.8*fmult();
+  fuel[0]=Math.min(10,fuel[0]+rate);fuel[1]=Math.min(10,fuel[1]+rate*(NET.role==='off'?AIC.regen:1));
   if(NET.role==='off')aiUpdate(dt);
   for(const e of ents)if(e.alive)updEnt(e,dt);
   collide();updProjs(dt);updSpells(dt);
@@ -1175,7 +1569,8 @@ function loop(ts){
 }
 
 /* ---------- botones ---------- */
-$('#play').addEventListener('click',()=>{leaveRoom();startGame('off');});
+$('#play').addEventListener('click',()=>{leaveRoom();ranked=true;startGame('off');});
+$('#practice').addEventListener('click',()=>{leaveRoom();ranked=false;startGame('off');});
 $('#createRoom').addEventListener('click',()=>{
   menuMsg('');const code=roomCode();
   if(openRoom(code,'host'))lobbyShow(code,'Comparte el código o el enlace con tu amigo. Esperando rival…');
@@ -1198,9 +1593,9 @@ $('#again').addEventListener('click',()=>{
 });
 $('#toMenu').addEventListener('click',()=>{
   leaveRoom();state='menu';$('#endScr').classList.add('hide');
-  ['#hud','#stage','#bottom'].forEach(s=>$(s).classList.add('hide'));$('#menu').classList.remove('hide');renderMenu();
+  ['#hud','#stage','#bottom'].forEach(s=>$(s).classList.add('hide'));$('#menu').classList.remove('hide');renderMenu();showTab('scrHome');
 });
-$('#nick').addEventListener('change',()=>{try{localStorage.setItem('blindados-nick',$('#nick').value);}catch(e){}});
+$('#nick').addEventListener('change',()=>{try{localStorage.setItem('blindados-nick',$('#nick').value);}catch(e){}renderProfile();});
 try{$('#nick').value=localStorage.getItem('blindados-nick')||'';}catch(e){}
 const qs=new URLSearchParams(location.search).get('sala');
 if(qs){$('#codeIn').value=qs.toUpperCase().slice(0,5);menuMsg('Te han invitado a la sala '+qs.toUpperCase()+'. Elige tu mazo y pulsa Unirse.');}
