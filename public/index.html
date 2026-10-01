@@ -298,6 +298,66 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
 #undo button{font-family:inherit;font-size:8px;padding:8px 10px;background:var(--khaki);color:#1b1b12;border:3px solid #000;cursor:pointer;flex:none}
 .card.just{animation:just .6s steps(3)}
 @keyframes just{0%,70%{outline:3px solid #fff;outline-offset:2px}}
+/* ---------- TIENDA ---------- */
+.wallet{display:flex;gap:6px;flex:none}
+.cups.coins{color:#fde68a}
+.cups .coinic{width:16px;height:16px}
+.chests{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 18px}
+.chests button{aspect-ratio:1;font-family:inherit;font-size:6px;line-height:1.5;color:var(--muted);background:#ffffff08;border:3px dashed #ffffff26;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;cursor:default}
+.chests button.full{background:var(--panel2);border:3px solid var(--line);box-shadow:0 3px 0 var(--line);color:var(--ink);cursor:pointer}
+.chests button.full img{animation:bob 1.2s steps(2) infinite}
+.chests img{width:64%;image-rendering:pixelated}
+@keyframes bob{50%{transform:translateY(-3px)}}
+.chests button:focus-visible,.offer button:focus-visible,.item:focus-visible,#chBox:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.offers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 6px}
+.offer{background:var(--panel);border:4px solid var(--line);box-shadow:4px 4px 0 #0006;padding:8px 4px;text-align:center;font-size:6px;line-height:1.6;
+  display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted)}
+.offer b{color:var(--ink);font-weight:normal;font-size:7px}
+.offer>img{width:52px;height:52px;image-rendering:pixelated}
+.pbtn{font-family:inherit;font-size:8px;padding:7px 6px;width:100%;display:flex;align-items:center;justify-content:center;gap:4px;color:#fff;
+  background:#3f8f2f;border:3px solid var(--line);box-shadow:inset -3px -3px 0 #25611b,inset 3px 3px 0 #86d36b;cursor:pointer;text-shadow:1px 1px 0 #000}
+.pbtn img{width:12px;height:12px;image-rendering:pixelated}
+.pbtn.poor{background:#5a5f4a;box-shadow:inset -3px -3px 0 #3b3f30,inset 3px 3px 0 #8a9075}
+.pbtn.ok{background:#d98a1a;box-shadow:inset -3px -3px 0 #9a5c0c,inset 3px 3px 0 #fcd34d}
+.pbtn.wait{background:var(--line);box-shadow:none;color:var(--muted);cursor:default}
+#shopMsg{margin:8px 0 12px}
+.items{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0 0 18px}
+.item{background:var(--panel);border:4px solid var(--line);box-shadow:4px 4px 0 #0006;padding:8px;font-size:8px;text-align:center;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;color:var(--ink);font-family:inherit}
+.item.on{box-shadow:inset 0 0 0 3px var(--khaki),4px 4px 0 #0006;background:#3d4a2c}
+.item .pv{width:100%;aspect-ratio:3/2;display:grid;place-items:center;background:#0e120b55;border:3px solid var(--line)}
+.item .pv img{height:80%;image-rendering:pixelated;filter:drop-shadow(3px 3px 0 #0008)}
+.item .pv.map{aspect-ratio:9/8}
+.item .pv.map img{width:100%;height:100%;object-fit:cover;filter:none}
+.item small{font-size:6px;color:var(--muted)}
+.item.locked .pv img{filter:grayscale(1) brightness(.45)}
+.item .lk{position:absolute;left:50%;top:34%;transform:translate(-50%,-50%);width:22px;height:26px;image-rendering:pixelated}
+.item .pbtn{font-size:7px}
+#tabs button{position:relative}
+#tabs .dot{position:absolute;right:6px;top:4px;width:10px;height:10px;background:var(--red);border:2px solid var(--line)}
+#endLoot{display:flex;justify-content:center;align-items:center;gap:12px;font-size:9px;margin:0 0 12px;line-height:1.6;flex-wrap:wrap}
+#endLoot:empty{display:none}
+#endLoot span{display:flex;align-items:center;gap:5px}
+#endLoot img{width:18px;height:18px;image-rendering:pixelated}
+#endLoot img.ch{width:28px;height:28px}
+#endLoot small{font-size:6px;color:var(--muted);flex-basis:100%;text-align:center}
+#chestScr{position:fixed;inset:0;z-index:8;background:#000c;display:flex;align-items:center;justify-content:center;padding:20px}
+#chBox{display:block;margin:0 auto 6px;background:none;border:0;padding:0;cursor:pointer}
+#chBox img{width:128px;height:128px;image-rendering:pixelated;filter:drop-shadow(5px 5px 0 #000)}
+#chBox.shake img{animation:shk .12s steps(2) infinite}
+#chBox.gone{display:none}
+@keyframes shk{0%{transform:translate(-4px,0) rotate(-4deg)}100%{transform:translate(4px,-3px) rotate(4deg)}}
+#chLoot{display:flex;flex-direction:column;align-items:center;gap:12px;font-size:9px;line-height:1.7}
+#chLoot:empty{display:none}
+#chLoot>div{animation:enter .35s steps(4) both}
+#chLoot>div:nth-child(2){animation-delay:.25s}#chLoot>div:nth-child(3){animation-delay:.5s}
+#chLoot .coinrow{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--fuel2);text-shadow:2px 2px 0 #000}
+#chLoot .coinrow img{width:28px;height:28px;image-rendering:pixelated}
+#chLoot .card{width:84px;margin:6px auto 0;cursor:default}
+#chLoot .skin img{width:72px;height:72px;image-rendering:pixelated;display:block;margin:6px auto 0}
+#chLoot b{color:var(--fuel2);font-weight:normal}
+@media (prefers-reduced-motion:reduce){.chests button.full img,#chBox.shake img,#chLoot>div{animation:none}}
 @media (prefers-reduced-motion:reduce){.card.r-leg::after{animation:none}.card.enter{animation:none}#promo.show{animation:none}
   #sheet .sbox,#undo .ubox,.card.just,#deckGrid.swapping .card{animation:none}}
 </style>
@@ -323,7 +383,8 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
   <div class="mwrap">
     <header class="topbar">
       <div class="prof"><img id="topIns" class="ins" alt=""><div><input id="nick" class="nickin" maxlength="12" placeholder="Comandante" autocomplete="nickname" aria-label="Tu nombre"><div class="rk" id="topRank">Recluta</div></div></div>
-      <div class="cups" title="Copas"><img class="cupic" alt=""><span id="cupNum">0</span></div>
+      <div class="wallet"><div class="cups coins" title="Monedas"><img class="coinic" alt=""><span id="coinNum">0</span></div>
+        <div class="cups" title="Copas"><img class="cupic" alt=""><span id="cupNum">0</span></div></div>
     </header>
 
     <section id="scrHome" class="scr">
@@ -364,10 +425,23 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
       <div id="pool" class="grid4"></div>
     </section>
 
+    <section id="scrShop" class="scr hide">
+      <h2 class="sub">Tus cofres</h2>
+      <div class="chests" id="chestSlots"></div>
+      <h2 class="sub">Tienda</h2>
+      <div class="offers" id="offers"></div>
+      <p class="mdesc warn" id="shopMsg" role="status"></p>
+      <h2 class="sub">Búnkeres</h2>
+      <div class="items" id="skinList"></div>
+      <h2 class="sub">Arenas</h2>
+      <p class="help" style="margin:-4px 0 10px">Solo cambian el mapa que ves tú. Se desbloquean al subir de rango.</p>
+      <div class="items" id="arenaList"></div>
+    </section>
+
     <section id="scrRanks" class="scr hide">
       <div class="stats3"><div><b id="stW">0</b>Victorias</div><div><b id="stL">0</b>Derrotas</div><div><b id="stB">0</b>Récord</div></div>
       <div id="rankList"></div>
-      <p class="help">Victoria +25 a +31 · Derrota −14 · Tu rango nunca baja.</p>
+      <p class="help">Victoria +25 a +31 · Derrota −14 · Tu rango nunca baja.<br>Cada victoria da monedas y un cofre (máximo 4 guardados). Las derrotas y empates también dan alguna moneda.</p>
       <h2 class="sub">Cómo jugar</h2>
       <p class="help">Arrastra una carta a tu mitad del campo (o tócala y toca el mapa). Cada búnker vale una corona; el Cuartel General, la victoria.</p>
     </section>
@@ -378,6 +452,7 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
   </div></div>
   <div id="undo" class="hide"><div class="ubox" role="status"><span id="undoTxt"></span><button id="undoBtn">Deshacer</button></div></div>
   <nav id="tabs">
+    <button data-s="scrShop"><img alt="">Tienda<span class="dot hide" id="shopDot"></span></button>
     <button data-s="scrDeck"><img alt="">Mazo</button>
     <button data-s="scrHome" class="on"><img alt="">Batalla</button>
     <button data-s="scrRanks"><img alt="">Rangos</button>
@@ -397,9 +472,17 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
   <p id="endSub"></p>
   <div class="score"><span style="color:var(--blue)">TÚ</span><span class="crowns" id="endP"></span><span>—</span><span class="crowns" id="endE"></span><span style="color:var(--red)" id="endName">RIVAL</span></div>
   <div id="endCups"></div>
+  <div id="endLoot"></div>
   <div id="promo" class="hide"></div>
   <button class="btn" id="again">Revancha</button>
   <button class="btn alt" id="toMenu">Volver al cuartel</button>
+</div></div>
+<div id="chestScr" class="hide"><div class="endbox" role="dialog" aria-labelledby="chTitle">
+  <h2 id="chTitle">Cofre</h2>
+  <button id="chBox" aria-label="Abrir cofre"><img id="chImg" alt=""></button>
+  <div id="chLoot"></div>
+  <p class="mdesc" id="chHint">Toca el cofre para abrirlo</p>
+  <button class="btn" id="chOk">Abrir</button>
 </div></div>
 <div id="floatCard"></div>
 
@@ -559,7 +642,14 @@ dice:[
 fuel:[
 '....kk....','...kyyk...','...kyok...','..kyoook..','..kyoook..','.kyoooook.','kyoooooook','kyoooooook','kooooooook','.kooooook.','..kkkkkk..'],
 crown:[
-'y...y...y','yy.yyy.yy','yyyyyyyyy','yryyyyyry','yyyyyyyyy','ooooooooo']
+'y...y...y','yy.yyy.yy','yyyyyyyyy','yryyyyyry','yyyyyyyyy','ooooooooo'],
+// C/c/D/M = colores del cofre (madera, plata, oro): ver CHESTS
+chest:[
+'................','................','...kkkkkkkkkk...','..kDDDMDDMDDDk..','.kDCCCMCCMCCCck.','.kCCCCMCCMCCCck.',
+'.kccccMccMcccck.','.kMMMMMyyMMMMMk.','.kCCCCkyykCCCck.','.kCCCCkkkkCCCck.','.kCCCCMCCMCCCck.','.kCCCCMCCMCCCck.',
+'.kccccMccMcccck.','.kkkkkkkkkkkkkk.','................','................'],
+coin:[
+'..kkkk..','.kyyyok.','kyywyyok','kyywyyok','kyyyyyok','kyyyyyok','.kooook.','..kkkk..']
 };
 /*SP_END*/
 
@@ -723,6 +813,82 @@ const MODES={
  triple:{name:'Triple',icon:['fuel'],time:180,mult:3,desc:'Combustible x3 toda la partida'},
  dominio:{name:'Dominio',icon:['bunker'],time:240,big:true,desc:'Mapa el triple de grande · 4 min · arrastra el campo o toca el minimapa para moverte'},
 };
+/* =====================================================================
+   ARENAS · solo estética: cambian el mapa que ves tú (también online). Se desbloquean por rango (r).
+   Colores: grass (cuadros), spk (motas), tuft, dirt (caminos), crater, bank/water (río; whi = proporción de reflejos),
+   bridge [tabla, luz, sombra, baranda, poste], plat [borde, losa, losa, junta], bags, leaf (árboles).
+   tree: oak|pine|cactus|dead|rock · deco: adornos del suelo · amb: partículas sobre la vista.
+   ===================================================================== */
+const WOOD=['#8b5a2b','#a8703a','#5e3b1b','#3b2412','#24160a'],METAL=['#4a4f58','#6a707a','#2e3238','#1e2126','#121418'];
+const ARENAS={
+ pradera:{n:'Pradera',r:0,stage:'#223a1a',foam:'rgba(255,255,255,.35)',tree:'oak',deco:['flower'],
+  grass:['#5b9b3d','#56943a'],spk:['#69ad47','#4a8532'],tuft:'#7fc457',dirt:['#8e6c3f','#c9a26a','#b38b55'],
+  crater:['#6e5634','#3d2f1c','#54422a'],bank:['#d9c68d','#c8b27a'],water:['#6aa8ee','#3570c4','#3b7dd4'],
+  bridge:WOOD,plat:['#3f434b','#8a8f99','#7a7f89','#6a6f78'],bags:['#c2a878','#9c8458'],leaf:['#1f4d1d','#4c9a3a','#24592a','#2f6b2a']},
+ desierto:{n:'Desierto',r:1,stage:'#6b4f26',foam:'rgba(255,255,255,.4)',tree:'cactus',deco:['skull','rock'],amb:'sand',
+  grass:['#d9b26a','#d4ac63'],spk:['#e6c584','#c39a55'],tuft:'#b08a48',dirt:['#9c7440','#c99a5c','#b5884c'],
+  crater:['#a07a44','#6b4f2a','#86663a'],bank:['#7fae4a','#5f9440'],water:['#c8fff8','#2a9db0','#33afc0'],
+  bridge:WOOD,plat:['#6b5a3e','#c9b48a','#bba57a','#a8916a'],bags:['#c2a878','#9c8458'],
+  leaf:['#1f5a2a','#6dbb52','#2f7a36','#3d8f3f'],rock:['#c9a26a','#9c7440','#6b5034']},
+ navidad:{n:'Navidad',r:3,stage:'#8ea3b8',foam:'rgba(255,255,255,.7)',tree:'pine',deco:['gift','snowman'],amb:'snow',
+  grass:['#e8eef5','#e1e9f2'],spk:['#ffffff','#c9d5e3'],tuft:'#b4c4d8',dirt:['#7d8796','#b3bdca','#9ea9b8'],
+  crater:['#b4c0ce','#7d8a9b','#96a3b3'],bank:['#ffffff','#e4ecf5'],water:['#ffffff','#8cc8ee','#a6d6f2'],
+  bridge:WOOD,plat:['#4a5260','#a9b3c0','#99a3b0','#8a94a1'],bags:['#d8d0c0','#b0a68f'],leaf:['#0f3d2a','#2f7a4a','#16503a','#1f6640']},
+ halloween:{n:'Halloween',r:5,stage:'#15121c',foam:'rgba(210,255,150,.45)',tree:'dead',deco:['pumpkin','grave'],amb:'wisp',vig:.45,
+  grass:['#2f2b3c','#2b2737'],spk:['#3c3652','#221f2c'],tuft:'#4d4170',dirt:['#33251a','#57412f','#463424'],
+  crater:['#1e1a26','#0e0c14','#16131d'],bank:['#3d3a2a','#2e2c20'],water:['#eaffb0','#4fbf2a','#5fd133'],
+  bridge:['#4a3426','#5e4532','#2e2018','#1a120c','#0e0906'],plat:['#16161c','#4a4a55','#3e3e48','#33333c'],bags:['#6b5d48','#4f4434'],
+  leaf:['#120f18','#8a78a8','#4a3d5c','#5e4e78']},
+ lava:{n:'Volcán',r:7,stage:'#1a0d08',foam:'rgba(255,240,170,.6)',tree:'rock',deco:['crack'],amb:'ember',vig:.4,glow:'#ff7a1a',
+  grass:['#2d2623','#29221f'],spk:['#3b322d','#1d1816'],tuft:'#5c3a28',dirt:['#3f322b','#655043','#544236'],
+  crater:['#5a2410','#1e0f0a','#c2410c'],bank:['#2a1610','#4a1f10'],water:['#fff0a0','#ff5a0a','#ff8a1f'],
+  bridge:METAL,plat:['#121418','#5a5f68','#4e535c','#42464e'],bags:['#5a524a','#3e3832'],leaf:['#1a1412','#5a4c44','#2a2220','#3a302b']},
+ luna:{n:'Base lunar',r:9,stage:'#05040c',foam:'rgba(170,150,255,.3)',tree:'rock',deco:['antenna'],vig:.5,craters:3,whi:.015,
+  grass:['#8b8d94','#86888f'],spk:['#a2a4aa','#6d6f76'],tuft:'#b9bbc1',dirt:['#5a5c63','#7a7c83','#6a6c73'],
+  crater:['#6a6c73','#3d3f45','#55575e'],bank:['#55575e','#45474d'],water:['#ffffff','#0b0a18','#14112a'],
+  bridge:METAL,plat:['#22252b','#6a707a','#5e646e','#52575f'],bags:['#7a7c83','#5a5c63'],leaf:['#3a3c42','#b4b6bc','#55575e','#7a7c83']},
+};
+const arenaOpen=(a,ri)=>ARENAS[a].r<=ri;
+const arenasAt=i=>Object.keys(ARENAS).filter(a=>ARENAS[a].r===i);
+
+/* =====================================================================
+   APARIENCIAS DE BÚNKER · cambian el marco (g/G/m/k); el color del equipo se mantiene.
+   mod(ch,x,y) retoca píxeles del sprite (camuflaje, nieve, grietas…). Se compran en la tienda o salen en cofres.
+   ===================================================================== */
+const SKINS={
+ std:{n:'Hormigón',p:0},
+ camo:{n:'Camuflaje',p:200,pal:{g:'#6b7840',G:'#3e4826',m:'#97a35e',c:'#2f3a1e'},
+  mod:(ch,x,y)=>'gGm'.includes(ch)&&((x*7+y*3)%9<3||(x*5+y*11)%13<2)?'c':ch},
+ hielo:{n:'Glaciar',p:350,pal:{g:'#6fb3dd',G:'#3f7fab',m:'#d8f1ff',k:'#16324a'},
+  mod:(ch,x,y)=>y===1&&'gG'.includes(ch)?'w':y===2&&ch==='m'&&x%3===0?'w':ch},
+ calabaza:{n:'Calabaza',p:450,pal:{g:'#e07a2e',G:'#a8501a',m:'#f5a04a',k:'#2a160a',e:'#3f7a2a',O:'#b4561a'},
+  mod:(ch,x,y)=>y===0&&(x===7||x===8)?'e':ch==='g'&&x%3===0?'O':ch},
+ volcan:{n:'Volcánico',p:600,pal:{g:'#3a2a24',G:'#22181a',m:'#5a443a',k:'#140c0a',v:'#ff7a1a'},
+  mod:(ch,x,y)=>'gm'.includes(ch)&&(x*7+y*13)%11===0?'v':ch},
+ cromo:{n:'Cromado',p:800,pal:{g:'#9aa6b4',G:'#5d6876',m:'#d5dde6',k:'#1a1f26'},
+  mod:(ch,x,y)=>'gGm'.includes(ch)&&(x+y)%7===0?'w':ch},
+ oro:{n:'Dorado',p:1200,pal:{g:'#d9a520',G:'#9a6c10',m:'#fde68a',k:'#4a2c08'},
+  mod:(ch,x,y)=>ch==='m'&&(x*3+y)%10===0?'w':ch},
+};
+function skinRows(s,tw){const m=SKINS[s].mod;return m?SP[tw].map((r,y)=>[...r].map((ch,x)=>m(ch,x,y)).join('')):SP[tw];}
+const TIMG={};
+function towerImg(s,tc,tw){if(!SKINS[s])s='std';const k=s+tc+tw;
+  return TIMG[k]||(TIMG[k]=toImg(svgOf([skinRows(s,tw)],Object.assign(palFor(tc),SKINS[s].pal||{}))));}
+const skinPreview=s=>url(svgOf([skinRows(s,'bunker')],Object.assign(palFor(0),SKINS[s].pal||{})));
+
+/* =====================================================================
+   COFRES · se ganan al vencer (rankeada u online) o se compran. Dan monedas y, a veces,
+   una carta que aún no tienes por rango o una apariencia de búnker.
+   ===================================================================== */
+const CHESTS={
+ madera:{n:'Cofre de madera',s:'Madera',pal:{C:'#9a6232',c:'#6b3f1d',D:'#c48a4f',M:'#5a5f6a'},coins:[20,40],card:.15,skin:.05},
+ plata:{n:'Cofre de plata',s:'Plata',price:180,pal:{C:'#aab4c0',c:'#6f7a88',D:'#e2e8ef',M:'#3e4652'},coins:[50,90],card:.45,skin:.15},
+ oro:{n:'Cofre de oro',s:'Oro',price:450,pal:{C:'#f2c14e',c:'#b8860b',D:'#fde68a',M:'#7a4a0c',y:'#ffffff'},coins:[120,200],card:1,skin:.4},
+};
+const CHEST_IMG={};for(const t in CHESTS)CHEST_IMG[t]=url(svgOf([SP.chest],Object.assign({},PAL,CHESTS[t].pal)));
+const COIN=url(svgOf([SP.coin],PAL));
+const MAXCHESTS=4,FREE_EVERY=4*3600e3;
+
 function rankIdx(c){let i=0;RANKS.forEach((r,j)=>{if(c>=r.c)i=j;});return i;}
 const unlocked=(k,ri)=>(UNLOCK[k]||0)<=ri;
 const modeOpen=(m,ri)=>(MODE_UNLOCK[m]||0)<=ri;
@@ -775,13 +941,14 @@ let VW=W,VH=H,camX=0,camY=0;
 const cv=$('#game'),ctx=cv.getContext('2d');cv.width=W*TILE;cv.height=H*TILE;
 const TDEF={bunker:{hp:1500,dmg:55,rate:.8,range:7.5,r:1.3,size:3,tAir:true,shot:'shell'},
             hq:{hp:2600,dmg:75,rate:1,range:7,r:1.7,size:4,tAir:true,shot:'shell'}};
-function setField(big){
+function setGeom(big){
   [W,H,BR]=big?[28,62,[5.5,22.5]]:[18,32,[3.5,14.5]];RY=H/2;
   const by=big?10:6.5,hy=big?4.4:3.4;
   TPOS=[{team:0,tw:'bunker',lane:0,x:BR[0],y:H-by},{team:0,tw:'bunker',lane:1,x:BR[1],y:H-by},{team:0,tw:'hq',x:W/2,y:H-hy},
         {team:1,tw:'bunker',lane:0,x:BR[0],y:by},{team:1,tw:'bunker',lane:1,x:BR[1],y:by},{team:1,tw:'hq',x:W/2,y:hy}];
-  MAP=MAPS[W]||(MAPS[W]=buildMap());
 }
+const mapFor=a=>MAPS[W+a]||(MAPS[W+a]=buildMap(ARENAS[a]));
+function setField(big){setGeom(big);MAP=mapFor(ARENA);}
 const DIFF={facil:{regen:.75,think:1.5,aggr:8.8},normal:{regen:1,think:1,aggr:7.5},dificil:{regen:1.3,think:.65,aggr:6.2}};
 const T0=180;
 let state='menu',diff='normal';
@@ -791,6 +958,7 @@ let deckSel=new Set(['ligero','pesado','infanteria','artilleria','heli','aa','in
 let hand=[],queue=[];
 const AI={hand:[],queue:[],think:2};
 let AIC=DIFF.normal,MODE=null,ranked=false,modeSel='clasica';
+let TSKIN=['std','std']; // apariencia de búnker de cada bando en la partida
 
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rnd=Math.random;
@@ -801,49 +969,114 @@ const nearBridge=x=>Math.abs(x-BR[0])<Math.abs(x-BR[1])?BR[0]:BR[1];
 
 /* ---------- mapa pixel ---------- */
 function seeded(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
-let MAP=null;const MAPS={};
-function buildMap(){
+let MAP=null,ARENA='pradera';const MAPS={};
+/* mini-sprites del suelo (cada letra = un bloque de 4 px) */
+const DECO={
+ flower:{rows:['.p.','pyp','.p.'],pal:()=>({p:['#f7e15a','#ff8ab8','#ffffff','#b9a2ff'][Math.random()*4|0],y:'#f2c14e'})},
+ skull:{rows:['.www.','wkwkw','wwwww','.w.w.'],pal:()=>({w:'#efe6d0',k:'#2a2018'})},
+ rock:{rows:['.ab.','abbc','bbcc'],pal:th=>({a:th.rock[0],b:th.rock[1],c:th.rock[2]})},
+ gift:{rows:['.y.y.','rryrr','yyyyy','rryrr','RRyRR'],
+  pal:()=>{const c=[['#d64545','#8f2525'],['#3b7be0','#2451a3'],['#3f9a4a','#26662f'],['#b36bff','#7a3fc0']][Math.random()*4|0];return {r:c[0],R:c[1],y:'#f2c14e'};}},
+ snowman:{rows:['.kkk.','.kkk.','.www.','.kwk.','.wow.','wwwww','wwkww','wwwww','.www.'],pal:()=>({w:'#ffffff',k:'#1a1423',o:'#e07a2e'})},
+ pumpkin:{rows:['..gg..','oOooOo','OyOOyO','oOyyOo','.oOOo.'],pal:()=>({o:'#e07a2e',O:'#b4561a',g:'#3f7a2a',y:'#ffe08a'})},
+ grave:{rows:['.mm.','mggk','mkkk','mggk','mggk','bbbb'],pal:()=>({m:'#9aa2ad',g:'#6d7480',k:'#3a3f48',b:'#2a2018'})},
+ antenna:{rows:['.r.','.m.','mgm','.m.','mgm','m.m'],pal:()=>({m:'#c3cad4',g:'#7d8691',r:'#ff4d4d'})},
+};
+function buildMap(th){
+  th=th||ARENAS.pradera;
   const c=document.createElement('canvas');c.width=W*TILE;c.height=H*TILE;
   const g=c.getContext('2d'),R=seeded(42),T=TILE,q=v=>Math.round(v/4)*4,A=W*H/576;
-  for(let ty=0;ty<H;ty++)for(let tx=0;tx<W;tx++){g.fillStyle=(tx+ty)%2?'#5b9b3d':'#56943a';g.fillRect(tx*T,ty*T,T,T);}
-  for(let i=0;i<1900*A;i++){g.fillStyle=R()<.55?'#69ad47':'#4a8532';g.fillRect(q(R()*W*T),q(R()*H*T),4,4);}
-  for(let i=0;i<110*A;i++){const x=q(R()*W*T),y=q(R()*H*T);g.fillStyle='#7fc457';g.fillRect(x,y,4,4);g.fillRect(x+4,y-4,4,4);g.fillRect(x+8,y,4,4);}
+  for(let ty=0;ty<H;ty++)for(let tx=0;tx<W;tx++){g.fillStyle=th.grass[(tx+ty)%2];g.fillRect(tx*T,ty*T,T,T);}
+  for(let i=0;i<1900*A;i++){g.fillStyle=R()<.55?th.spk[0]:th.spk[1];g.fillRect(q(R()*W*T),q(R()*H*T),4,4);}
+  for(let i=0;i<110*A;i++){const x=q(R()*W*T),y=q(R()*H*T);g.fillStyle=th.tuft;g.fillRect(x,y,4,4);g.fillRect(x+4,y-4,4,4);g.fillRect(x+8,y,4,4);}
   const dirt=(x0,y0,x1,y1)=>{x0=q(x0);y0=q(y0);x1=q(x1);y1=q(y1);
-    for(let y=y0;y<y1;y+=4)for(let x=x0;x<x1;x+=4){const v=R();g.fillStyle=v<.12?'#8e6c3f':v<.25?'#c9a26a':'#b38b55';g.fillRect(x,y,4,4);}};
+    for(let y=y0;y<y1;y+=4)for(let x=x0;x<x1;x+=4){const v=R();g.fillStyle=v<.12?th.dirt[0]:v<.25?th.dirt[1]:th.dirt[2];g.fillRect(x,y,4,4);}};
   const b0=TPOS[3].y,b1=TPOS[0].y,h0=TPOS[5].y,h1=TPOS[2].y;
   for(const bx of BR)dirt((bx-.8)*T,(b0-1.5)*T,(bx+.8)*T,(b1+1.9)*T);
   dirt(BR[0]*T,(h0-.8)*T,BR[1]*T,(h0+.8)*T);dirt(BR[0]*T,(h1-.8)*T,BR[1]*T,(h1+.8)*T);
   // cráteres
-  const ex=RY-16;for(let i=0;i<7*A;i++){const cx=q((2+R()*(W-4))*T),cy=q((R()<.5?RY-8-ex+R()*(6+ex):RY+2+R()*(6+ex))*T);
+  const ex=RY-16;for(let i=0;i<7*A*(th.craters||1);i++){const cx=q((2+R()*(W-4))*T),cy=q((R()<.5?RY-8-ex+R()*(6+ex):RY+2+R()*(6+ex))*T);
     for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++){const d=dx*dx+dy*dy;if(d>10)continue;
-      g.fillStyle=d>6?'#6e5634':(dx+dy<0?'#3d2f1c':'#54422a');g.fillRect(cx+dx*4,cy+dy*4,4,4);}}
-  // río
+      g.fillStyle=d>6?th.crater[0]:(dx+dy<0?th.crater[1]:th.crater[2]);g.fillRect(cx+dx*4,cy+dy*4,4,4);}}
+  // río (agua, lava, limo, hielo o el vacío lunar según la arena)
+  const whi=th.whi||.07;
   for(let y=(RY-1)*T;y<(RY+1)*T;y+=4)for(let x=0;x<W*T;x+=4){const e=y<(RY-1)*T+8||y>=(RY+1)*T-8,v=R();
-    g.fillStyle=e?(v<.5?'#d9c68d':'#c8b27a'):(v<.07?'#6aa8ee':v<.3?'#3570c4':'#3b7dd4');g.fillRect(x,y,4,4);}
+    g.fillStyle=e?(v<.5?th.bank[0]:th.bank[1]):(v<whi?th.water[0]:v<.3?th.water[1]:th.water[2]);g.fillRect(x,y,4,4);}
   // puentes
+  const B=th.bridge;
   for(const bx of BR){const x0=(bx-1)*T,x1=(bx+1)*T,y0=(RY-1.5)*T,y1=(RY+1.5)*T;
     g.fillStyle='rgba(0,0,0,.35)';g.fillRect(x0+6,y0+6,x1-x0,y1-y0);
-    for(let y=y0;y<y1;y+=8){g.fillStyle='#8b5a2b';g.fillRect(x0,y,x1-x0,8);g.fillStyle='#a8703a';g.fillRect(x0,y,x1-x0,2);g.fillStyle='#5e3b1b';g.fillRect(x0,y+6,x1-x0,2);}
-    g.fillStyle='#3b2412';g.fillRect(x0-4,y0,6,y1-y0);g.fillRect(x1-2,y0,6,y1-y0);
-    g.fillStyle='#24160a';for(const yy of [y0,y0+(y1-y0)/2-4,y1-8]){g.fillRect(x0-6,yy,10,10);g.fillRect(x1-4,yy,10,10);}}
+    for(let y=y0;y<y1;y+=8){g.fillStyle=B[0];g.fillRect(x0,y,x1-x0,8);g.fillStyle=B[1];g.fillRect(x0,y,x1-x0,2);g.fillStyle=B[2];g.fillRect(x0,y+6,x1-x0,2);}
+    g.fillStyle=B[3];g.fillRect(x0-4,y0,6,y1-y0);g.fillRect(x1-2,y0,6,y1-y0);
+    g.fillStyle=B[4];for(const yy of [y0,y0+(y1-y0)/2-4,y1-8]){g.fillRect(x0-6,yy,10,10);g.fillRect(x1-4,yy,10,10);}}
   // plataformas de torres
+  const P=th.plat;
   for(const p of TPOS){const s=(p.tw==='hq'?4.6:3.6)*T,x0=q(p.x*T-s/2),y0=q(p.y*T-s/2);
-    g.fillStyle='#3f434b';g.fillRect(x0-4,y0-4,s+8,s+8);
-    for(let y=0;y<s;y+=8)for(let x=0;x<s;x+=8){g.fillStyle=R()<.5?'#8a8f99':'#7a7f89';g.fillRect(x0+x,y0+y,8,8);g.fillStyle='#6a6f78';g.fillRect(x0+x,y0+y+6,8,2);}}
+    g.fillStyle=P[0];g.fillRect(x0-4,y0-4,s+8,s+8);
+    for(let y=0;y<s;y+=8)for(let x=0;x<s;x+=8){g.fillStyle=R()<.5?P[1]:P[2];g.fillRect(x0+x,y0+y,8,8);g.fillStyle=P[3];g.fillRect(x0+x,y0+y+6,8,2);}}
   // sacos terreros junto a los puentes
-  const bags=(x,y)=>{for(let i=0;i<4;i++){g.fillStyle='#0004';g.fillRect(x+i*12+2,y+2,12,8);g.fillStyle='#c2a878';g.fillRect(x+i*12,y,12,8);g.fillStyle='#9c8458';g.fillRect(x+i*12,y+6,12,2);}};
+  const bags=(x,y)=>{for(let i=0;i<4;i++){g.fillStyle='#0004';g.fillRect(x+i*12+2,y+2,12,8);g.fillStyle=th.bags[0];g.fillRect(x+i*12,y,12,8);g.fillStyle=th.bags[1];g.fillRect(x+i*12,y+6,12,2);}};
   for(const bx of BR){bags((bx-2.9)*T,(RY-2.8)*T);bags((bx+1.4)*T,(RY-2.8)*T);bags((bx-2.9)*T,(RY+2.5)*T);bags((bx+1.4)*T,(RY+2.5)*T);}
-  // árboles en los bordes
-  const tree=(cx,cy)=>{cx=q(cx);cy=q(cy);
-    for(let dy=-4;dy<=4;dy++)for(let dx=-4;dx<=4;dx++){if(dx*dx+dy*dy>17)continue;g.fillStyle='#0003';g.fillRect(cx+dx*4+8,cy+dy*4+8,4,4);}
-    for(let dy=-4;dy<=4;dy++)for(let dx=-4;dx<=4;dx++){const d=dx*dx+dy*dy;if(d>17)continue;
-      g.fillStyle=d>13?'#1f4d1d':(dx+dy<-2?'#4c9a3a':(dx+dy>3?'#24592a':'#2f6b2a'));g.fillRect(cx+dx*4,cy+dy*4,4,4);}};
+  // adornos del suelo: en los bordes y en las zonas libres (lejos de caminos, río y plataformas)
+  const spr=(name,cx,cy)=>{const d=DECO[name],pal=d.pal(th),rows=d.rows,ox=q(cx)-rows[0].length*2,oy=q(cy)-rows.length*4;
+    rows.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch==='.')return;g.fillStyle='#0003';g.fillRect(ox+x*4+4,oy+y*4+4,4,4);}));
+    rows.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch==='.')return;g.fillStyle=pal[ch];g.fillRect(ox+x*4,oy+y*4,4,4);}));};
+  const crack=(cx,cy)=>{let x=q(cx),y=q(cy),dx=R()<.5?4:-4;
+    for(let i=0;i<7+R()*6;i++){g.fillStyle='#2a0f08';g.fillRect(x-4,y,12,4);g.fillStyle=i%3?th.glow:'#ffd27a';g.fillRect(x,y,4,4);
+      if(R()<.5)x+=dx;else y+=4;}};
+  const free=(x,y)=>Math.abs(y-RY)>2.6&&BR.every(bx=>Math.abs(x-bx)>1.6)&&TPOS.every(p=>Math.hypot(x-p.x,y-p.y)>3.2)
+    &&!((Math.abs(y-h0)<1.3||Math.abs(y-h1)<1.3)&&x>BR[0]&&x<BR[1]);
+  const deco=th.deco||[],put=(x,y)=>{const n=deco[R()*deco.length|0];if(n==='crack')crack(x*T,y*T);else spr(n,x*T,y*T);};
+  if(deco.length){
+    for(let i=0;i<Math.round(9*H/32);i++){let y;do{y=1.5+R()*(H-3);}while(Math.abs(y-RY)<3);put(i%2?.9+R()*.5:W-1.4+R()*.5,y);}
+    const n=Math.round((deco[0]==='flower'?14:deco[0]==='crack'?9:5)*A);
+    for(let i=0;i<n;i++)for(let t=0;t<30;t++){const x=1.5+R()*(W-3),y=1.5+R()*(H-3);if(free(x,y)){put(x,y);break;}}
+  }
+  // árboles en los bordes (roble, pino nevado, cactus, árbol muerto o roca)
+  const L=th.leaf,px=(cx,cy,dx,dy,col)=>{g.fillStyle=col;g.fillRect(cx+dx*4,cy+dy*4,4,4);};
+  const shadow=(cx,cy,pts)=>{g.fillStyle='#0003';for(const [dx,dy] of pts)g.fillRect(cx+dx*4+8,cy+dy*4+8,4,4);};
+  const TREES={
+    oak(cx,cy){const pts=[];for(let dy=-4;dy<=4;dy++)for(let dx=-4;dx<=4;dx++)if(dx*dx+dy*dy<=17)pts.push([dx,dy]);shadow(cx,cy,pts);
+      for(const [dx,dy] of pts){const d=dx*dx+dy*dy;px(cx,cy,dx,dy,d>13?L[0]:(dx+dy<-2?L[1]:(dx+dy>3?L[2]:L[3])));}},
+    pine(cx,cy){const pts=[];for(let dy=-5;dy<=3;dy++){const w=[0,1,1,2,2,3,2,3,4][dy+5];for(let dx=-w;dx<=w;dx++)pts.push([dx,dy,w]);}
+      shadow(cx,cy,pts);px(cx,cy,0,4,'#5e3b1b');px(cx,cy,0,5,'#3b2412');
+      for(const [dx,dy,w] of pts){let col=Math.abs(dx)===w?L[0]:dx<0?L[3]:L[2];
+        if(dx<=0&&Math.abs(dx)>=w-1&&(dy+5)%2===0)col='#ffffff';else if(Math.abs(dx)<w&&R()<.13)col=['#ff4d4d','#ffd84d','#6ad1ff'][R()*3|0];
+        px(cx,cy,dx,dy,col);}
+      px(cx,cy,0,-6,'#f2c14e');},
+    cactus(cx,cy){const pts=[[0,-5],[0,-4],[0,-3],[0,-2],[0,-1],[0,0],[0,1],[0,2],[0,3],[1,-5],[1,-4],[1,-3],[1,-2],[1,-1],[1,0],[1,1],[1,2],[1,3],
+        [-1,0],[-2,0],[-2,-1],[-2,-2],[-2,-3],[2,1],[3,1],[3,0],[3,-1]];shadow(cx,cy,pts);
+      for(const [dx,dy] of pts)px(cx,cy,dx,dy,dx<=0&&(dx===-2||dx===0)?L[1]:dx===1||dx===3?L[2]:L[3]);
+      px(cx,cy,0,-6,'#ff8ab8');},
+    dead(cx,cy){const pts=[[0,4],[0,3],[0,2],[0,1],[0,0],[0,-1],[-1,-2],[-2,-3],[-3,-3],[-2,-4],[1,-1],[2,-2],[2,-3],[3,-4],[1,-4],[0,-3],[-1,0],[-2,-1],[1,1],[2,0]];
+      shadow(cx,cy,pts);for(const [dx,dy] of pts)px(cx,cy,dx,dy,dx<0||dy<-2?L[1]:L[2]);px(cx,cy,-1,4,L[0]);px(cx,cy,1,4,L[0]);},
+    rock(cx,cy){const pts=[];for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++)if(dx*dx+dy*dy*1.4<=11)pts.push([dx,dy]);shadow(cx,cy,pts);
+      for(const [dx,dy] of pts){const d=dx*dx+dy*dy;let col=d>7?L[0]:(dx+dy<-1?L[1]:(dx+dy>2?L[2]:L[3]));if(th.glow&&d<=7&&R()<.1)col=th.glow;px(cx,cy,dx,dy,col);}},
+  };
+  const tree=TREES[th.tree]||TREES.oak;
   for(let i=0;i<Math.round(22*H/32);i++){const left=i%2===0;let y;do{y=1+R()*(H-2);}while(y>RY-3&&y<RY+3);
-    tree((left?.1+R()*.9:W-1+R()*.9)*T,y*T);}
+    tree(q((left?.1+R()*.9:W-1+R()*.9)*T),q(y*T));}
   // oscurecer bordes
-  const gr=g.createLinearGradient(0,0,c.width,0);gr.addColorStop(0,'rgba(0,0,0,.28)');gr.addColorStop(.06,'rgba(0,0,0,0)');gr.addColorStop(.94,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.28)');
+  const v=th.vig||.28,gr=g.createLinearGradient(0,0,c.width,0);gr.addColorStop(0,`rgba(0,0,0,${v})`);gr.addColorStop(.06,'rgba(0,0,0,0)');gr.addColorStop(.94,'rgba(0,0,0,0)');gr.addColorStop(1,`rgba(0,0,0,${v})`);
   g.fillStyle=gr;g.fillRect(0,0,c.width,c.height);
   return c;
+}
+/* partículas de ambiente sobre la vista (no dependen del mapa ni de la cámara) */
+function drawAmbient(){
+  const a=ARENAS[ARENA].amb;if(!a)return;
+  const w=cv.width,h=cv.height,q2=v=>Math.round(v/2)*2;
+  for(let i=0;i<(a==='snow'?70:a==='ember'?36:a==='sand'?22:16);i++){
+    if(a==='snow'){const sp=26+i*37%40,x=((i*173+Math.sin(gt*.8+i)*18)%w+w)%w,y=(i*97+gt*sp)%h;
+      ctx.globalAlpha=.55+(i%4)*.1;ctx.fillStyle='#fff';const s=i%3?3:5;ctx.fillRect(q2(x),q2(y),s,s);}
+    else if(a==='ember'){const sp=30+i*53%50,x=((i*211+Math.sin(gt*1.3+i)*14)%w+w)%w,y=h-(i*131+gt*sp)%h;
+      ctx.globalAlpha=.5+.5*Math.abs(Math.sin(gt*4+i));ctx.fillStyle=i%2?'#ffb347':'#ff6a1a';ctx.fillRect(q2(x),q2(y),4,4);}
+    else if(a==='sand'){const sp=60+i*41%60,x=(i*151+gt*sp)%(w+40)-20,y=(i*263%h+Math.sin(gt+i)*10);
+      ctx.globalAlpha=.22;ctx.fillStyle='#f4dca0';ctx.fillRect(q2(x),q2(y),14,2);}
+    else if(a==='wisp'){const x=((i*211+Math.sin(gt*.3+i)*60)%w+w)%w,y=((i*157+Math.cos(gt*.25+i*2)*50)%h+h)%h;
+      ctx.globalAlpha=.25+.45*Math.abs(Math.sin(gt*1.5+i));ctx.fillStyle=i%3?'#b6ff6a':'#ffb347';ctx.fillRect(q2(x),q2(y),4,4);
+      ctx.globalAlpha*=.35;ctx.fillRect(q2(x)-4,q2(y)-4,12,12);}
+  }
+  ctx.globalAlpha=1;
 }
 
 /* =====================================================================
@@ -1171,7 +1404,7 @@ function drawTower(e){
     if(rnd()<.05)fx.push({k:'p',x:e.x*TILE+(rnd()-.5)*20,y:e.y*TILE,vx:0,vy:FL?25:-25,t:0,T:1.2,c:'#4a4550',s:6,g:0});
     return;}
   ctx.fillStyle='rgba(0,0,0,.3)';ctx.fillRect(px-s/2+6,py-s/2+8,s,s);
-  ctx.drawImage(IMG[tc][e.tw],px-s/2,py-s/2,s,s);
+  ctx.drawImage(towerImg(TSKIN[e.team],tc,e.tw),px-s/2,py-s/2,s,s);
   if(e.flash>0){ctx.globalAlpha=.6;ctx.drawImage(IMGW[e.tw],px-s/2,py-s/2,s,s);ctx.globalAlpha=1;}
   const ts=e.tw==='hq'?s*.62:s*.6;
   ctx.save();ctx.translate(px,py);ctx.rotate(VA(e.tang)+Math.PI/2);ctx.translate(0,e.recoil*4);
@@ -1248,7 +1481,7 @@ function render(){
   if(shakeM>0)ctx.translate(Math.round((rnd()-.5)*shakeM*2),Math.round((rnd()-.5)*shakeM*2));
   ctx.translate(-Math.round(camX*TILE),-Math.round(camY*TILE));
   if(MAP){if(FL){ctx.save();ctx.translate(W*TILE,H*TILE);ctx.rotate(Math.PI);ctx.drawImage(MAP,0,0);ctx.restore();}else ctx.drawImage(MAP,0,0);}
-  ctx.fillStyle='rgba(255,255,255,.35)';
+  ctx.fillStyle=ARENAS[ARENA].foam;
   for(let i=0;i<26;i++){const x=Math.round(((i*71+gt*22*(i%2?1:-1))%(W*TILE)+W*TILE)%(W*TILE)/4)*4,y=(RY-1)*TILE+12+(i*13%(2*TILE-28));
     if(Math.abs(x/TILE-BR[0])<1.1||Math.abs(x/TILE-BR[1])<1.1)continue;ctx.fillRect(x,Math.round(y/4)*4,12,4);}
   drawGhost();
@@ -1271,6 +1504,7 @@ function render(){
   drawSpells();
   drawBars();
   ctx.restore();
+  drawAmbient();
   if(MODE&&MODE.big)drawMini();
 }
 /* minimapa (solo en mapas con cámara): todo el campo, las tropas y el recuadro de lo que se ve */
@@ -1395,7 +1629,7 @@ window.addEventListener('resize',resize);
 const ALL=Object.keys(CARDS);
 const DEFAULT_DECK=['ligero','pesado','infanteria','artilleria','heli','aa','ingenieros','bombardeo'];
 const NSLOTS=4;
-const SAVE={cups:0,best:0,w:0,l:0,decks:null,di:0,mode:'clasica'};
+const SAVE={cups:0,best:0,w:0,l:0,decks:null,di:0,mode:'clasica',coins:0,chests:[],owned:[],skins:['std'],skin:'std',arena:'pradera',freeAt:0};
 try{Object.assign(SAVE,JSON.parse(localStorage.getItem('blindados-save')||'{}'));}catch(e){}
 SAVE.cups=Math.max(0,+SAVE.cups||0);
 // 4 ranuras de mazo; las partidas guardadas con un solo mazo pasan a la ranura 1
@@ -1403,6 +1637,12 @@ if(!Array.isArray(SAVE.decks))SAVE.decks=[Array.isArray(SAVE.deck)?SAVE.deck:DEF
 while(SAVE.decks.length<NSLOTS)SAVE.decks.push(DEFAULT_DECK.slice());
 SAVE.decks=SAVE.decks.slice(0,NSLOTS).map(d=>(Array.isArray(d)?d:[]).filter(k=>CARDS[k]).slice(0,8));
 SAVE.di=clamp(SAVE.di|0,0,NSLOTS-1);
+// tienda: monedas, cofres por abrir, cartas conseguidas en cofres y apariencias
+SAVE.coins=Math.max(0,SAVE.coins|0);SAVE.freeAt=+SAVE.freeAt||0;
+SAVE.chests=(Array.isArray(SAVE.chests)?SAVE.chests:[]).filter(t=>CHESTS[t]).slice(0,MAXCHESTS);
+SAVE.owned=(Array.isArray(SAVE.owned)?SAVE.owned:[]).filter(k=>CARDS[k]);
+SAVE.skins=(Array.isArray(SAVE.skins)?SAVE.skins:[]).filter(k=>SKINS[k]);if(!SAVE.skins.includes('std'))SAVE.skins.unshift('std');
+if(!SKINS[SAVE.skin])SAVE.skin='std';if(!ARENAS[SAVE.arena])SAVE.arena='pradera';
 deckSel=new Set(SAVE.decks[SAVE.di]);
 function store(){SAVE.decks[SAVE.di]=[...deckSel];SAVE.deck=[...deckSel];SAVE.mode=modeSel;
   try{localStorage.setItem('blindados-save',JSON.stringify(SAVE));}catch(e){}}
@@ -1412,11 +1652,14 @@ const ADMINS=['fuffo'];
 try{$('#nick').value=localStorage.getItem('blindados-nick')||'';}catch(e){}
 const isAdmin=()=>ADMINS.includes($('#nick').value.trim().toLowerCase());
 const unlockRank=()=>isAdmin()?RANKS.length-1:rankIdx(SAVE.cups);
+// una carta se tiene por rango o por haberla sacado de un cofre
+const have=(k,ri=unlockRank())=>unlocked(k,ri)||SAVE.owned.includes(k);
+const ownSkin=s=>isAdmin()||SAVE.skins.includes(s);
 /* Quita las cartas bloqueadas del mazo actual y, si faltaban por eso, lo rellena hasta 8. */
 function fillDeck(){
   const ur=unlockRank();let removed=false;
-  for(const k of [...deckSel])if(!unlocked(k,ur)){deckSel.delete(k);removed=true;}
-  if(removed)for(const k of [...DEFAULT_DECK,...ALL]){if(deckSel.size>=8)break;if(unlocked(k,ur))deckSel.add(k);}
+  for(const k of [...deckSel])if(!have(k,ur)){deckSel.delete(k);removed=true;}
+  if(removed)for(const k of [...DEFAULT_DECK,...ALL]){if(deckSel.size>=8)break;if(have(k,ur))deckSel.add(k);}
 }
 fillDeck();
 /* Antes de jugar: con menos de 8 cartas, lleva a la pestaña Mazo con un aviso. */
@@ -1444,19 +1687,19 @@ function renderMenu(){
   const sl=$('#slots');sl.innerHTML='';
   for(let i=0;i<NSLOTS;i++){const b=document.createElement('button');b.textContent='Mazo '+(i+1);
     b.className=i===SAVE.di?'on':'';b.setAttribute('aria-pressed',i===SAVE.di);b.addEventListener('click',()=>selectSlot(i));sl.appendChild(b);}
-  renderDeck();renderProfile();renderModes();renderRanks();
+  renderDeck();renderProfile();renderModes();renderRanks();renderShop();
 }
 function menuCard(k,ri){
-  if(melRi!==ri){for(const x in MEL)delete MEL[x];melRi=ri;}
+  const mk=ri+'/'+SAVE.owned.length;if(melRi!==mk){for(const x in MEL)delete MEL[x];melRi=mk;}
   if(MEL[k])return MEL[k];
   const el=MEL[k]=cardEl(k);el.tabIndex=0;
-  if(!unlocked(k,ri)){el.classList.add('lock');el.querySelector('.cname').remove();
+  if(!have(k,ri)){el.classList.add('lock');el.querySelector('.cname').remove();
     el.insertAdjacentHTML('beforeend',`<img class="lockic" src="${LOCK}" alt=""><div class="lockrk">${RANKS[UNLOCK[k]].n.toUpperCase()}</div>`);}
   bindAct(el,()=>tapCard(k));
   return el;
 }
 // colección: primero las disponibles por coste, luego las bloqueadas por rango
-const poolOrder=ri=>ALL.slice().sort((a,b)=>{const la=unlocked(a,ri)?0:1,lb=unlocked(b,ri)?0:1;
+const poolOrder=ri=>ALL.slice().sort((a,b)=>{const la=have(a,ri)?0:1,lb=have(b,ri)?0:1;
   return la-lb||(la?UNLOCK[a]-UNLOCK[b]:0)||CARDS[a].cost-CARDS[b].cost||CARDS[a].name.localeCompare(CARDS[b].name,'es');});
 const calm=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 function renderDeck(){
@@ -1481,7 +1724,7 @@ function flash(k){const el=MEL[k];if(!el)return;el.classList.remove('just');void
 function tapCard(k){
   const inD=deckSel.has(k);
   if(pick&&pick.k===k){pick=null;closeSheet();renderDeck();return;}
-  if(!unlocked(k,unlockRank())){pick=null;renderDeck();openCard(k);return;}
+  if(!have(k)){pick=null;renderDeck();openCard(k);return;}
   if(pick&&pick.from!==(inD?'deck':'pool')){swapCards(inD?k:pick.k,inD?pick.k:k);return;}
   if(!inD&&deckSel.size<8){hideUndo();deckSel.add(k);pick=null;store();closeSheet();renderDeck();flash(k);return;}
   pick={k,from:inD?'deck':'pool'};renderDeck();openCard(k);
@@ -1489,7 +1732,7 @@ function tapCard(k){
 function swapCards(out,inn){hideUndo();deckSel=new Set([...deckSel].map(x=>x===out?inn:x));pick=null;store();closeSheet();renderDeck();flash(inn);}
 function removeCard(k){const prev=[...deckSel];deckSel.delete(k);pick=null;store();closeSheet();renderDeck();undoable(prev,CARDS[k].name+' fuera del mazo');}
 function openCard(k){
-  const inD=deckSel.has(k),open=unlocked(k,unlockRank());
+  const inD=deckSel.has(k),open=have(k);
   openSheet(cardInfo(k));
   const sd=$('#sheetDeck'),acts=$('#sheetActs');
   if(open&&inD){
@@ -1526,9 +1769,10 @@ function renderProfile(){
   $('#topIns').src=INS[ri];$('#rankIns').src=INS[ri];
   $('#topRank').textContent=r.n+(isAdmin()?' · ADMIN':'');$('#rankName').textContent=r.n;$('#cupNum').textContent=SAVE.cups;
   if(nx){const f=(SAVE.cups-r.c)/(nx.c-r.c);$('#rankFill').style.width=(f*100)+'%';$('#rankTxt').textContent=SAVE.cups+' / '+nx.c;
-    const rw=[...(nx.cards||[]).map(k=>CARDS[k].name),...(nx.modes||[]).map(m=>'modo '+MODES[m].name)];
+    const rw=[...(nx.cards||[]).map(k=>CARDS[k].name),...(nx.modes||[]).map(m=>'modo '+MODES[m].name),...arenasAt(ri+1).map(a=>'arena '+ARENAS[a].n)];
     $('#rankNext').innerHTML=`<b>${nx.n}</b>${rw.length?': '+rw.join(', '):''}`;}
   else{$('#rankFill').style.width='100%';$('#rankTxt').textContent=SAVE.cups+' copas';$('#rankNext').innerHTML='<b>Rango máximo</b>';}
+  $('#coinNum').textContent=SAVE.coins;
   $('#stW').textContent=SAVE.w;$('#stL').textContent=SAVE.l;$('#stB').textContent=SAVE.best;
 }
 function renderModes(){
@@ -1545,9 +1789,9 @@ function renderModes(){
 }
 function renderRanks(){
   const ri=rankIdx(SAVE.cups),box=$('#rankList');box.innerHTML='';
-  RANKS.forEach((r,i)=>{const rw=[...(r.cards||[]).map(k=>CARDS[k].name),...(r.modes||[]).map(m=>'Modo '+MODES[m].name)];
+  RANKS.forEach((r,i)=>{const rw=[...(i===0?['Mazo inicial: 11 cartas']:[]),...(r.cards||[]).map(k=>CARDS[k].name),...(r.modes||[]).map(m=>'Modo '+MODES[m].name),...arenasAt(i).map(a=>'Arena '+ARENAS[a].n)];
     const d=document.createElement('div');d.className='rrow'+(i===ri?' cur':i>ri?' fut':'');
-    d.innerHTML=`<img class="ins" src="${INS[i]}" alt=""><div class="rn">${r.n}<small>${rw.length?rw.join(' · '):i===0?'Mazo inicial: 11 cartas':'Insignia de Mariscal'}</small></div>
+    d.innerHTML=`<img class="ins" src="${INS[i]}" alt=""><div class="rn">${r.n}<small>${rw.length?rw.join(' · '):'Insignia de Mariscal'}</small></div>
       <div class="rc">${r.c}<img src="${CUP}" alt="copas"></div>${i===ri?'<span class="tag">TÚ</span>':''}`;
     box.appendChild(d);});
 }
@@ -1555,16 +1799,120 @@ function showTab(id){
   if(pick){pick=null;renderDeck();}closeSheet();hideUndo();
   document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('hide',s.id!==id));
   document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
+  confirmK=null;shopMsg('');if(id==='scrShop')renderShop();
   $('#menu').scrollTop=0;
 }
 document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.s)));
 $('#rankCard').addEventListener('click',()=>showTab('scrRanks'));
 $('#rankCard').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showTab('scrRanks');}});
-{const t=document.querySelectorAll('#tabs button img');
-  t[0].src=url(artSvg([['lightBody',-3,-2,.7],['lightTur',-3,-2,.7],['soldier',4,3,.7]],palFor(0)));
-  t[1].src=url(artSvg([['heavyBody'],['heavyTur']],palFor(0)));
-  t[2].src=INS[4];}
+{const t=s=>$(`#tabs button[data-s="${s}"] img`);
+  t('scrShop').src=CHEST_IMG.oro;
+  t('scrDeck').src=url(artSvg([['lightBody',-3,-2,.7],['lightTur',-3,-2,.7],['soldier',4,3,.7]],palFor(0)));
+  t('scrHome').src=url(artSvg([['heavyBody'],['heavyTur']],palFor(0)));
+  t('scrRanks').src=INS[4];}
 document.querySelectorAll('.cupic').forEach(i=>i.src=CUP);
+document.querySelectorAll('.coinic').forEach(i=>i.src=COIN);
+/* ---------- tienda: cofres, apariencias de búnker y arenas ---------- */
+const coinTag=n=>`<img src="${COIN}" alt="monedas">${n}`;
+const freeLeft=()=>Math.max(0,SAVE.freeAt-Date.now());
+function fmtLeft(ms){const m=Math.ceil(ms/60000),h=m/60|0;return h?h+'h '+String(m%60).padStart(2,'0')+'m':m+'m';}
+function shopMsg(t){$('#shopMsg').textContent=t;}
+// una compra pide un segundo toque para confirmar
+let confirmK=null,confirmT=0;
+function confirmBuy(k,price,doIt){
+  if(SAVE.coins<price){shopMsg(`Te faltan ${price-SAVE.coins} monedas. Gana partidas para conseguir más.`);return;}
+  if(confirmK!==k){confirmK=k;clearTimeout(confirmT);confirmT=setTimeout(()=>{confirmK=null;renderShop();},3000);renderShop();return;}
+  confirmK=null;clearTimeout(confirmT);SAVE.coins-=price;doIt();store();renderShop();renderProfile();
+}
+function renderShop(){
+  $('#coinNum').textContent=SAVE.coins;
+  const cs=$('#chestSlots');cs.replaceChildren();
+  for(let i=0;i<MAXCHESTS;i++){const t=SAVE.chests[i],b=document.createElement('button');
+    if(t){b.className='full';b.innerHTML=`<img src="${CHEST_IMG[t]}" alt="">${CHESTS[t].s}`;
+      b.setAttribute('aria-label','Abrir '+CHESTS[t].n);b.addEventListener('click',()=>{SAVE.chests.splice(i,1);store();openChestUI(t);});}
+    else{b.textContent='Vacío';b.disabled=true;}
+    cs.appendChild(b);}
+  const of=$('#offers');of.replaceChildren();
+  for(const t of ['madera','plata','oro']){const C=CHESTS[t],d=document.createElement('div');d.className='offer';
+    const btn=document.createElement('button');btn.className='pbtn';
+    if(t==='madera'){const l=freeLeft();btn.id='freeBtn';
+      if(l){btn.classList.add('wait');btn.textContent=fmtLeft(l);btn.disabled=true;}
+      else{btn.textContent='¡Gratis!';btn.addEventListener('click',()=>{SAVE.freeAt=Date.now()+FREE_EVERY;store();renderShop();openChestUI('madera');});}}
+    else{const conf=confirmK==='chest:'+t;btn.className='pbtn'+(conf?' ok':SAVE.coins<C.price?' poor':'');
+      btn.innerHTML=conf?'¿Comprar?':coinTag(C.price);
+      btn.addEventListener('click',()=>confirmBuy('chest:'+t,C.price,()=>{shopMsg('');openChestUI(t);}));}
+    d.innerHTML=`<img src="${CHEST_IMG[t]}" alt=""><b>${C.s}</b><span>${t==='madera'?'Cada 4 horas':t==='oro'?'Carta segura':'Más cartas'}</span>`;
+    d.appendChild(btn);of.appendChild(d);}
+  const sl=$('#skinList');sl.replaceChildren();
+  for(const s in SKINS){const S=SKINS[s],own=ownSkin(s),on=SAVE.skin===s,conf=confirmK==='skin:'+s,b=document.createElement('button');
+    b.className='item'+(on?' on':'');b.setAttribute('aria-pressed',on);
+    b.innerHTML=`<div class="pv"><img src="${skinPreview(s)}" alt=""></div>${S.n}<span class="pbtn${on?' wait':own?'':conf?' ok':SAVE.coins<S.p?' poor':''}">${on?'Equipado':own?'Usar':conf?'¿Comprar?':coinTag(S.p)}</span>`;
+    b.addEventListener('click',()=>{if(on)return;
+      if(own){SAVE.skin=s;store();renderShop();return;}
+      confirmBuy('skin:'+s,S.p,()=>{SAVE.skins.push(s);SAVE.skin=s;shopMsg('¡'+S.n+' equipado en tus búnkeres!');});});
+    sl.appendChild(b);}
+  const al=$('#arenaList'),ri=unlockRank();al.replaceChildren();
+  for(const a in ARENAS){const A=ARENAS[a],open=arenaOpen(a,ri),on=SAVE.arena===a,b=document.createElement('button');
+    b.className='item'+(on?' on':'')+(open?'':' locked');b.setAttribute('aria-pressed',on);
+    b.innerHTML=`<div class="pv map"><img src="${arenaThumb(a)}" alt=""></div>${open?'':`<img class="lk" src="${LOCK}" alt="">`}${A.n}<span class="pbtn${on||!open?' wait':''}">${on?'Elegida':open?'Elegir':RANKS[A.r].n}</span>`;
+    b.addEventListener('click',()=>{if(!open){shopMsg(`${A.n} se desbloquea en ${RANKS[A.r].n} (${RANKS[A.r].c} copas).`);return;}
+      if(on)return;SAVE.arena=a;store();renderShop();});
+    al.appendChild(b);}
+  updShopDot();
+}
+function updShopDot(){$('#shopDot').classList.toggle('hide',!SAVE.chests.length&&freeLeft()>0);}
+// miniatura de cada arena: un trozo del mapa normal (río, puente y búnkeres), a 1/4
+const THUMB={};
+function arenaThumb(a){
+  if(THUMB[a])return THUMB[a];
+  if(state!=='menu'||$('#scrShop').classList.contains('hide'))return '';
+  setGeom(false);
+  const m=mapFor(a),c=document.createElement('canvas'),sy=(RY-3)*TILE;c.width=144;c.height=128;
+  const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.drawImage(m,0,sy,W*TILE,16*TILE,0,0,144,128);
+  return THUMB[a]=c.toDataURL();
+}
+setInterval(()=>{if(state!=='menu')return;updShopDot();const b=$('#freeBtn');
+  if(b&&!$('#scrShop').classList.contains('hide')){const l=freeLeft();if(l)b.textContent=fmtLeft(l);else if(b.disabled)renderShop();}},1000);
+
+/* abrir un cofre: tocar, temblar y mostrar lo que sale */
+function rollChest(t){
+  const C=CHESTS[t],out={coins:C.coins[0]+Math.round(rnd()*(C.coins[1]-C.coins[0]))},ri=unlockRank();
+  const locked=ALL.filter(k=>!have(k));
+  if(locked.length&&rnd()<C.card){
+    // las cartas de rangos cercanos salen más a menudo
+    const w=locked.map(k=>1/(1+(UNLOCK[k]||0)-ri));let r=rnd()*w.reduce((a,b)=>a+b,0),i=0;
+    while(i<locked.length-1&&(r-=w[i])>0)i++;
+    out.card=locked[i];SAVE.owned.push(out.card);
+  }else if(C.card>=1)out.coins+=C.coins[1];
+  const ns=Object.keys(SKINS).filter(s=>!ownSkin(s));
+  if(ns.length&&rnd()<C.skin){out.skin=ns[rnd()*ns.length|0];SAVE.skins.push(out.skin);}
+  SAVE.coins+=out.coins;store();
+  return out;
+}
+let chestT=null,chestOpen=false;
+function openChestUI(t){
+  chestT=t;chestOpen=false;
+  $('#chTitle').textContent=CHESTS[t].n;$('#chImg').src=CHEST_IMG[t];
+  $('#chBox').className='';$('#chLoot').replaceChildren();$('#chHint').textContent='Toca el cofre para abrirlo';
+  $('#chOk').textContent='Abrir';$('#chestScr').classList.remove('hide');$('#chOk').focus({preventScroll:true});
+}
+function chestTap(){
+  if(!chestT)return;
+  if(chestOpen){chestT=null;$('#chestScr').classList.add('hide');renderMenu();return;}
+  if($('#chBox').classList.contains('shake'))return;
+  $('#chBox').classList.add('shake');$('#chHint').textContent='';
+  setTimeout(()=>{
+    const r=rollChest(chestT),L=$('#chLoot');chestOpen=true;
+    $('#chBox').className='gone';
+    const add=h=>{const d=document.createElement('div');d.innerHTML=h;L.appendChild(d);return d;};
+    add(`<div class="coinrow"><img src="${COIN}" alt="">+${r.coins}</div>`);
+    if(r.card){const d=add(`¡Carta nueva! <b>${CARDS[r.card].name}</b>`);d.appendChild(cardEl(r.card));}
+    if(r.skin)add(`¡Búnker nuevo! <b>${SKINS[r.skin].n}</b><div class="skin"><img src="${skinPreview(r.skin)}" alt=""></div>`);
+    $('#chHint').textContent=r.card?'Ya puedes usarla en tu mazo.':r.skin?'Equípalo en la Tienda.':'';
+    $('#chOk').textContent='Recoger';
+  },calm()?50:700);
+}
+$('#chBox').addEventListener('click',chestTap);$('#chOk').addEventListener('click',chestTap);
 const spd=v=>v>=2.2?'Muy rápida':v>=1.6?'Rápida':v>=1.1?'Media':'Lenta';
 function cardInfo(k){
   const c=CARDS[k];let st='';
@@ -1575,7 +1923,7 @@ function cardInfo(k){
       <span>Alcance <b>${u.range}</b></span><span>${u.building?'Duración <b>'+u.life+' s</b>':'Velocidad <b>'+spd(u.speed)+'</b>'}</span><span>Objetivo <b>${obj}</b></span><span>Cadencia <b>${u.rate} s</b></span>${c.anywhere?'<span>Despliegue <b>Cualquier zona</b></span>':''}`;}}
   else{const s=c.spell;st=s.heal?`<span>Radio <b>${s.radius}</b></span><span>Repara <b>${s.heal}</b></span><span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`
     :`<span>Radio <b>${s.radius}</b></span><span>Daño <b>${s.dmg}</b></span>${s.stun?`<span>Inmoviliza <b>${s.stun} s</b></span>`:''}<span>A búnkeres <b>${Math.round(s.tower*100)}%</b></span>`;}
-  const lk=unlocked(k,unlockRank())?'':`<p style="color:var(--fuel2)">Se desbloquea en ${RANKS[UNLOCK[k]].n} (${RANKS[UNLOCK[k]].c} copas).</p>`;
+  const lk=have(k)?'':`<p style="color:var(--fuel2)">Se desbloquea en ${RANKS[UNLOCK[k]].n} (${RANKS[UNLOCK[k]].c} copas) o antes, si sale en un cofre.</p>`;
   return `<h3>${c.name}</h3><div class="meta">${c.type} · ${c.rar} · ${c.cost} de combustible</div><p>${c.desc}</p><div class="stats">${st}</div>${lk}`;
 }
 document.querySelectorAll('.diffs button').forEach(b=>b.addEventListener('click',()=>{diff=b.dataset.d;document.querySelectorAll('.diffs button').forEach(x=>x.classList.toggle('on',x===b));}));
@@ -1584,7 +1932,7 @@ document.querySelectorAll('.diffs button').forEach(b=>b.addEventListener('click'
    RED · Supabase Realtime (anfitrión autoritativo)
    ===================================================================== */
 const NET={role:'off',ch:null,code:'',id:Math.random().toString(36).slice(2,10),ev:[],sendT:0,peer:null,peerName:'Rival',
-  ready:{me:false,peer:false},seq:0,lastSeq:0,pending:[],hostSeen:false,left:false,joinedAt:0,sb:null};
+  ready:{me:false,peer:false},peerSkin:'std',seq:0,lastSeq:0,pending:[],hostSeen:false,left:false,joinedAt:0,sb:null};
 const SNAP_HZ=12;
 function EM(...a){if(NET.role==='host'&&state==='play'){NET.ev.push(a);if(NET.ev.length>400)NET.ev.shift();}}
 const EVF={b:boom,m:muzzle,s:spark,f:flames,d:dust,t:tracer,e:empFx,h:healFx,k:shake,x:killBanner};
@@ -1603,12 +1951,12 @@ function lobbyStatus(m){$('#lobbyMsg').textContent=m;}
 function menuMsg(m){$('#mmsg').textContent=m;}
 function openRoom(code,role){
   let client;try{client=sbClient();}catch(e){menuMsg('No se pudo cargar el servidor de partidas. Revisa tu conexión.');return false;}
-  NET.role=role;NET.code=code;NET.peer=null;NET.hostSeen=false;NET.left=false;NET.joinedAt=Date.now();
+  NET.role=role;NET.code=code;NET.peer=null;NET.peerSkin='std';NET.hostSeen=false;NET.left=false;NET.joinedAt=Date.now();
   const ch=client.channel('blindados-'+code,{config:{broadcast:{self:false},presence:{key:NET.id}}});
   for(const ev of ['start','snap','deploy','nack','end','rematch'])ch.on('broadcast',{event:ev},msg=>onNet(ev,msg.payload||{}));
   ch.on('presence',{event:'sync'},onPresence);
   ch.subscribe(async status=>{
-    if(status==='SUBSCRIBED'){await ch.track({role,name:myName(),at:NET.joinedAt});
+    if(status==='SUBSCRIBED'){await ch.track({role,name:myName(),at:NET.joinedAt,skin:SAVE.skin});
       if(role==='guest')setTimeout(()=>{if(NET.ch===ch&&!NET.hostSeen){lobbyStatus('No hay ninguna sala abierta con ese código.');leaveRoom(true);}},5000);}
     else if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){lobbyStatus('Error de conexión con el servidor. Inténtalo de nuevo.');}
   });
@@ -1626,14 +1974,14 @@ function onPresence(){
   if(NET.role==='host'){
     if(!NET.peer){
       const g=others.filter(o=>o.role==='guest').sort((a,b)=>a.at-b.at)[0];
-      if(g){NET.peer=g.k;NET.peerName=g.name||'Rival';lobbyStatus(NET.peerName+' se ha unido. ¡Empieza la batalla!');
-        setTimeout(()=>{if(NET.role!=='host')return;netSend('start',{name:myName(),mode:modeSel});startGame('host');},900);}
+      if(g){NET.peer=g.k;NET.peerName=g.name||'Rival';NET.peerSkin=g.skin||'std';lobbyStatus(NET.peerName+' se ha unido. ¡Empieza la batalla!');
+        setTimeout(()=>{if(NET.role!=='host')return;netSend('start',{name:myName(),mode:modeSel,skin:SAVE.skin});startGame('host');},900);}
     }else if(!others.some(o=>o.k===NET.peer))peerLeft();
   }else if(NET.role==='guest'){
     const h=others.find(o=>o.role==='host');
     if(h){
       if(others.some(o=>o.role==='guest'&&o.at<NET.joinedAt)&&state!=='play'&&!NET.hostSeen){lobbyStatus('La sala ya está llena.');leaveRoom(true);return;}
-      NET.hostSeen=true;NET.peer=h.k;NET.peerName=h.name||'Anfitrión';
+      NET.hostSeen=true;NET.peer=h.k;NET.peerName=h.name||'Anfitrión';NET.peerSkin=h.skin||'std';
       if(state!=='play'&&state!=='end')lobbyStatus('Conectado con '+NET.peerName+'. Esperando a que empiece…');
     }else if(NET.hostSeen)peerLeft();
   }
@@ -1645,7 +1993,7 @@ function peerLeft(){
   else lobbyStatus('Tu rival ha salido de la sala.');
 }
 function onNet(ev,p){
-  if(ev==='start'){if(NET.role==='guest'&&state!=='play'){NET.peerName=p.name||NET.peerName;startGame('guest',p.mode);}}
+  if(ev==='start'){if(NET.role==='guest'&&state!=='play'){NET.peerName=p.name||NET.peerName;if(p.skin)NET.peerSkin=p.skin;startGame('guest',p.mode);}}
   else if(ev==='snap'){if(NET.role==='guest')applySnap(p);}
   else if(ev==='deploy'){
     if(NET.role!=='host'||state!=='play')return;
@@ -1658,7 +2006,7 @@ function onNet(ev,p){
   else if(ev==='rematch'){NET.ready.peer=true;if(state==='end')toast('Tu rival quiere la revancha');tryRematch();}
 }
 function tryRematch(){
-  if(NET.role==='host'&&NET.ready.me&&NET.ready.peer){netSend('start',{name:myName(),mode:modeSel});startGame('host');}
+  if(NET.role==='host'&&NET.ready.me&&NET.ready.peer){netSend('start',{name:myName(),mode:modeSel,skin:SAVE.skin});startGame('host');}
 }
 const r2=v=>Math.round(v*100)/100;
 function buildSnap(){
@@ -1717,17 +2065,22 @@ function startGame(mode,mkey){
   mode=mode||'off';
   ME=mode==='guest'?1:0;FL=ME===1;
   MODE=MODES[mkey]||MODES[modeSel]||MODES.clasica;
-  setField(!!MODE.big);
+  ARENA=arenaOpen(SAVE.arena,unlockRank())?SAVE.arena:'pradera';
+  setField(!!MODE.big);$('#stage').style.background=ARENAS[ARENA].stage;
   if(mode!=='off')ranked=false;
   const ri=rankIdx(SAVE.cups);
   if(mode==='off')AIC=ranked?rankAI(ri):DIFF[diff];
+  const sk=Object.keys(SKINS);
+  TSKIN[ME]=ownSkin(SAVE.skin)?SAVE.skin:'std';
+  TSKIN[1-ME]=mode==='off'?(ranked?sk[rnd()*Math.min(sk.length,2+ri/2)|0]:'std'):(SKINS[NET.peerSkin]?NET.peerSkin:'std');
+  for(const t of [0,1])for(const tw of ['bunker','hq'])towerImg(TSKIN[t],CT(t),tw);
   const f0=MODE.fuel0||5;
   ents=[];projs=[];fx=[];spells=[];uid=0;fuel=[f0,f0];crowns=[0,0];time=MODE.time;overtime=false;doubleOn=!!MODE.x2;gt=0;shakeM=0;
   NET.pending=[];NET.lastSeq=0;NET.seq=0;NET.ev=[];NET.left=false;NET.ready={me:false,peer:false};NET.sendT=0;
   for(const p of TPOS){const d=TDEF[p.tw],a=p.team?Math.PI/2:-Math.PI/2;
     ents.push({id:++uid,team:p.team,x:p.x,y:p.y,kind:'tower',tw:p.tw,lane:p.lane,def:d,hp:d.hp,maxHp:d.hp,r:d.r,alive:true,
       active:p.tw==='bunker',ang:a,tang:a,cd:0,target:null,retarget:0,spawn:0,stun:0,flash:0,recoil:0,air:false});}
-  const mine=ALL.filter(k=>unlocked(k,unlockRank()));
+  const mine=ALL.filter(k=>have(k));
   queue=MODE.random?shuffle(mine.slice()).slice(0,8):shuffle([...deckSel]);hand=queue.splice(0,4);
   const aiPool=ALL.filter(k=>k!=='reparacion'&&(!ranked||unlocked(k,ri)));
   const ad=shuffle(aiPool).slice(0,8);if(!ad.some(k=>CARDS[k].unit&&CARDS[k].unit.tAir))ad[7]='aa';
@@ -1749,8 +2102,11 @@ function award(r){
   SAVE.cups=Math.max(RANKS[ri0].c,before+delta);
   SAVE.best=Math.max(SAVE.best,SAVE.cups);
   if(r==='win')SAVE.w++;else if(r==='lose')SAVE.l++;
+  // monedas: victoria 15 + 5 por corona, empate 5, derrota 3. Cada victoria da un cofre si hay hueco.
+  const coins=r==='win'?15+5*crowns[ME]:r==='draw'?5:3;SAVE.coins+=coins;
+  let chest=null;if(r==='win'){const v=rnd();chest=v<.06?'oro':v<.32?'plata':'madera';if(SAVE.chests.length<MAXCHESTS)SAVE.chests.push(chest);else chest='full';}
   store();
-  return {delta:SAVE.cups-before,from:ri0,to:rankIdx(SAVE.cups)};
+  return {delta:SAVE.cups-before,from:ri0,to:rankIdx(SAVE.cups),coins,chest};
 }
 function endGame(win,why){
   if(state!=='play')return;state='end';
@@ -1768,11 +2124,15 @@ function endGame(win,why){
     if(aw){ec.className=aw.delta>0?'up':aw.delta<0?'down':'';
       ec.innerHTML=`<span>${aw.delta>0?'+':''}${aw.delta}</span><img src="${CUP}" alt="copas"><span style="color:var(--muted);font-size:9px">${SAVE.cups}</span>`;}
     else{ec.className='';ec.innerHTML='<span style="font-size:8px;color:var(--muted)">Entrenamiento · sin copas</span>';}
+    $('#endLoot').innerHTML=!aw?'':`<span style="color:var(--fuel2)"><img src="${COIN}" alt="monedas">+${aw.coins}</span>`+
+      (aw.chest==='full'?'<small>Tus 4 huecos de cofre están llenos: ábrelos en la Tienda.</small>'
+        :aw.chest?`<span><img class="ch" src="${CHEST_IMG[aw.chest]}" alt="">${CHESTS[aw.chest].n}</span>`:'');
     const pr=$('#promo');
     if(aw&&aw.to>aw.from){
-      const cards=[],modes=[];for(let i=aw.from+1;i<=aw.to;i++){cards.push(...(RANKS[i].cards||[]));modes.push(...(RANKS[i].modes||[]));}
+      const cards=[],modes=[],arenas=[];for(let i=aw.from+1;i<=aw.to;i++){cards.push(...(RANKS[i].cards||[]));modes.push(...(RANKS[i].modes||[]));arenas.push(...arenasAt(i));}
       pr.innerHTML=`<img class="ins big" src="${INS[aw.to]}" alt=""><div>¡ASCENSO! Ahora eres <b>${RANKS[aw.to].n}</b></div>`+
         (modes.length?`<div>Nuevo modo: <b>${modes.map(m=>MODES[m].name).join(', ')}</b></div>`:'')+
+        (arenas.length?`<div>Nueva arena: <b>${arenas.map(a=>ARENAS[a].n).join(', ')}</b></div>`:'')+
         (cards.length?'<div>Cartas desbloqueadas:</div><div class="unl"></div>':'');
       const u=pr.querySelector('.unl');if(u)cards.forEach(k=>u.appendChild(cardEl(k)));
       pr.classList.remove('hide','show');void pr.offsetWidth;pr.classList.add('show');
@@ -1823,7 +2183,7 @@ $('#joinRoom').addEventListener('click',()=>{
   menuMsg('');if(openRoom(code,'guest'))lobbyShow(code,'Buscando la sala…');
 });
 $('#codeIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#joinRoom').click();});
-$('#deckRand').addEventListener('click',()=>{const prev=[...deckSel],ur=unlockRank();deckSel=new Set(shuffle(ALL.filter(k=>unlocked(k,ur))).slice(0,8));
+$('#deckRand').addEventListener('click',()=>{const prev=[...deckSel],ur=unlockRank();deckSel=new Set(shuffle(ALL.filter(k=>have(k,ur))).slice(0,8));
   pick=null;store();closeSheet();renderDeck();undoable(prev,'Mazo al azar');});
 $('#deckClear').addEventListener('click',()=>{if(!deckSel.size)return;const prev=[...deckSel];deckSel=new Set();
   pick=null;store();closeSheet();renderDeck();undoable(prev,'Mazo vaciado');});

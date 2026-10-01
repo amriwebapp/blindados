@@ -17,6 +17,8 @@ Juego táctico de tanques con cartas (estilo Clash Royale, pixel art), en españ
   - `CARDS`: cartas. `kind` puede ser `unit`, `building` o `spell`.
   - `RANKS`: 11 rangos, con las copas necesarias y las cartas y modos que desbloquean.
   - `MODES`: modos de juego.
+  - `ARENAS`: arenas solo estéticas (colores del mapa, tipo de árbol, adornos `DECO`, partículas `amb`). Se desbloquean por rango (`r`).
+  - `SKINS`: apariencias de búnker (paleta + `mod` por píxel; el color de equipo no cambia). `CHESTS`: tipos de cofre.
   - Mundo, entidades, IA, render, UI/menú, red y partida.
 - `config.js`: URL y clave **publicable** de Supabase. Es pública a propósito.
 - `sw.js`: service worker de la PWA. **Sube `VERSION` cuando cambies archivos distintos de `index.html`.** `index.html` va network-first y se actualiza solo.
@@ -26,8 +28,10 @@ Juego táctico de tanques con cartas (estilo Clash Royale, pixel art), en españ
 ## Cosas a saber
 
 - **Online:** Supabase Realtime (broadcast y presence), sin base de datos. El anfitrión es autoritativo: simula la partida y envía snapshots 12 veces por segundo. El invitado ve el campo girado (`FL`/`ME`). Las entidades nuevas deben poder reconstruirse en `applySnap` a partir de su `key` de `CARDS`. Los efectos visuales se replican con `EM(...)` y `EVF`.
-- **Progreso:** se guarda en `localStorage` (`blindados-save`: copas, estadísticas, 4 ranuras de mazo `decks`/`di` y el modo; `blindados-nick`: el nombre). Es por dominio: al cambiar de URL, los jugadores empiezan de cero.
+- **Progreso:** se guarda en `localStorage` (`blindados-save`: copas, estadísticas, 4 ranuras de mazo `decks`/`di`, el modo, y la tienda: `coins`, `chests` (máx. 4), `owned` (cartas sacadas de cofres), `skins`/`skin`, `arena` y `freeAt` (cofre gratis cada 4 h); `blindados-nick`: el nombre). Es por dominio: al cambiar de URL, los jugadores empiezan de cero.
 - **Admin:** el nombre `fuffo` (sin distinguir mayúsculas) desbloquea todas las cartas y modos mediante `unlockRank()`. Es solo del lado del cliente, sin seguridad real (no hay cuentas); el usuario lo sabe.
+- **Tienda y cofres:** `award()` da monedas (y un cofre al ganar) en partidas rankeadas y online. `rollChest()` reparte monedas, a veces una carta aún bloqueada por rango o una apariencia. Para saber si el jugador tiene una carta usa `have(k)` (rango **o** cofre), no `unlocked()`, que es solo por rango (la IA lo sigue usando).
+- **Arena y apariencias en partida:** la arena es local (cada jugador ve la suya; `ARENA`, mapas cacheados en `MAPS[W+arena]`). La apariencia de búnker de cada bando está en `TSKIN` y se dibuja con `towerImg()`; online se envía en la presencia y en `start` (`NET.peerSkin`).
 - **El mazo debe tener 8 cartas para jugar.** Los botones no se desactivan: `deckReady()` lleva a la pestaña Mazo con un aviso. `fillDeck()` rellena el mazo si se quitaron cartas bloqueadas.
 - **Pestaña Mazo:** la selección está en `pick` y la ficha es `#sheet` (fija sobre las pestañas; no empuja el contenido). Cada carta del menú es siempre el mismo elemento (`MEL`), y `renderDeck()` solo lo mueve entre mazo y colección y lo anima (FLIP). Para cambios del mazo llama a `renderDeck()`, no a `renderMenu()`. Quitar, «Al azar» y «Vaciar» pasan por `undoable()`.
 - **Táctil:** `.card` lleva `touch-action:none` para poder arrastrarlas en la batalla. En el menú se anula con `pan-y`, que es necesario para poder desplazar la pantalla. Hay un script que bloquea el zoom.
