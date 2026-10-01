@@ -14,10 +14,10 @@ Juego táctico de tanques con cartas (estilo Clash Royale, pixel art), en españ
 
 - `index.html`: el juego completo. Secciones marcadas con comentarios `/* ==== */`:
   - Sprites: objeto `SP` entre `/*SP_START*/` y `/*SP_END*/`. Son filas de 16 caracteres, un carácter por píxel y `.` para transparente. `T`, `t` y `L` son los colores del equipo.
-  - `CARDS`: cartas. `kind` puede ser `unit`, `building` o `spell`.
+  - `CARDS`: cartas. `kind` puede ser `unit`, `building` o `spell`. Con `chest:true` solo salen en cofres (Mortero, Anfibio con `amph`, Dron Médico con `medic`).
   - `RANKS`: 11 rangos, con las copas necesarias y las cartas y modos que desbloquean.
   - `MODES`: modos de juego.
-  - `ARENAS`: arenas solo estéticas (colores del mapa, tipo de árbol, adornos `DECO`, partículas `amb`). Se desbloquean por rango (`r`).
+  - `ARENAS`: arenas solo estéticas (colores del mapa, tipo de árbol, adornos `DECO`, partículas `amb`). Se desbloquean por rango (`r`). Las de `r:null` son de temporada: `SEASON_ARENA` elige una por mes que todos pueden usar, y quien gana con ella ese mes se la queda (`SAVE.keep`).
   - `SKINS`: apariencias de búnker (paleta + `mod` por píxel; el color de equipo no cambia). `CHESTS`: tipos de cofre.
   - Mundo, entidades, IA, render, UI/menú, red y partida.
 - `config.js`: URL y clave **publicable** de Supabase. Es pública a propósito.
@@ -30,7 +30,11 @@ Juego táctico de tanques con cartas (estilo Clash Royale, pixel art), en españ
 - **Online:** Supabase Realtime (broadcast y presence), sin base de datos. El anfitrión es autoritativo: simula la partida y envía snapshots 12 veces por segundo. El invitado ve el campo girado (`FL`/`ME`). Las entidades nuevas deben poder reconstruirse en `applySnap` a partir de su `key` de `CARDS`. Los efectos visuales se replican con `EM(...)` y `EVF`.
 - **Progreso:** se guarda en `localStorage` (`blindados-save`: copas, estadísticas, 4 ranuras de mazo `decks`/`di`, el modo, y la tienda: `coins`, `chests` (máx. 4), `owned` (cartas sacadas de cofres), `skins`/`skin`, `arena` y `freeAt` (cofre gratis cada 4 h); `blindados-nick`: el nombre). Es por dominio: al cambiar de URL, los jugadores empiezan de cero.
 - **Admin:** el nombre `fuffo` (sin distinguir mayúsculas) desbloquea todas las cartas y modos mediante `unlockRank()`. Es solo del lado del cliente, sin seguridad real (no hay cuentas); el usuario lo sabe.
-- **Tienda y cofres:** `award()` da monedas (y un cofre al ganar) en partidas rankeadas y online. `rollChest()` reparte monedas, a veces una carta aún bloqueada por rango o una apariencia. Para saber si el jugador tiene una carta usa `have(k)` (rango **o** cofre), no `unlocked()`, que es solo por rango (la IA lo sigue usando).
+- **Tienda y cofres:** `award()` da monedas (y un cofre al ganar) en partidas rankeadas y online. Los cofres guardados (`{t, at}`) se abren de uno en uno con temporizador (`CHESTS[t].time` en minutos) o al momento pagando monedas. `rollChest()` reparte monedas, a veces una carta aún bloqueada por rango o una apariencia. Para saber si el jugador tiene una carta usa `have(k)` (rango **o** cofre), no `unlocked()`, que es solo por rango (la IA lo sigue usando).
+- **Niveles de carta:** `SAVE.lv`/`SAVE.cp` (nivel y copias). +8 % de vida, daño y reparación por nivel (`lvDef`), hasta `MAXLV`. En partida, `LV[team]` guarda los niveles de cada bando; `mkUnit` y los hechizos los aplican. La IA usa el nivel medio de tu mazo; online, cada uno manda los suyos (presencia y `start`).
+- **Misiones diarias:** `MISSIONS`, 3 al día elegidas con semilla por fecha (`SAVE.miss`). Solo cuentan partidas rankeadas u online (`missProgress` en `award`). `GS` cuenta despliegues de la partida.
+- **Sonido:** todo sintetizado con WebAudio (`sfx(nombre)` y música en `SONGS`), sin archivos. El contexto se crea en el primer gesto. `SAVE.music`/`SAVE.sfx`.
+- **Emotes:** `EMOTES`, evento `emote` por Realtime; la IA contesta a veces (`aiEmote`).
 - **Arena y apariencias en partida:** la arena es local (cada jugador ve la suya; `ARENA`, mapas cacheados en `MAPS[W+arena]`). La apariencia de búnker de cada bando está en `TSKIN` y se dibuja con `towerImg()`; online se envía en la presencia y en `start` (`NET.peerSkin`).
 - **El mazo debe tener 8 cartas para jugar.** Los botones no se desactivan: `deckReady()` lleva a la pestaña Mazo con un aviso. `fillDeck()` rellena el mazo si se quitaron cartas bloqueadas.
 - **Pestaña Mazo:** la selección está en `pick` y la ficha es `#sheet` (fija sobre las pestañas; no empuja el contenido). Cada carta del menú es siempre el mismo elemento (`MEL`), y `renderDeck()` solo lo mueve entre mazo y colección y lo anima (FLIP). Para cambios del mazo llama a `renderDeck()`, no a `renderMenu()`. Quitar, «Al azar» y «Vaciar» pasan por `undoable()`.
