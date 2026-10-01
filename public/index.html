@@ -302,6 +302,7 @@ img.ins.big{width:72px;height:72px;filter:drop-shadow(3px 3px 0 #000)}
 .wallet{display:flex;gap:6px;flex:none}
 .cups.coins{color:#fde68a}
 .cups .coinic{width:16px;height:16px}
+.cups .inf{font-family:system-ui,sans-serif;font-size:22px;line-height:12px;font-weight:bold}
 .chests{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 18px}
 .chests button{aspect-ratio:1;font-family:inherit;font-size:6px;line-height:1.5;color:var(--muted);background:#ffffff08;border:3px dashed #ffffff26;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;cursor:default}
@@ -1821,6 +1822,10 @@ const unlockRank=()=>isAdmin()?RANKS.length-1:rankIdx(SAVE.cups);
 // una carta se tiene por rango o por haberla sacado de un cofre
 const have=(k,ri=unlockRank())=>unlocked(k,ri)||SAVE.owned.includes(k)||isAdmin();
 const ownSkin=s=>isAdmin()||SAVE.skins.includes(s);
+// monedas: el admin tiene saldo infinito (no gasta; sus monedas reales no cambian)
+const coins=()=>isAdmin()?Infinity:SAVE.coins;
+const spend=n=>{if(!isAdmin())SAVE.coins-=n;};
+const coinTxt=()=>isAdmin()?'<span class="inf">∞</span>':SAVE.coins;
 /* Quita las cartas bloqueadas del mazo actual y, si faltaban por eso, lo rellena hasta 8. */
 function fillDeck(){
   const ur=unlockRank();let removed=false;
@@ -1941,7 +1946,7 @@ function renderProfile(){
     const rw=[...(nx.cards||[]).map(k=>CARDS[k].name),...(nx.modes||[]).map(m=>'modo '+MODES[m].name),...arenasAt(ri+1).map(a=>'arena '+ARENAS[a].n)];
     $('#rankNext').innerHTML=`<b>${nx.n}</b>${rw.length?': '+rw.join(', '):''}`;}
   else{$('#rankFill').style.width='100%';$('#rankTxt').textContent=SAVE.cups+' copas';$('#rankNext').innerHTML='<b>Rango máximo</b>';}
-  $('#coinNum').textContent=SAVE.coins;
+  $('#coinNum').innerHTML=coinTxt();
   $('#stW').textContent=SAVE.w;$('#stL').textContent=SAVE.l;$('#stB').textContent=SAVE.best;
 }
 function renderModes(){
@@ -1990,9 +1995,9 @@ function shopMsg(t){$('#shopMsg').textContent=t;}
 // una compra pide un segundo toque para confirmar
 let confirmK=null,confirmT=0;
 function confirmBuy(k,price,doIt,rerender=renderShop){
-  if(SAVE.coins<price){shopMsg(`Te faltan ${price-SAVE.coins} monedas. Gana partidas y cumple misiones para conseguir más.`);rerender();return false;}
+  if(coins()<price){shopMsg(`Te faltan ${price-SAVE.coins} monedas. Gana partidas y cumple misiones para conseguir más.`);rerender();return false;}
   if(confirmK!==k){confirmK=k;clearTimeout(confirmT);confirmT=setTimeout(()=>{confirmK=null;rerender();},3000);rerender();return false;}
-  confirmK=null;clearTimeout(confirmT);SAVE.coins-=price;sfx('coin');doIt();store();rerender();renderProfile();return true;
+  confirmK=null;clearTimeout(confirmT);spend(price);sfx('coin');doIt();store();rerender();renderProfile();return true;
 }
 /* cofres guardados: se abren de uno en uno con temporizador; «Abrir ya» cuesta 1 moneda por cada 3 minutos que falten */
 const chestPhase=c=>!c.at?'idle':Date.now()>=c.at?'ready':'timing';
@@ -2000,7 +2005,7 @@ const timingChest=()=>SAVE.chests.find(c=>chestPhase(c)==='timing');
 const skipCost=c=>Math.max(5,Math.ceil((c.at?c.at-Date.now():CHESTS[c.t].time*60e3)/180e3));
 function addChest(t){if(SAVE.chests.length>=MAXCHESTS)return false;SAVE.chests.push({t,at:0});return true;}
 function renderShop(){
-  $('#coinNum').textContent=SAVE.coins;
+  $('#coinNum').innerHTML=coinTxt();
   const cs=$('#chestSlots');cs.replaceChildren();
   for(let i=0;i<MAXCHESTS;i++){const c=SAVE.chests[i],b=document.createElement('button');
     if(c){const ph=chestPhase(c);b.className='full '+ph;
@@ -2014,7 +2019,7 @@ function renderShop(){
     if(t==='madera'){const l=freeLeft();btn.id='freeBtn';
       if(l){btn.classList.add('wait');btn.textContent=fmtLeft(l);btn.disabled=true;}
       else{btn.textContent='¡Gratis!';btn.addEventListener('click',()=>{SAVE.freeAt=Date.now()+FREE_EVERY;store();renderShop();openChestNow('madera');});}}
-    else{const conf=confirmK==='chest:'+t;btn.className='pbtn'+(conf?' ok':SAVE.coins<C.price?' poor':'');
+    else{const conf=confirmK==='chest:'+t;btn.className='pbtn'+(conf?' ok':coins()<C.price?' poor':'');
       btn.innerHTML=conf?'¿Comprar?':coinTag(C.price);
       btn.addEventListener('click',()=>confirmBuy('chest:'+t,C.price,()=>{shopMsg('');openChestNow(t);}));}
     d.innerHTML=`<img src="${CHEST_IMG[t]}" alt=""><b>${C.s}</b><span>${t==='madera'?'Cada 4 horas':t==='oro'?'Carta nueva segura':'Más cartas'}</span>`;
@@ -2022,7 +2027,7 @@ function renderShop(){
   const sl=$('#skinList');sl.replaceChildren();
   for(const s in SKINS){const S=SKINS[s],own=ownSkin(s),on=SAVE.skin===s,conf=confirmK==='skin:'+s,b=document.createElement('button');
     b.className='item'+(on?' on':'');b.setAttribute('aria-pressed',on);
-    b.innerHTML=`<div class="pv"><img src="${skinPreview(s)}" alt=""></div>${S.n}<span class="pbtn${on?' wait':own?'':conf?' ok':SAVE.coins<S.p?' poor':''}">${on?'Equipado':own?'Usar':conf?'¿Comprar?':coinTag(S.p)}</span>`;
+    b.innerHTML=`<div class="pv"><img src="${skinPreview(s)}" alt=""></div>${S.n}<span class="pbtn${on?' wait':own?'':conf?' ok':coins()<S.p?' poor':''}">${on?'Equipado':own?'Usar':conf?'¿Comprar?':coinTag(S.p)}</span>`;
     b.addEventListener('click',()=>{if(on)return;
       if(own){SAVE.skin=s;store();sfx('click');renderShop();return;}
       confirmBuy('skin:'+s,S.p,()=>{SAVE.skins.push(s);SAVE.skin=s;shopMsg('¡'+S.n+' equipado en tus búnkeres!');});});
@@ -2075,7 +2080,7 @@ setInterval(()=>{
 const MAXLV=5,LVUP=[0,0,{c:2,m:40},{c:4,m:120},{c:8,m:300},{c:14,m:700}]; // coste para llegar a cada nivel
 const myLv=k=>SAVE.lv[k]||1;
 const lvNeed=k=>myLv(k)<MAXLV?LVUP[myLv(k)+1]:null;
-const canUpgrade=k=>{const n=lvNeed(k);return !!n&&have(k)&&(SAVE.cp[k]||0)>=n.c&&SAVE.coins>=n.m;};
+const canUpgrade=k=>{const n=lvNeed(k);return !!n&&have(k)&&(SAVE.cp[k]||0)>=n.c&&coins()>=n.m;};
 function lvBadges(){
   for(const k in MEL){const el=MEL[k];if(el.classList.contains('lock'))continue;
     const n=lvNeed(k),cp=SAVE.cp[k]||0;el.querySelector('.lvb').textContent='Nv'+myLv(k);
@@ -2085,7 +2090,7 @@ function lvBadges(){
 }
 function upgradeCard(k){
   const n=lvNeed(k);if(!n||(SAVE.cp[k]||0)<n.c)return;
-  if(SAVE.coins<n.m){$('#sheetHint').textContent=`Te faltan ${n.m-SAVE.coins} monedas.`;return;}
+  if(coins()<n.m){$('#sheetHint').textContent=`Te faltan ${n.m-SAVE.coins} monedas.`;return;}
   if(!confirmBuy('lv:'+k,n.m,()=>{SAVE.cp[k]-=n.c;SAVE.lv[k]=myLv(k)+1;sfx('level');},()=>{if(sheetK===k)openCard(k);}))return;
   renderDeck();flash(k);openCard(k);
   $('#sheetHint').textContent=`¡${CARDS[k].name} sube a nivel ${myLv(k)}!`;
@@ -2095,7 +2100,7 @@ function upgradeRow(k){
   if(!n){d.innerHTML='<span>Nivel máximo</span>';return d;}
   const ok=cp>=n.c,conf=confirmK==='lv:'+k;
   d.innerHTML=`<span>Copias <b>${cp}/${n.c}</b> para Nv ${myLv(k)+1} (+8 % vida y daño)</span>`;
-  const b=document.createElement('button');b.className='pbtn'+(!ok?' wait':conf?' ok':SAVE.coins<n.m?' poor':'');
+  const b=document.createElement('button');b.className='pbtn'+(!ok?' wait':conf?' ok':coins()<n.m?' poor':'');
   b.innerHTML=!ok?'Faltan copias':conf?'¿Mejorar?':'Mejorar '+coinTag(n.m);if(!ok)b.disabled=true;
   b.addEventListener('click',()=>upgradeCard(k));d.appendChild(b);return d;
 }
@@ -2149,9 +2154,9 @@ function chestOk(){
 function chestAlt(){
   const c=CH&&CH.slot>=0?SAVE.chests[CH.slot]:null;if(!c||CH.shaking)return;
   const cost=skipCost(c);
-  if(SAVE.coins<cost){$('#chHint').textContent=`Te faltan ${cost-SAVE.coins} monedas.`;return;}
+  if(coins()<cost){$('#chHint').textContent=`Te faltan ${cost-SAVE.coins} monedas.`;return;}
   if(confirmK!=='skip'){confirmK='skip';renderChestUI();return;}
-  confirmK=null;SAVE.coins-=cost;c.at=Date.now();store();sfx('coin');crack();
+  confirmK=null;spend(cost);c.at=Date.now();store();sfx('coin');crack();
 }
 function crack(){
   if(CH.slot>=0){SAVE.chests.splice(CH.slot,1);CH.slot=-1;store();}
